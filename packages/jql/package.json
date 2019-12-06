@@ -1,0 +1,26 @@
+{
+  "name": "jql",
+  "version": "1.0.0",
+  "description": "JSON Query Language - Query any JSON data",
+  "main": "lib/jql.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aprilmintacpineda/jql.git"
+  },
+  "keywords": [
+    "jql",
+    "json-query-language",
+    "json-filter",
+    "json-query",
+    "json"
+  ],
+  "author": "April Mintac Pineda <aprilmintacpineda@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aprilmintacpineda/jql/issues"
+  },
+  "homepage": "https://github.com/aprilmintacpineda/jql#readme"
+}
