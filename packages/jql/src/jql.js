@@ -36,10 +36,15 @@ function jql (query, rows) {
     );
   }
 
+  // Operation call stack describes the different operations
+  // that the query will perform, defined in operations.js
   const operationsCallStack = composeOperationCallStack(query);
   const len = operationsCallStack.length;
 
+  // filter rows based on operations
   return rows.filter(row => {
+    // all root operations should return true
+    // for this row to be included in the results
     for (let a = 0; a < len; a++) {
       const { operation, payload, field } = operationsCallStack[a];
       const value = findValue(field, row);

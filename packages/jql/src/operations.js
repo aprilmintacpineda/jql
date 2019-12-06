@@ -13,15 +13,22 @@ function $ne (expectedValue, actualValue) {
   return expectedValue !== actualValue;
 }
 
-function $or (operationsCallStack, jsonData) {
-  console.log('$or');
-  return false;
-}
+// TODO
+// function $like (expression, actualValue) {
+//
+// }
 
-function $and (queries, jsonData) {
-  console.log('$and');
-  return true;
-}
+// TODO
+// function $or (operationsCallStack, jsonData) {
+//   console.log('$or');
+//   return false;
+// }
+
+// TODO
+// function $and (queries, jsonData) {
+//   console.log('$and');
+//   return true;
+// }
 
 function $in (expectedValue, actualValue) {
   return expectedValue.includes(actualValue);
@@ -65,8 +72,8 @@ function $notBetween ([min, max], actualValue) {
 
 module.exports = {
   $eq: validator($eq, [[validateExValConstructor, [String, Number]]]),
-  $or,
-  $and,
+  // $or,
+  // $and,
   $in: validator($in, [[validateExValConstructor, [Array]]]),
   $notIn: validator($notIn, [[validateExValConstructor, [Array]]]),
   $ne: validator($ne, [[validateExValConstructor, [String, Number]]]),

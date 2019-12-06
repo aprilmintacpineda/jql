@@ -4,10 +4,6 @@ function getConstructorNames (types) {
   return types.reduce((accumulator, type) => accumulator.concat(`"${type.name}"`), []).join(', ');
 }
 
-const validatorTypes = {
-  validateExValConstructor: 'validateExValConstructor'
-};
-
 const validators = {
   validateExValConstructor (operatorName, expectedValue, actualValue, ...expectedValueTypes) {
     if (!expectedValueTypes.includes(expectedValue.constructor)) {
@@ -48,5 +44,7 @@ function validator (operator, validatorsToCall) {
 
 module.exports = {
   validator,
-  validatorTypes
+  validatorTypes: {
+    validateExValConstructor: 'validateExValConstructor'
+  }
 };
