@@ -9,7 +9,11 @@ function findValue (depth, current) {
   for (let a = 0, maxA = _depth.length; a < maxA; a++) {
     const depthValue = value[_depth.shift()];
 
-    if (!depthValue) return undefined;
+    // depthValue is now falsy,
+    // false, undefined, null, ''
+    if (!depthValue) return depthValue;
+
+    // Query by a child that's assigned an array
     if (depthValue.constructor === Array)
       return depthValue.map(v => findValue(_depth, v));
 
@@ -40,6 +44,7 @@ function jql (query, rows) {
       const { operation, payload, field } = operationsCallStack[a];
       const value = findValue(field, row);
 
+      // Query by a child that's assigned an array
       if (value.constructor === Array) {
         for (let b = 0, maxB = value.length; b < maxB; b++)
           if (operation(payload, value[b])) return true;
