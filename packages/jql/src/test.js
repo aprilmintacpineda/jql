@@ -121,18 +121,8 @@ const data = [
  */
 
 const query = {
-  status: 'incomplete',
-  type: {
-    $in: ['call', 'sms']
-  },
-  contact: {
-    lastName: 'qwrqer',
-    location: {
-      city: 'Pasay',
-      house: {
-        number: 1
-      }
-    }
+  tags: {
+    name: 'test2'
   }
 };
 const start = Date.now();
