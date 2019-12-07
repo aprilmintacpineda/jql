@@ -1,3 +1,5 @@
+/** @format */
+
 function JQLError (message) {
   this.message = message;
   return this;

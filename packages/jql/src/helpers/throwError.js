@@ -1,3 +1,5 @@
+/** @format */
+
 const JQLError = require('./JQLError');
 
 function throwError (errorMessageArray) {

@@ -7,7 +7,11 @@ function jql (query, rows) {
   if (!rows.length) return [];
 
   if (query.constructor !== Object)
-    throwError(['Invalid query passed to jql.', 'Expecting an "Object".', `Got ${constructor.name}`]);
+    {throwError([
+      'Invalid query passed to jql.',
+      'Expecting an "Object".',
+      `Got ${constructor.name}`
+    ]);}
 
   // Operation call stack describes the different operations
   // that the query will perform, defined in operations.js
