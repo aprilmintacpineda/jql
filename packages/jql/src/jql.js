@@ -20,7 +20,7 @@ function jql (query, rows) {
 
   // filter rows based on operations
   return rows.filter(row => {
-    // all root operations should return true
+    // all root operations should return 1
     // for this row to be included in the results
     for (let a = 0; a < len; a++) {
       const operationCall = operationsCallStack[a];
@@ -31,10 +31,10 @@ function jql (query, rows) {
       }
 
       const { operation, payload, field } = operationCall;
-      if (!operation(payload, field, row)) return false;
+      if (!operation(payload, field, row)) return 0;
     }
 
-    return true;
+    return 1;
   });
 }
 

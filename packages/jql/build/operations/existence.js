@@ -33,10 +33,10 @@ function $iIn(expectedValues, field, row) {
 
   for (var a = 0, maxA = expectedValues.length; a < maxA; a++) {
     var expectedValue = expectedValues[a].toString().toLowerCase();
-    if (expectedValue === actualValue) return true;
+    if (expectedValue === actualValue) return 1;
   }
 
-  return false;
+  return 0;
 }
 
 function $notIn(expectedValues, field, row) {
@@ -66,10 +66,10 @@ function $iNotIn(expectedValues, field, row) {
 
   for (var a = 0, maxA = expectedValues.length; a < maxA; a++) {
     var expectedValue = expectedValues[a].toString().toLowerCase();
-    if (expectedValue === actualValue) return false;
+    if (expectedValue === actualValue) return 0;
   }
 
-  return true;
+  return 1;
 }
 
 module.exports = {

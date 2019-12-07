@@ -6,10 +6,10 @@ function $or(operationsCallStack, row) {
         operation = _operationsCallStack$.operation,
         payload = _operationsCallStack$.payload,
         field = _operationsCallStack$.field;
-    if (operation(payload, field, row)) return true;
+    if (operation(payload, field, row)) return 1;
   }
 
-  return false;
+  return 0;
 }
 
 function $and(operationsCallStack, row) {
@@ -18,10 +18,10 @@ function $and(operationsCallStack, row) {
         operation = _operationsCallStack$2.operation,
         payload = _operationsCallStack$2.payload,
         field = _operationsCallStack$2.field;
-    if (!operation(payload, field, row)) return false;
+    if (!operation(payload, field, row)) return 0;
   }
 
-  return true;
+  return 1;
 }
 
 module.exports = {

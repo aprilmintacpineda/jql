@@ -20,7 +20,7 @@ function $eq (expectedValue, field, row) {
     if (actualValue && actualValue.constructor === Array)
       return !actualValue.length;
 
-    return false;
+    return 0;
   }
 
   // handle array values
@@ -29,11 +29,11 @@ function $eq (expectedValue, field, row) {
     actualValue.constructor === Array
   ) {
     // if one of the item matches the expected value,
-    // we return true immediately
+    // we return 1 immediately
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue === actualValue[a]) return true;
+      if (expectedValue === actualValue[a]) return 1;
 
-    return false;
+    return 0;
   }
 
   return expectedValue === actualValue;
@@ -56,7 +56,7 @@ function $ne (expectedValue, field, row) {
     if (actualValue && actualValue.constructor === Array)
       return actualValue.length;
 
-    return false;
+    return 0;
   }
 
   // handle array values
@@ -65,12 +65,12 @@ function $ne (expectedValue, field, row) {
     actualValue.constructor === Array
   ) {
     // if one of the item matches the expected value,
-    // we return false immediately.
-    // all values must not match for this to return true
+    // we return 0 immediately.
+    // all values must not match for this to return 1
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue === actualValue[a]) return false;
+      if (expectedValue === actualValue[a]) return 0;
 
-    return true;
+    return 1;
   }
 
   return expectedValue !== actualValue;

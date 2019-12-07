@@ -24,10 +24,10 @@ function jql(query, rows) {
       var operation = operationCall.operation,
           payload = operationCall.payload,
           field = operationCall.field;
-      if (!operation(payload, field, row)) return false;
+      if (!operation(payload, field, row)) return 0;
     }
 
-    return true;
+    return 1;
   });
 }
 

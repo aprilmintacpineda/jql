@@ -5,10 +5,10 @@
 function $or (operationsCallStack, row) {
   for (let a = 0, maxA = operationsCallStack.length; a < maxA; a++) {
     const { operation, payload, field } = operationsCallStack[a];
-    if (operation(payload, field, row)) return true;
+    if (operation(payload, field, row)) return 1;
   }
 
-  return false;
+  return 0;
 }
 
 // ideally, and operator should only be used when
@@ -16,10 +16,10 @@ function $or (operationsCallStack, row) {
 function $and (operationsCallStack, row) {
   for (let a = 0, maxA = operationsCallStack.length; a < maxA; a++) {
     const { operation, payload, field } = operationsCallStack[a];
-    if (!operation(payload, field, row)) return false;
+    if (!operation(payload, field, row)) return 0;
   }
 
-  return true;
+  return 1;
 }
 
 module.exports = {

@@ -14,15 +14,15 @@ function $eq(expectedValue, field, row) {
 
   if (expectedValue && expectedValue.constructor === Array) {
     if (actualValue && actualValue.constructor === Array) return !actualValue.length;
-    return false;
+    return 0;
   }
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      if (expectedValue === actualValue[a]) return true;
+      if (expectedValue === actualValue[a]) return 1;
     }
 
-    return false;
+    return 0;
   }
 
   return expectedValue === actualValue;
@@ -37,15 +37,15 @@ function $ne(expectedValue, field, row) {
 
   if (expectedValue && expectedValue.constructor === Array) {
     if (actualValue && actualValue.constructor === Array) return actualValue.length;
-    return false;
+    return 0;
   }
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      if (expectedValue === actualValue[a]) return false;
+      if (expectedValue === actualValue[a]) return 0;
     }
 
-    return true;
+    return 1;
   }
 
   return expectedValue !== actualValue;
