@@ -12,9 +12,12 @@ function $eq(expectedValue, field, row) {
   }]);
   var actualValue = findValue(field, row);
 
-  if (actualValue && actualValue.constructor === Array) {
-    if (expectedValue && expectedValue.constructor === Array && !expectedValue.length) return !actualValue.length;
+  if (expectedValue && expectedValue.constructor === Array) {
+    if (actualValue && actualValue.constructor === Array) return !actualValue.length;
+    return false;
+  }
 
+  if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (expectedValue === actualValue[a]) return true;
     }

@@ -14,16 +14,20 @@ function $eq (expectedValue, field, row) {
 
   const actualValue = findValue(field, row);
 
+  // handle equality to empty array
+  // e.g., { field: [] }
+  if (expectedValue && expectedValue.constructor === Array) {
+    if (actualValue && actualValue.constructor === Array)
+      return !actualValue.length;
+
+    return false;
+  }
+
   // handle array values
   if (
     actualValue &&
     actualValue.constructor === Array
   ) {
-    // handle equality to empty array
-    // e.g., { field: [] }
-    if (expectedValue && expectedValue.constructor === Array && !expectedValue.length)
-      return !actualValue.length;
-
     // if one of the item matches the expected value,
     // we return immediately
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
