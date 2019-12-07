@@ -1,5 +1,7 @@
 "use strict";
 
+var throwError = require('./helpers/throwError');
+
 function getConstructorNames(types) {
   return types.reduce(function (accumulator, type) {
     return accumulator.concat("\"".concat(type.name, "\""));
@@ -20,7 +22,7 @@ function validateArrayOfConstructors(operatorName, valuesToValidate) {
         };
       }));
     } else {
-      throw new Error(['JQL Query Error:', "Unexpected value passed to \"".concat(operatorName, "\"."), "Expecting an array of [\"".concat(getConstructorNames(constructors), "\"]."), "Got \"".concat(values === undefined ? 'undefined' : 'null', "\"")].join(' '));
+      throwError(['JQL Query Error:', "Unexpected value passed to \"".concat(operatorName, "\"."), "Expecting an array of [\"".concat(getConstructorNames(constructors), "\"]."), "Got \"".concat(values === undefined ? 'undefined' : 'null', "\"")]);
     }
   };
 
@@ -37,17 +39,17 @@ function validateValueConstructors(operatorName, valuesToValidate, throwOnNullOr
 
     if (value === undefined || value === null) {
       if (throwOnNullOrUndefined) {
-        throw new Error(["Unexpected argument passed to operator \"".concat(operatorName, "\""), "Expecting [".concat(getConstructorNames(constructors), "]"), "Got ".concat(value === undefined ? 'undefined' : 'null')].join(' '));
+        throwError(["Unexpected argument passed to operator \"".concat(operatorName, "\""), "Expecting [".concat(getConstructorNames(constructors), "]"), "Got ".concat(value === undefined ? 'undefined' : 'null')]);
       }
     } else if (!constructors.includes(value.constructor)) {
-      throw new Error(["Unexpected argument passed to operator \"".concat(operatorName, "\""), "Expecting [".concat(getConstructorNames(constructors), "]"), "Got ".concat(value.constructor.name)].join(' '));
+      throwError(["Unexpected argument passed to operator \"".concat(operatorName, "\""), "Expecting [".concat(getConstructorNames(constructors), "]"), "Got ".concat(value.constructor.name)]);
     }
   }
 }
 
 function validateArrayLen(operatorName, expectedValue, len) {
   if (expectedValue && expectedValue.length !== len) {
-    throw new Error(["Unexpected number of arguments passed to \"".concat(operatorName, "\"."), "Expecting \"".concat(len, "\" arguments."), "Got \"".concat(expectedValue.length, "\".")].join(' '));
+    throwError(["Unexpected number of arguments passed to \"".concat(operatorName, "\"."), "Expecting \"".concat(len, "\" arguments."), "Got \"".concat(expectedValue.length, "\".")]);
   }
 }
 
@@ -56,7 +58,7 @@ function validateArrayLenMin(operatorName, expectedValue, min, max) {
     var len = expectedValue.length;
 
     if (len < min || max && len > max) {
-      throw new Error(["Unexpected number of arguments passed to \"".concat(operatorName, "\"."), "Expecting \"".concat(len, "\" arguments."), "Got \"".concat(expectedValue.length, "\".")].join(' '));
+      throwError(["Unexpected number of arguments passed to \"".concat(operatorName, "\"."), "Expecting \"".concat(len, "\" arguments."), "Got \"".concat(expectedValue.length, "\".")]);
     }
   }
 }

@@ -1,5 +1,7 @@
 /** @format */
 
+const throwError = require('./helpers/throwError');
+
 function getConstructorNames (types) {
   return types.reduce((accumulator, type) => accumulator.concat(`"${type.name}"`), []).join(', ');
 }
@@ -14,14 +16,12 @@ function validateArrayOfConstructors (operatorName, valuesToValidate) {
         values.map(value => ({ value, constructors }))
       );
     } else {
-      throw new Error(
-        [
-          'JQL Query Error:',
-          `Unexpected value passed to "${operatorName}".`,
-          `Expecting an array of ["${getConstructorNames(constructors)}"].`,
-          `Got "${values === undefined ? 'undefined' : 'null'}"`
-        ].join(' ')
-      );
+      throwError([
+        'JQL Query Error:',
+        `Unexpected value passed to "${operatorName}".`,
+        `Expecting an array of ["${getConstructorNames(constructors)}"].`,
+        `Got "${values === undefined ? 'undefined' : 'null'}"`
+      ]);
     }
   }
 }
@@ -32,38 +32,32 @@ function validateValueConstructors (operatorName, valuesToValidate, throwOnNullO
 
     if (value === undefined || value === null) {
       if (throwOnNullOrUndefined) {
-        throw new Error(
-          [
-            `Unexpected argument passed to operator "${operatorName}"`,
-            `Expecting [${getConstructorNames(constructors)}]`,
-            `Got ${value === undefined ? 'undefined' : 'null'}`
-          ].join(' ')
-        );
+        throwError([
+          `Unexpected argument passed to operator "${operatorName}"`,
+          `Expecting [${getConstructorNames(constructors)}]`,
+          `Got ${value === undefined ? 'undefined' : 'null'}`
+        ]);
       }
     } else if (!constructors.includes(value.constructor)) {
       // we allow null or undefined values
       // e.g., { field: undefined }
       // e.g., { field: null }
-      throw new Error(
-        [
-          `Unexpected argument passed to operator "${operatorName}"`,
-          `Expecting [${getConstructorNames(constructors)}]`,
-          `Got ${value.constructor.name}`
-        ].join(' ')
-      );
+      throwError([
+        `Unexpected argument passed to operator "${operatorName}"`,
+        `Expecting [${getConstructorNames(constructors)}]`,
+        `Got ${value.constructor.name}`
+      ]);
     }
   }
 }
 
 function validateArrayLen (operatorName, expectedValue, len) {
   if (expectedValue && expectedValue.length !== len) {
-    throw new Error(
-      [
-        `Unexpected number of arguments passed to "${operatorName}".`,
-        `Expecting "${len}" arguments.`,
-        `Got "${expectedValue.length}".`
-      ].join(' ')
-    );
+    throwError([
+      `Unexpected number of arguments passed to "${operatorName}".`,
+      `Expecting "${len}" arguments.`,
+      `Got "${expectedValue.length}".`
+    ]);
   }
 }
 
@@ -72,13 +66,11 @@ function validateArrayLenMin (operatorName, expectedValue, min, max) {
     const len = expectedValue.length;
 
     if (len < min || (max && len > max)) {
-      throw new Error(
-        [
-          `Unexpected number of arguments passed to "${operatorName}".`,
-          `Expecting "${len}" arguments.`,
-          `Got "${expectedValue.length}".`
-        ].join(' ')
-      );
+      throwError([
+        `Unexpected number of arguments passed to "${operatorName}".`,
+        `Expecting "${len}" arguments.`,
+        `Got "${expectedValue.length}".`
+      ]);
     }
   }
 }

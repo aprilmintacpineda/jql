@@ -1,6 +1,7 @@
 /** @format */
 
 const jql = require('../../src/jql');
+const JQLError = require('../../src/helpers/JQLError');
 
 const sampleData = [
   {
@@ -42,7 +43,7 @@ describe('Operator $notIn', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -53,7 +54,7 @@ describe('Operator $notIn', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -64,7 +65,7 @@ describe('Operator $notIn', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -75,7 +76,7 @@ describe('Operator $notIn', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -86,7 +87,7 @@ describe('Operator $notIn', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
   });
 
   test('handles deep nesting and arrays', () => {

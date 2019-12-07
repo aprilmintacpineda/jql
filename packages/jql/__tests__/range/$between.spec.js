@@ -1,6 +1,7 @@
 /** @format */
 
 const jql = require('../../src/jql');
+const JQLError = require('../../src/helpers/JQLError');
 
 const sampleData = [
   {
@@ -42,7 +43,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -53,7 +54,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -64,7 +65,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -75,7 +76,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -86,7 +87,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -97,7 +98,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -108,7 +109,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -119,7 +120,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -130,7 +131,7 @@ describe('operator $between', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
   });
 
   it('handles multiple query and layers', () => {

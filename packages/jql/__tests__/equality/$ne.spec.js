@@ -2,6 +2,7 @@
 
 const jql = require('../../src/jql');
 const sampleData = require('../sampleData');
+const JQLError = require('../../src/helpers/JQLError');
 
 const expectedResult = [
   {
@@ -291,7 +292,7 @@ describe('Operator $ne', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
 
     expect(() =>
       jql(
@@ -302,7 +303,7 @@ describe('Operator $ne', () => {
         },
         sampleData
       )
-    ).toThrow();
+    ).toThrow(JQLError);
   });
 
   it('handles array values', () => {

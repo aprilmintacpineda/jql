@@ -1,5 +1,6 @@
 /** @format */
 
+const throwError = require('./helpers/throwError');
 const operations = require('./operations');
 
 // fieldContext should not be provided
@@ -12,12 +13,10 @@ function composeOperationCallStack (query, fieldContext = []) {
     // if the fieldContext is empty, that means this is the first
     // call and the query is empty.
     if (!fieldContext.length) return [];
-    throw new Error(
-      [
-        'JQL Query Error:',
-        `Unexpected empty object assigned to field ${fieldContext.join('.')}`
-      ].join(' ')
-    );
+    throwError([
+      'JQL Query Error:',
+      `Unexpected empty object assigned to field ${fieldContext.join('.')}`
+    ]);
   }
 
   let stack = [];
@@ -28,30 +27,35 @@ function composeOperationCallStack (query, fieldContext = []) {
     const payload = query[field];
 
     if (operation) {
-      if (field !== '$or' && field !== '$and' && !fieldContext.length) {
-        throw new Error(
-          ['JQL Query Error:', `Unexpected use of ${field} on the root of the query.`].join(' ')
-        );
-      }
+      if (field !== '$or' && field !== '$and' && !fieldContext.length)
+        throwError(['JQL Query Error:', `Unexpected use of ${field} on the root of the query.`]);
 
       // an operation was found, put in operations call stack
       // e.g., { $in: [1,2,3] }
       if (field === '$or' || field === '$and') {
-        if (payload.constructor !== Array) {
-          throw new Error(
-            [
-              'JQL Query Error:',
-              `Invalid value assigned to "${field}".`,
-              `Expecting an "Array" but got ${payload.constructor.name}`
-            ].join(' ')
-          );
+        if (!payload || payload.constructor !== Array || !payload.length) {
+          throwError([
+            'JQL Query Error:',
+            `Invalid value assigned to "${field}".`,
+            'Expecting an non-empty "Array" of Objects.'
+          ]);
         }
 
         let subOperationsCallStack = [];
 
         for (let b = 0, maxB = payload.length; b < maxB; b++) {
+          const subquery = payload[b];
+
+          if (subquery.constructor !== Object) {
+            throwError([
+              'JQL Query Error:',
+              `Invalid value assigned to "${field}".`,
+              'Expecting an non-empty "Array" of Objects.'
+            ]);
+          }
+
           subOperationsCallStack = subOperationsCallStack.concat(
-            composeOperationCallStack(payload[b], fieldContext)
+            composeOperationCallStack(subquery, fieldContext)
           );
         }
 
@@ -66,13 +70,11 @@ function composeOperationCallStack (query, fieldContext = []) {
           payload.constructor === Array &&
           payload.length
         ) {
-          throw new Error(
-            [
-              'JQL Query Error:',
-              `Invalid value assigned to field "${field}"`,
-              `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
-            ].join(' ')
-          );
+          throwError([
+            'JQL Query Error:',
+            `Invalid value assigned to field "${field}"`,
+            `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
+          ]);
         }
 
         stack = stack.concat({
@@ -124,13 +126,11 @@ function composeOperationCallStack (query, fieldContext = []) {
           // field: [ /* some value */ ] <-- invalid
           // field: Symbol() <-- invalid
           // etc...
-          throw new Error(
-            [
-              'JQL Query Error:',
-              `Invalid value assigned to field "${fieldDepth.join('.')}"`,
-              `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
-            ].join(' ')
-          );
+          throwError([
+            'JQL Query Error:',
+            `Invalid value assigned to field "${fieldDepth.join('.')}"`,
+            `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
+          ]);
         }
       }
     }
