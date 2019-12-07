@@ -92,7 +92,7 @@ function $gt (expectedValue, field, row) {
     }
   ], true);
 
-  if (isNotNumeric(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);
 
   // handle values as array
@@ -100,13 +100,13 @@ function $gt (expectedValue, field, row) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
       if (isNotNumeric(value)) continue;
-      if (value > expectedValue) return true;
+      if (value > expectedValue) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return actualValue > expectedValue;
 }
@@ -120,7 +120,7 @@ function $gte (expectedValue, field, row) {
     }
   ], true);
 
-  if (isNotNumeric(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);
 
   // handle values as array
@@ -128,13 +128,13 @@ function $gte (expectedValue, field, row) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
       if (isNotNumeric(value)) continue;
-      if (value >= expectedValue) return true;
+      if (value >= expectedValue) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return actualValue >= expectedValue;
 }
@@ -148,7 +148,7 @@ function $lt (expectedValue, field, row) {
     }
   ], true);
 
-  if (isNotNumeric(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);
 
   // handle values as array
@@ -156,13 +156,13 @@ function $lt (expectedValue, field, row) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
       if (isNotNumeric(value)) continue;
-      if (value < expectedValue) return true;
+      if (value < expectedValue) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return actualValue < expectedValue;
 }
@@ -176,7 +176,7 @@ function $lte (expectedValue, field, row) {
     }
   ], true);
 
-  if (isNotNumeric(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);
 
   // handle values as array
@@ -184,13 +184,13 @@ function $lte (expectedValue, field, row) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
       if (isNotNumeric(value)) continue;
-      if (value <= expectedValue) return true;
+      if (value <= expectedValue) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return actualValue <= expectedValue;
 }

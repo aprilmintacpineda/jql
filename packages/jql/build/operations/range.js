@@ -33,19 +33,19 @@ function $between(range, field, row) {
       min = _range[0],
       max = _range[1];
 
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (min < value && max > value) return true;
+      if (min < value && max > value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
   return min < actualValue && max > actualValue;
 }
 
@@ -64,19 +64,19 @@ function $iBetween(range, field, row) {
       min = _range2[0],
       max = _range2[1];
 
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (min <= value && max >= value) return true;
+      if (min <= value && max >= value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
   return min <= actualValue && max >= actualValue;
 }
 
@@ -95,19 +95,19 @@ function $notBetween(range, field, row) {
       min = _range3[0],
       max = _range3[1];
 
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (min > value || max < value) return true;
+      if (min > value || max < value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
   return min > actualValue || max < actualValue;
 }
 
@@ -126,19 +126,19 @@ function $iNotBetween(range, field, row) {
       min = _range4[0],
       max = _range4[1];
 
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (min >= value || max <= value) return true;
+      if (min >= value || max <= value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
   return min >= actualValue || max <= actualValue;
 }
 

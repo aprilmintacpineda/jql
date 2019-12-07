@@ -12,15 +12,15 @@ function $regex (expectedValue, field, row) {
     }
   ], true);
 
-  if (!expectedValue) return false;
+  if (!expectedValue) return 0;
 
   const actualValue = findValue(field, row);
 
   if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue.test(actualValue[a])) return true;
+      if (expectedValue.test(actualValue[a])) return 1;
 
-    return false;
+    return 0;
   }
 
   return expectedValue.test(actualValue);
@@ -35,15 +35,15 @@ function $notRegex (expectedValue, field, row) {
     }
   ], true);
 
-  if (!expectedValue) return false;
+  if (!expectedValue) return 0;
 
   const actualValue = findValue(field, row);
 
   if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue.test(actualValue[a])) return false;
+      if (expectedValue.test(actualValue[a])) return 0;
 
-    return true;
+    return 1;
   }
 
   return !expectedValue.test(actualValue);

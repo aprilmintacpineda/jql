@@ -29,19 +29,19 @@ function $between (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   const actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (min < value && max > value) return true;
+      if (min < value && max > value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return min < actualValue && max > actualValue;
 }
@@ -67,19 +67,19 @@ function $iBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   const actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (min <= value && max >= value) return true;
+      if (min <= value && max >= value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return min <= actualValue && max >= actualValue;
 }
@@ -105,19 +105,19 @@ function $notBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   const actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (min > value || max < value) return true;
+      if (min > value || max < value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return min > actualValue || max < actualValue;
 }
@@ -143,19 +143,19 @@ function $iNotBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNotNumeric(min) || isNotNumeric(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
   const actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (min >= value || max <= value) return true;
+      if (min >= value || max <= value) return 1;
     }
 
-    return false;
+    return 0;
   }
 
-  if (isNotNumeric(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return 0;
 
   return min >= actualValue || max <= actualValue;
 }
