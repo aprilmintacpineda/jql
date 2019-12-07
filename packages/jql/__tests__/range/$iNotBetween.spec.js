@@ -37,6 +37,17 @@ describe('operator $iNotBetween', () => {
       jql(
         {
           number1: {
+            $iNotBetween: ''
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
+
+    expect(() =>
+      jql(
+        {
+          number1: {
             $iNotBetween: [1, 2, 3]
           }
         },
