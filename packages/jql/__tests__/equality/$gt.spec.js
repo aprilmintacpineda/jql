@@ -48,6 +48,30 @@ describe('Operator $gt', () => {
         $gt: Symbol()
       }
     }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $gt: []
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $gt: ''
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $gt: undefined
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $gt: null
+      }
+    }, sampleData)).toThrow();
   });
 
   it('handles multiple query and layers', () => {
@@ -93,10 +117,5 @@ describe('Operator $gt', () => {
         ]
       }
     ]);
-  });
-
-  it('handles undefined and null', () => {
-    expect(jql({ number1: { $gt: undefined } }, sampleData)).toEqual([]);
-    expect(jql({ number1: { $gt: null } }, sampleData)).toEqual([]);
   });
 });

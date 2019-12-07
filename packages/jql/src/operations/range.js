@@ -9,15 +9,13 @@ const {
 } = require('../validateArgs');
 
 function $between (range, field, row) {
-  if (!range) return false;
-
   // validate arguments
   validateValueConstructors('$between', [
     {
       value: range,
       constructors: [Array]
     }
-  ]);
+  ], true);
 
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [
@@ -49,15 +47,13 @@ function $between (range, field, row) {
 }
 
 function $iBetween (range, field, row) {
-  if (!range) return false;
-
   // validate arguments
   validateValueConstructors('$between', [
     {
       value: range,
       constructors: [Array]
     }
-  ]);
+  ], true);
 
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [
@@ -89,15 +85,13 @@ function $iBetween (range, field, row) {
 }
 
 function $notBetween (range, field, row) {
-  if (!range) return false;
-
   // validate arguments
   validateValueConstructors('$notBetween', [
     {
       value: range,
       constructors: [Array]
     }
-  ]);
+  ], true);
 
   // range must be an array of numbers
   validateArrayOfConstructors('$notBetween', [
@@ -129,15 +123,13 @@ function $notBetween (range, field, row) {
 }
 
 function $iNotBetween (range, field, row) {
-  if (!range) return false;
-
   // validate arguments
   validateValueConstructors('$between', [
     {
       value: range,
       constructors: [Array]
     }
-  ]);
+  ], true);
 
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [

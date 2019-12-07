@@ -19,11 +19,10 @@ var _require2 = require('../validateArgs'),
     validateArrayLen = _require2.validateArrayLen;
 
 function $between(range, field, row) {
-  if (!range) return false;
   validateValueConstructors('$between', [{
     value: range,
     constructors: [Array]
-  }]);
+  }], true);
   validateArrayOfConstructors('$between', [{
     values: range,
     constructors: [Number]
@@ -51,11 +50,10 @@ function $between(range, field, row) {
 }
 
 function $iBetween(range, field, row) {
-  if (!range) return false;
   validateValueConstructors('$between', [{
     value: range,
     constructors: [Array]
-  }]);
+  }], true);
   validateArrayOfConstructors('$between', [{
     values: range,
     constructors: [Number]
@@ -83,11 +81,10 @@ function $iBetween(range, field, row) {
 }
 
 function $notBetween(range, field, row) {
-  if (!range) return false;
   validateValueConstructors('$notBetween', [{
     value: range,
     constructors: [Array]
-  }]);
+  }], true);
   validateArrayOfConstructors('$notBetween', [{
     values: range,
     constructors: [Number]
@@ -115,11 +112,10 @@ function $notBetween(range, field, row) {
 }
 
 function $iNotBetween(range, field, row) {
-  if (!range) return false;
   validateValueConstructors('$between', [{
     value: range,
     constructors: [Array]
-  }]);
+  }], true);
   validateArrayOfConstructors('$between', [{
     values: range,
     constructors: [Number]

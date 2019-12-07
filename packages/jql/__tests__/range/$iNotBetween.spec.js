@@ -72,11 +72,18 @@ describe('operator $iNotBetween', () => {
         $iNotBetween: Symbol()
       }
     }, sampleData)).toThrow();
-  });
 
-  it('handles undefined and null', () => {
-    expect(jql({ number1: { $iNotBetween: undefined } }, sampleData)).toEqual([]);
-    expect(jql({ number1: { $iNotBetween: null } }, sampleData)).toEqual([]);
+    expect(() => jql({
+      number1: {
+        $iNotBetween: undefined
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $iNotBetween: null
+      }
+    }, sampleData)).toThrow();
   });
 
   it('handles multiple query and layers', () => {

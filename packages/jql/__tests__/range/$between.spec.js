@@ -72,11 +72,24 @@ describe('operator $between', () => {
         $between: Symbol()
       }
     }, sampleData)).toThrow();
-  });
 
-  it('handles undefined and null', () => {
-    expect(jql({ number1: { $between: undefined } }, sampleData)).toEqual([]);
-    expect(jql({ number1: { $between: null } }, sampleData)).toEqual([]);
+    expect(() => jql({
+      number1: {
+        $between: ''
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $between: undefined
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $between: null
+      }
+    }, sampleData)).toThrow();
   });
 
   it('handles multiple query and layers', () => {

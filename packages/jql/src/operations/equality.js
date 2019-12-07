@@ -90,7 +90,7 @@ function $gt (expectedValue, field, row) {
       value: expectedValue,
       constructors: [Number]
     }
-  ]);
+  ], true);
 
   if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);
@@ -118,7 +118,7 @@ function $gte (expectedValue, field, row) {
       value: expectedValue,
       constructors: [Number]
     }
-  ]);
+  ], true);
 
   if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);
@@ -146,7 +146,7 @@ function $lt (expectedValue, field, row) {
       value: expectedValue,
       constructors: [Number]
     }
-  ]);
+  ], true);
 
   if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);
@@ -174,7 +174,7 @@ function $lte (expectedValue, field, row) {
       value: expectedValue,
       constructors: [Number]
     }
-  ]);
+  ], true);
 
   if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);

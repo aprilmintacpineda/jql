@@ -12,13 +12,15 @@ function validateArrayOfConstructors(operatorName, valuesToValidate) {
         values = _valuesToValidate$a.values,
         constructors = _valuesToValidate$a.constructors;
 
-    if (values) {
+    if (values !== undefined && values !== null) {
       validateValueConstructors(operatorName, values.map(function (value) {
         return {
           value: value,
           constructors: constructors
         };
       }));
+    } else {
+      throw new Error(['JQL Query Error:', "Unexpected value passed to \"".concat(operatorName, "\"."), "Expecting an array of [\"".concat(getConstructorNames(constructors), "\"]."), "Got \"".concat(values === undefined ? 'undefined' : 'null', "\"")].join(' '));
     }
   };
 
@@ -27,13 +29,17 @@ function validateArrayOfConstructors(operatorName, valuesToValidate) {
   }
 }
 
-function validateValueConstructors(operatorName, valuesToValidate) {
+function validateValueConstructors(operatorName, valuesToValidate, throwOnNullOrUndefined) {
   for (var a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
     var _valuesToValidate$a2 = valuesToValidate[a],
         value = _valuesToValidate$a2.value,
         constructors = _valuesToValidate$a2.constructors;
 
-    if (value && !constructors.includes(value.constructor)) {
+    if (value === undefined || value === null) {
+      if (throwOnNullOrUndefined) {
+        throw new Error(["Unexpected argument passed to operator \"".concat(operatorName, "\""), "Expecting [".concat(getConstructorNames(constructors), "]"), "Got ".concat(value === undefined ? 'undefined' : 'null')].join(' '));
+      }
+    } else if (!constructors.includes(value.constructor)) {
       throw new Error(["Unexpected argument passed to operator \"".concat(operatorName, "\""), "Expecting [".concat(getConstructorNames(constructors), "]"), "Got ".concat(value.constructor.name)].join(' '));
     }
   }

@@ -58,7 +58,7 @@ function $gt(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
-  }]);
+  }], true);
   if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 
@@ -80,7 +80,7 @@ function $gte(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
-  }]);
+  }], true);
   if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 
@@ -102,7 +102,7 @@ function $lt(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
-  }]);
+  }], true);
   if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 
@@ -124,7 +124,7 @@ function $lte(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
-  }]);
+  }], true);
   if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 

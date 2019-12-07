@@ -8,23 +8,42 @@ function validateArrayOfConstructors (operatorName, valuesToValidate) {
   for (let a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
     const { values, constructors } = valuesToValidate[a];
 
-    if (values) {
+    if (values !== undefined && values !== null) {
       validateValueConstructors(
         operatorName,
         values.map(value => ({ value, constructors }))
+      );
+    } else {
+      throw new Error(
+        [
+          'JQL Query Error:',
+          `Unexpected value passed to "${operatorName}".`,
+          `Expecting an array of ["${getConstructorNames(constructors)}"].`,
+          `Got "${values === undefined ? 'undefined' : 'null'}"`
+        ].join(' ')
       );
     }
   }
 }
 
-function validateValueConstructors (operatorName, valuesToValidate) {
+function validateValueConstructors (operatorName, valuesToValidate, throwOnNullOrUndefined) {
   for (let a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
     const { value, constructors } = valuesToValidate[a];
 
-    // we allow null or undefined values
-    // e.g., { field: undefined }
-    // e.g., { field: null }
-    if (value && !constructors.includes(value.constructor)) {
+    if (value === undefined || value === null) {
+      if (throwOnNullOrUndefined) {
+        throw new Error(
+          [
+            `Unexpected argument passed to operator "${operatorName}"`,
+            `Expecting [${getConstructorNames(constructors)}]`,
+            `Got ${value === undefined ? 'undefined' : 'null'}`
+          ].join(' ')
+        );
+      }
+    } else if (!constructors.includes(value.constructor)) {
+      // we allow null or undefined values
+      // e.g., { field: undefined }
+      // e.g., { field: null }
       throw new Error(
         [
           `Unexpected argument passed to operator "${operatorName}"`,

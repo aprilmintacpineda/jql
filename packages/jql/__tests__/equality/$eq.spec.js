@@ -107,30 +107,6 @@ describe('Operator $eq', () => {
     expect(actualResult).toEqual([]);
   });
 
-  it('handles eq in subquery', () => {
-    // implicit
-    let query = {
-      $or: [
-        {
-          email: 'Rey.Padberg@karina.biz'
-        }
-      ]
-    };
-
-    let actualResult = jql(query, sampleData);
-    expect(actualResult).toEqual(expectedResult);
-
-    // explicit
-    query = {
-      email: {
-        $or: [{ $eq: 'Rey.Padberg@karina.biz' }]
-      }
-    };
-
-    actualResult = jql(query, sampleData);
-    expect(actualResult).toEqual(expectedResult);
-  });
-
   it('handles equality with empty string', () => {
     const query = {
       favoriteColor: ''

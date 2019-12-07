@@ -48,6 +48,30 @@ describe('Operator $lte', () => {
         $lte: Symbol()
       }
     }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $lte: []
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $lte: ''
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $lte: undefined
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $lte: null
+      }
+    }, sampleData)).toThrow();
   });
 
   it('handles multiple query and layers', () => {
@@ -93,10 +117,5 @@ describe('Operator $lte', () => {
         ]
       }
     ]);
-  });
-
-  it('handles undefined and null', () => {
-    expect(jql({ number1: { $lte: undefined } }, sampleData)).toEqual([]);
-    expect(jql({ number1: { $lte: null } }, sampleData)).toEqual([]);
   });
 });

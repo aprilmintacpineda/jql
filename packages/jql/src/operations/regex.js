@@ -10,9 +10,20 @@ function $regex (expectedValue, field, row) {
       value: expectedValue,
       constructors: [RegExp]
     }
-  ]);
+  ], true);
 
-  return expectedValue.test(findValue(field, row));
+  if (!expectedValue) return false;
+
+  const actualValue = findValue(field, row);
+
+  if (actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
+      if (expectedValue.test(actualValue[a])) return true;
+
+    return false;
+  }
+
+  return expectedValue.test(actualValue);
 }
 
 function $notRegex (expectedValue, field, row) {
@@ -22,9 +33,20 @@ function $notRegex (expectedValue, field, row) {
       value: expectedValue,
       constructors: [RegExp]
     }
-  ]);
+  ], true);
 
-  return !expectedValue.test(findValue(field, row));
+  if (!expectedValue) return false;
+
+  const actualValue = findValue(field, row);
+
+  if (actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
+      if (expectedValue.test(actualValue[a])) return false;
+
+    return true;
+  }
+
+  return !expectedValue.test(actualValue);
 }
 
 module.exports = {

@@ -9,8 +9,8 @@ var _require = require('../validateArgs'),
 function $in(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
-    constructors: [String, Number]
-  }]);
+    constructors: [Array]
+  }], true);
   validateArrayOfConstructors('$in', [{
     values: expectedValues,
     constructors: [String, Number]
@@ -21,8 +21,8 @@ function $in(expectedValues, field, row) {
 function $iIn(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
-    constructors: [String, Number]
-  }]);
+    constructors: [Array]
+  }], true);
   validateArrayOfConstructors('$in', [{
     values: expectedValues,
     constructors: [String, Number]
@@ -41,7 +41,7 @@ function $notIn(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
     constructors: [Array]
-  }]);
+  }], true);
   validateArrayOfConstructors('$in', [{
     values: expectedValues,
     constructors: [String, Number]
@@ -53,7 +53,7 @@ function $iNotIn(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
     constructors: [Array]
-  }]);
+  }], true);
   validateArrayOfConstructors('$in', [{
     values: expectedValues,
     constructors: [String, Number]

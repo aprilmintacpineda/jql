@@ -8,9 +8,9 @@ function $in (expectedValues, field, row) {
   validateValueConstructors('$in', [
     {
       value: expectedValues,
-      constructors: [String, Number]
+      constructors: [Array]
     }
-  ]);
+  ], true);
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
@@ -28,9 +28,9 @@ function $iIn (expectedValues, field, row) {
   validateValueConstructors('$in', [
     {
       value: expectedValues,
-      constructors: [String, Number]
+      constructors: [Array]
     }
-  ]);
+  ], true);
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
@@ -57,7 +57,7 @@ function $notIn (expectedValues, field, row) {
       value: expectedValues,
       constructors: [Array]
     }
-  ]);
+  ], true);
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
@@ -77,7 +77,7 @@ function $iNotIn (expectedValues, field, row) {
       value: expectedValues,
       constructors: [Array]
     }
-  ]);
+  ], true);
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
