@@ -1,7 +1,7 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
@@ -32,13 +32,13 @@ const sampleData = [
   }
 ];
 
-describe('Operator $in', () => {
+describe('Operator $notIn', () => {
   test('throws error when given wrong value', () => {
     expect(() =>
       jql(
         {
           test1: {
-            $in: []
+            $notIn: []
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('Operator $in', () => {
       jql(
         {
           test1: {
-            $in: ''
+            $notIn: ''
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('Operator $in', () => {
       jql(
         {
           test1: {
-            $in: 1
+            $notIn: 1
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('Operator $in', () => {
       jql(
         {
           test1: {
-            $in: undefined
+            $notIn: undefined
           }
         },
         sampleData
@@ -82,7 +82,7 @@ describe('Operator $in', () => {
       jql(
         {
           test1: {
-            $in: null
+            $notIn: null
           }
         },
         sampleData
@@ -93,74 +93,74 @@ describe('Operator $in', () => {
   test('handles deep nesting and arrays', () => {
     const query = {
       test1: {
-        $in: ['test11', 'test12', 'test13']
+        $notIn: ['test11', 'test12', 'test13']
       },
       test2: {
-        $in: ['test11', 'test21', 'test13']
+        $notIn: ['test11', 'test21', 'test13']
       },
       test3: {
-        $in: ['test11', 'test21', 'test31']
+        $notIn: ['test11', 'test21', 'test31']
       },
       test4: {
         test5: {
           test6: {
             test7: {
-              $in: ['test11', 'test21', 'test13', 'test41']
+              $notIn: ['test11', 'test21', 'test13', 'test41']
             }
           }
         }
       },
       test8: {
         test8_1: {
-          $in: ['test8_11', 'test8_12', 'test8_13']
+          $notIn: ['test8_11', 'test8_12', 'test8_13']
         }
       }
     };
 
     expect(jql(query, sampleData)).toEqual([
       {
-        test1: 'test11',
-        test2: 'test21',
-        test3: 'test31',
+        test1: 'test1',
+        test2: 'test2',
+        test3: 'test3',
         test4: {
           test5: {
             test6: {
-              test7: 'test41'
+              test7: 'test4'
             }
           }
         },
-        test8: [{ test8_1: 'test8_11' }, { test8_1: 'test8_21' }, { test8_1: 'test8_31' }]
+        test8: [{ test8_1: 'test8_1' }, { test8_1: 'test8_2' }, { test8_1: 'test8_3' }]
       }
     ]);
   });
 
-  test('is case sensitive', () => {
+  test('is case senstive', () => {
     const query = {
       test1: {
-        $in: ['TeST11', 'TeST12', 'TeST13']
+        $notIn: ['tEsT11', 'tEsT12', 'tEsT13']
       },
       test2: {
-        $in: ['TeST11', 'TeST21', 'TeST13']
+        $notIn: ['tEsT11', 'tEsT21', 'tEsT13']
       },
       test3: {
-        $in: ['TeST11', 'TeST21', 'TeST31']
+        $notIn: ['tEsT11', 'tEsT21', 'tEsT31']
       },
       test4: {
         test5: {
           test6: {
             test7: {
-              $in: ['TeST11', 'TeST21', 'TeST13', 'TeST41']
+              $notIn: ['tEsT11', 'tEsT21', 'tEsT13', 'tEsT41']
             }
           }
         }
       },
       test8: {
         test8_1: {
-          $in: ['TeST8_11', 'TeST8_12', 'TeST8_13']
+          $notIn: ['tEsT8_11', 'tEsT8_12', 'tEsT8_13']
         }
       }
     };
 
-    expect(jql(query, sampleData)).toEqual([]);
+    expect(jql(query, sampleData)).toEqual(sampleData);
   });
 });

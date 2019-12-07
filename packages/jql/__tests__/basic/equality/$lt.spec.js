@@ -1,44 +1,44 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
-    number1: 5,
-    number2: 5,
+    number1: 10,
+    number2: 10,
     number3: {
       number4: {
         number5: {
-          number6: 5
+          number6: 10
         }
       }
     },
-    number7: '5',
-    number8: [{ number8_1: '5' }, { number8_1: '5' }]
+    number7: '10',
+    number8: [{ number8_1: '10' }, { number8_1: '10' }]
   },
   {
-    number1: 3,
-    number2: 3,
+    number1: 100,
+    number2: 100,
     number3: {
       number4: {
         number5: {
-          number6: 3
+          number6: 100
         }
       }
     },
-    number7: '3',
-    number8: [{ number8_1: '3' }, { number8_1: '3' }]
+    number7: '100',
+    number8: [{ number8_1: '100' }, { number8_1: '100' }]
   }
 ];
 
-describe('operator $iNotBetween', () => {
-  test('throws error when given wrong values', () => {
+describe('Operator $lt', () => {
+  it('throws error when given invalid value', () => {
     expect(() =>
       jql(
         {
           number1: {
-            $iNotBetween: ''
+            $lt: '10'
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('operator $iNotBetween', () => {
       jql(
         {
           number1: {
-            $iNotBetween: [1, 2, 3]
+            $lt: Symbol()
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('operator $iNotBetween', () => {
       jql(
         {
           number1: {
-            $iNotBetween: []
+            $lt: []
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('operator $iNotBetween', () => {
       jql(
         {
           number1: {
-            $iNotBetween: ['1', '2']
+            $lt: ''
           }
         },
         sampleData
@@ -82,7 +82,7 @@ describe('operator $iNotBetween', () => {
       jql(
         {
           number1: {
-            $iNotBetween: 1
+            $lt: undefined
           }
         },
         sampleData
@@ -93,40 +93,7 @@ describe('operator $iNotBetween', () => {
       jql(
         {
           number1: {
-            $iNotBetween: '1'
-          }
-        },
-        sampleData
-      )
-    ).toThrow(JQLError);
-
-    expect(() =>
-      jql(
-        {
-          number1: {
-            $iNotBetween: Symbol()
-          }
-        },
-        sampleData
-      )
-    ).toThrow(JQLError);
-
-    expect(() =>
-      jql(
-        {
-          number1: {
-            $iNotBetween: undefined
-          }
-        },
-        sampleData
-      )
-    ).toThrow(JQLError);
-
-    expect(() =>
-      jql(
-        {
-          number1: {
-            $iNotBetween: null
+            $lt: null
           }
         },
         sampleData
@@ -137,23 +104,23 @@ describe('operator $iNotBetween', () => {
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $iNotBetween: [1, 5]
+        $lt: 20
       },
       number2: {
-        $iNotBetween: [1, 5]
+        $lt: 20
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $iNotBetween: [1, 5]
+              $lt: 20
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $iNotBetween: [1, 5]
+          $lt: 20
         }
       }
     };
@@ -161,17 +128,17 @@ describe('operator $iNotBetween', () => {
     const actualResult = jql(query, sampleData);
     expect(actualResult).toEqual([
       {
-        number1: 5,
-        number2: 5,
+        number1: 10,
+        number2: 10,
         number3: {
           number4: {
             number5: {
-              number6: 5
+              number6: 10
             }
           }
         },
-        number7: '5',
-        number8: [{ number8_1: '5' }, { number8_1: '5' }]
+        number7: '10',
+        number8: [{ number8_1: '10' }, { number8_1: '10' }]
       }
     ]);
   });

@@ -1,7 +1,7 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {

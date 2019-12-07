@@ -1,44 +1,44 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
-    test1: 'TEST1',
-    test2: 'TEST2',
-    test3: 'TEST3',
+    test1: 'test1',
+    test2: 'test2',
+    test3: 'test3',
     test4: {
       test5: {
         test6: {
-          test7: 'TEST4'
+          test7: 'test4'
         }
       }
     },
-    test8: [{ test8_1: 'TEST8_1' }, { test8_1: 'TEST8_2' }, { test8_1: 'TEST8_3' }]
+    test8: [{ test8_1: 'test8_1' }, { test8_1: 'test8_2' }, { test8_1: 'test8_3' }]
   },
   {
-    test1: 'TEST11',
-    test2: 'TEST21',
-    test3: 'TEST31',
+    test1: 'test11',
+    test2: 'test21',
+    test3: 'test31',
     test4: {
       test5: {
         test6: {
-          test7: 'TEST41'
+          test7: 'test41'
         }
       }
     },
-    test8: [{ test8_1: 'TEST8_11' }, { test8_1: 'TEST8_21' }, { test8_1: 'TEST8_31' }]
+    test8: [{ test8_1: 'test8_11' }, { test8_1: 'test8_21' }, { test8_1: 'test8_31' }]
   }
 ];
 
-describe('Operator $iIn', () => {
-  test('throws error when given wrong value', () => {
+describe('operator $regex', () => {
+  it('throws error when given wrong value', () => {
     expect(() =>
       jql(
         {
           test1: {
-            $iIn: []
+            $regex: []
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('Operator $iIn', () => {
       jql(
         {
           test1: {
-            $iIn: ''
+            $regex: 'test'
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('Operator $iIn', () => {
       jql(
         {
           test1: {
-            $iIn: 1
+            $regex: 1
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('Operator $iIn', () => {
       jql(
         {
           test1: {
-            $iIn: undefined
+            $regex: ''
           }
         },
         sampleData
@@ -82,7 +82,18 @@ describe('Operator $iIn', () => {
       jql(
         {
           test1: {
-            $iIn: null
+            $regex: null
+          }
+        },
+        sampleData
+      )
+    ).toThrow(JQLError);
+
+    expect(() =>
+      jql(
+        {
+          test1: {
+            $regex: undefined
           }
         },
         sampleData
@@ -90,46 +101,46 @@ describe('Operator $iIn', () => {
     ).toThrow(JQLError);
   });
 
-  test('handles deep nesting and arrays', () => {
+  it('handles multiple layers and arrays', () => {
     const query = {
       test1: {
-        $iIn: ['test11', 'test12', 'test13']
+        $regex: /test1$/
       },
       test2: {
-        $iIn: ['test11', 'test21', 'test13']
+        $regex: /test2$/
       },
       test3: {
-        $iIn: ['test11', 'test21', 'test31']
+        $regex: /test3$/
       },
       test4: {
         test5: {
           test6: {
             test7: {
-              $iIn: ['test11', 'test21', 'test13', 'test41']
+              $regex: /test4$/
             }
           }
         }
       },
       test8: {
         test8_1: {
-          $iIn: ['test8_11', 'test8_12', 'test8_13']
+          $regex: /test8_1$/
         }
       }
     };
 
     expect(jql(query, sampleData)).toEqual([
       {
-        test1: 'TEST11',
-        test2: 'TEST21',
-        test3: 'TEST31',
+        test1: 'test1',
+        test2: 'test2',
+        test3: 'test3',
         test4: {
           test5: {
             test6: {
-              test7: 'TEST41'
+              test7: 'test4'
             }
           }
         },
-        test8: [{ test8_1: 'TEST8_11' }, { test8_1: 'TEST8_21' }, { test8_1: 'TEST8_31' }]
+        test8: [{ test8_1: 'test8_1' }, { test8_1: 'test8_2' }, { test8_1: 'test8_3' }]
       }
     ]);
   });

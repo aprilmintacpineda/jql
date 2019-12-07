@@ -1,7 +1,7 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
@@ -18,27 +18,27 @@ const sampleData = [
     number8: [{ number8_1: '10' }, { number8_1: '10' }]
   },
   {
-    number1: 0,
-    number2: 0,
+    number1: 100,
+    number2: 100,
     number3: {
       number4: {
         number5: {
-          number6: 0
+          number6: 100
         }
       }
     },
-    number7: '0',
-    number8: [{ number8_1: '0' }, { number8_1: '0' }]
+    number7: '100',
+    number8: [{ number8_1: '100' }, { number8_1: '100' }]
   }
 ];
 
-describe('operator $between', () => {
-  test('throws error when given wrong values', () => {
+describe('Operator $lte', () => {
+  it('throws error when given invalid value', () => {
     expect(() =>
       jql(
         {
           number1: {
-            $between: [1, 2, 3]
+            $lte: '10'
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('operator $between', () => {
       jql(
         {
           number1: {
-            $between: []
+            $lte: Symbol()
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('operator $between', () => {
       jql(
         {
           number1: {
-            $between: ['1', '2']
+            $lte: []
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('operator $between', () => {
       jql(
         {
           number1: {
-            $between: 1
+            $lte: ''
           }
         },
         sampleData
@@ -82,7 +82,7 @@ describe('operator $between', () => {
       jql(
         {
           number1: {
-            $between: '1'
+            $lte: undefined
           }
         },
         sampleData
@@ -93,40 +93,7 @@ describe('operator $between', () => {
       jql(
         {
           number1: {
-            $between: Symbol()
-          }
-        },
-        sampleData
-      )
-    ).toThrow(JQLError);
-
-    expect(() =>
-      jql(
-        {
-          number1: {
-            $between: ''
-          }
-        },
-        sampleData
-      )
-    ).toThrow(JQLError);
-
-    expect(() =>
-      jql(
-        {
-          number1: {
-            $between: undefined
-          }
-        },
-        sampleData
-      )
-    ).toThrow(JQLError);
-
-    expect(() =>
-      jql(
-        {
-          number1: {
-            $between: null
+            $lte: null
           }
         },
         sampleData
@@ -137,23 +104,23 @@ describe('operator $between', () => {
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $between: [1, 20]
+        $lte: 10
       },
       number2: {
-        $between: [1, 20]
+        $lte: 10
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $between: [1, 20]
+              $lte: 10
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $between: [1, 20]
+          $lte: 10
         }
       }
     };

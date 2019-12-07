@@ -1,7 +1,7 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
@@ -18,27 +18,27 @@ const sampleData = [
     number8: [{ number8_1: '10' }, { number8_1: '10' }]
   },
   {
-    number1: 100,
-    number2: 100,
+    number1: 0,
+    number2: 0,
     number3: {
       number4: {
         number5: {
-          number6: 100
+          number6: 0
         }
       }
     },
-    number7: '100',
-    number8: [{ number8_1: '100' }, { number8_1: '100' }]
+    number7: '0',
+    number8: [{ number8_1: '0' }, { number8_1: '0' }]
   }
 ];
 
-describe('Operator $lte', () => {
+describe('Operator $gte', () => {
   it('throws error when given invalid value', () => {
     expect(() =>
       jql(
         {
           number1: {
-            $lte: '10'
+            $gte: '10'
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('Operator $lte', () => {
       jql(
         {
           number1: {
-            $lte: Symbol()
+            $gte: Symbol()
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('Operator $lte', () => {
       jql(
         {
           number1: {
-            $lte: []
+            $gte: []
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('Operator $lte', () => {
       jql(
         {
           number1: {
-            $lte: ''
+            $gte: ''
           }
         },
         sampleData
@@ -82,7 +82,7 @@ describe('Operator $lte', () => {
       jql(
         {
           number1: {
-            $lte: undefined
+            $gte: undefined
           }
         },
         sampleData
@@ -93,7 +93,7 @@ describe('Operator $lte', () => {
       jql(
         {
           number1: {
-            $lte: null
+            $gte: null
           }
         },
         sampleData
@@ -104,23 +104,23 @@ describe('Operator $lte', () => {
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $lte: 10
+        $gte: 10
       },
       number2: {
-        $lte: 10
+        $gte: 10
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $lte: 10
+              $gte: 10
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $lte: 10
+          $gte: 10
         }
       }
     };

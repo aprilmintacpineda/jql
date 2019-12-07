@@ -1,7 +1,7 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
@@ -32,13 +32,13 @@ const sampleData = [
   }
 ];
 
-describe('Operator $gt', () => {
-  it('throws error when given invalid value', () => {
+describe('operator $between', () => {
+  test('throws error when given wrong values', () => {
     expect(() =>
       jql(
         {
           number1: {
-            $gt: '10'
+            $between: [1, 2, 3]
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('Operator $gt', () => {
       jql(
         {
           number1: {
-            $gt: Symbol()
+            $between: []
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('Operator $gt', () => {
       jql(
         {
           number1: {
-            $gt: []
+            $between: ['1', '2']
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('Operator $gt', () => {
       jql(
         {
           number1: {
-            $gt: ''
+            $between: 1
           }
         },
         sampleData
@@ -82,7 +82,7 @@ describe('Operator $gt', () => {
       jql(
         {
           number1: {
-            $gt: undefined
+            $between: '1'
           }
         },
         sampleData
@@ -93,7 +93,40 @@ describe('Operator $gt', () => {
       jql(
         {
           number1: {
-            $gt: null
+            $between: Symbol()
+          }
+        },
+        sampleData
+      )
+    ).toThrow(JQLError);
+
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $between: ''
+          }
+        },
+        sampleData
+      )
+    ).toThrow(JQLError);
+
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $between: undefined
+          }
+        },
+        sampleData
+      )
+    ).toThrow(JQLError);
+
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $between: null
           }
         },
         sampleData
@@ -104,23 +137,23 @@ describe('Operator $gt', () => {
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $gt: 5
+        $between: [1, 20]
       },
       number2: {
-        $gt: 5
+        $between: [1, 20]
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $gt: 5
+              $between: [1, 20]
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $gt: 5
+          $between: [1, 20]
         }
       }
     };

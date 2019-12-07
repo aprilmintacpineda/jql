@@ -1,44 +1,44 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
-    test1: 'test1',
-    test2: 'test2',
-    test3: 'test3',
+    test1: 'TEST1',
+    test2: 'TEST2',
+    test3: 'TEST3',
     test4: {
       test5: {
         test6: {
-          test7: 'test4'
+          test7: 'TEST4'
         }
       }
     },
-    test8: [{ test8_1: 'test8_1' }, { test8_1: 'test8_2' }, { test8_1: 'test8_3' }]
+    test8: [{ test8_1: 'TEST8_1' }, { test8_1: 'TEST8_2' }, { test8_1: 'TEST8_3' }]
   },
   {
-    test1: 'test11',
-    test2: 'test21',
-    test3: 'test31',
+    test1: 'TEST11',
+    test2: 'TEST21',
+    test3: 'TEST31',
     test4: {
       test5: {
         test6: {
-          test7: 'test41'
+          test7: 'TEST41'
         }
       }
     },
-    test8: [{ test8_1: 'test8_11' }, { test8_1: 'test8_21' }, { test8_1: 'test8_31' }]
+    test8: [{ test8_1: 'TEST8_11' }, { test8_1: 'TEST8_21' }, { test8_1: 'TEST8_31' }]
   }
 ];
 
-describe('operator $notRegex', () => {
-  it('throws error when given wrong value', () => {
+describe('Operator $iNotIn', () => {
+  test('throws error when given wrong value', () => {
     expect(() =>
       jql(
         {
           test1: {
-            $notRegex: []
+            $iNotIn: []
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('operator $notRegex', () => {
       jql(
         {
           test1: {
-            $notRegex: 'test'
+            $iNotIn: ''
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('operator $notRegex', () => {
       jql(
         {
           test1: {
-            $notRegex: 1
+            $iNotIn: 1
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('operator $notRegex', () => {
       jql(
         {
           test1: {
-            $notRegex: ''
+            $iNotIn: undefined
           }
         },
         sampleData
@@ -82,18 +82,7 @@ describe('operator $notRegex', () => {
       jql(
         {
           test1: {
-            $notRegex: null
-          }
-        },
-        sampleData
-      )
-    ).toThrow(JQLError);
-
-    expect(() =>
-      jql(
-        {
-          test1: {
-            $notRegex: undefined
+            $iNotIn: null
           }
         },
         sampleData
@@ -101,46 +90,46 @@ describe('operator $notRegex', () => {
     ).toThrow(JQLError);
   });
 
-  it('handles multiple layers and arrays', () => {
+  test('handles deep nesting and arrays', () => {
     const query = {
       test1: {
-        $notRegex: /test1$/
+        $iNotIn: ['test11', 'test12', 'test13']
       },
       test2: {
-        $notRegex: /test2$/
+        $iNotIn: ['test11', 'test21', 'test13']
       },
       test3: {
-        $notRegex: /test3$/
+        $iNotIn: ['test11', 'test21', 'test31']
       },
       test4: {
         test5: {
           test6: {
             test7: {
-              $notRegex: /test4$/
+              $iNotIn: ['test11', 'test21', 'test13', 'test41']
             }
           }
         }
       },
       test8: {
         test8_1: {
-          $notRegex: /test8_1$/
+          $iNotIn: ['test8_11', 'test8_12', 'test8_13']
         }
       }
     };
 
     expect(jql(query, sampleData)).toEqual([
       {
-        test1: 'test11',
-        test2: 'test21',
-        test3: 'test31',
+        test1: 'TEST1',
+        test2: 'TEST2',
+        test3: 'TEST3',
         test4: {
           test5: {
             test6: {
-              test7: 'test41'
+              test7: 'TEST4'
             }
           }
         },
-        test8: [{ test8_1: 'test8_11' }, { test8_1: 'test8_21' }, { test8_1: 'test8_31' }]
+        test8: [{ test8_1: 'TEST8_1' }, { test8_1: 'TEST8_2' }, { test8_1: 'TEST8_3' }]
       }
     ]);
   });

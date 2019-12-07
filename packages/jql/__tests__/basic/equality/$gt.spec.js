@@ -1,7 +1,7 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
@@ -32,13 +32,13 @@ const sampleData = [
   }
 ];
 
-describe('Operator $gte', () => {
+describe('Operator $gt', () => {
   it('throws error when given invalid value', () => {
     expect(() =>
       jql(
         {
           number1: {
-            $gte: '10'
+            $gt: '10'
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('Operator $gte', () => {
       jql(
         {
           number1: {
-            $gte: Symbol()
+            $gt: Symbol()
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('Operator $gte', () => {
       jql(
         {
           number1: {
-            $gte: []
+            $gt: []
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('Operator $gte', () => {
       jql(
         {
           number1: {
-            $gte: ''
+            $gt: ''
           }
         },
         sampleData
@@ -82,7 +82,7 @@ describe('Operator $gte', () => {
       jql(
         {
           number1: {
-            $gte: undefined
+            $gt: undefined
           }
         },
         sampleData
@@ -93,7 +93,7 @@ describe('Operator $gte', () => {
       jql(
         {
           number1: {
-            $gte: null
+            $gt: null
           }
         },
         sampleData
@@ -104,23 +104,23 @@ describe('Operator $gte', () => {
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $gte: 10
+        $gt: 5
       },
       number2: {
-        $gte: 10
+        $gt: 5
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $gte: 10
+              $gt: 5
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $gte: 10
+          $gt: 5
         }
       }
     };

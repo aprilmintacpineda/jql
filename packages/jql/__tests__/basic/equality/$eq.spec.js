@@ -1,8 +1,8 @@
 /** @format */
 
-const jql = require('../../src/jql');
+const jql = require('../../../src/jql');
 const sampleData = require('../sampleData');
-const JQLError = require('../../src/helpers/JQLError');
+const JQLError = require('../../../src/helpers/JQLError');
 
 // must be in sync with sampleData: { id: 10 }
 const expectedResult = [

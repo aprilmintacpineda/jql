@@ -1,44 +1,44 @@
 /** @format */
 
-const jql = require('../../src/jql');
-const JQLError = require('../../src/helpers/JQLError');
+const jql = require('../../../src/jql');
+const JQLError = require('../../../src/helpers/JQLError');
 
 const sampleData = [
   {
-    number1: 10,
-    number2: 10,
+    number1: 5,
+    number2: 5,
     number3: {
       number4: {
         number5: {
-          number6: 10
+          number6: 5
         }
       }
     },
-    number7: '10',
-    number8: [{ number8_1: '10' }, { number8_1: '10' }]
+    number7: '5',
+    number8: [{ number8_1: '5' }, { number8_1: '5' }]
   },
   {
-    number1: 0,
-    number2: 0,
+    number1: 3,
+    number2: 3,
     number3: {
       number4: {
         number5: {
-          number6: 0
+          number6: 3
         }
       }
     },
-    number7: '0',
-    number8: [{ number8_1: '0' }, { number8_1: '0' }]
+    number7: '3',
+    number8: [{ number8_1: '3' }, { number8_1: '3' }]
   }
 ];
 
-describe('operator $iBetween', () => {
+describe('operator $iNotBetween', () => {
   test('throws error when given wrong values', () => {
     expect(() =>
       jql(
         {
           number1: {
-            $iBetween: [1, 2, 3]
+            $iNotBetween: ''
           }
         },
         sampleData
@@ -49,7 +49,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: []
+            $iNotBetween: [1, 2, 3]
           }
         },
         sampleData
@@ -60,7 +60,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: ['1', '2']
+            $iNotBetween: []
           }
         },
         sampleData
@@ -71,7 +71,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: 1
+            $iNotBetween: ['1', '2']
           }
         },
         sampleData
@@ -82,7 +82,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: '1'
+            $iNotBetween: 1
           }
         },
         sampleData
@@ -93,7 +93,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: Symbol()
+            $iNotBetween: '1'
           }
         },
         sampleData
@@ -104,7 +104,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: ''
+            $iNotBetween: Symbol()
           }
         },
         sampleData
@@ -115,7 +115,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: undefined
+            $iNotBetween: undefined
           }
         },
         sampleData
@@ -126,7 +126,7 @@ describe('operator $iBetween', () => {
       jql(
         {
           number1: {
-            $iBetween: null
+            $iNotBetween: null
           }
         },
         sampleData
@@ -137,23 +137,23 @@ describe('operator $iBetween', () => {
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $iBetween: [1, 10]
+        $iNotBetween: [1, 5]
       },
       number2: {
-        $iBetween: [1, 10]
+        $iNotBetween: [1, 5]
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $iBetween: [1, 10]
+              $iNotBetween: [1, 5]
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $iBetween: [1, 10]
+          $iNotBetween: [1, 5]
         }
       }
     };
@@ -161,17 +161,17 @@ describe('operator $iBetween', () => {
     const actualResult = jql(query, sampleData);
     expect(actualResult).toEqual([
       {
-        number1: 10,
-        number2: 10,
+        number1: 5,
+        number2: 5,
         number3: {
           number4: {
             number5: {
-              number6: 10
+              number6: 5
             }
           }
         },
-        number7: '10',
-        number8: [{ number8_1: '10' }, { number8_1: '10' }]
+        number7: '5',
+        number8: [{ number8_1: '5' }, { number8_1: '5' }]
       }
     ]);
   });
