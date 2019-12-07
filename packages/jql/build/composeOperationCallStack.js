@@ -6,12 +6,13 @@ function composeOperationCallStack(query) {
   var fieldContext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   var fields = Object.keys(query);
   var len = fields.length;
-  var stack = [];
 
   if (!len) {
-    var message = fieldContext.length ? "Unexpected empty object assigned to field ".concat(fieldContext.join('.')) : 'Unexpected empty query.';
-    throw new Error(['JQL Query Error:', message].join(' '));
+    if (!fieldContext.length) return [];
+    throw new Error(['JQL Query Error:', "Unexpected empty object assigned to field ".concat(fieldContext.join('.'))].join(' '));
   }
+
+  var stack = [];
 
   for (var a = 0; a < len; a++) {
     var field = fields[a];
