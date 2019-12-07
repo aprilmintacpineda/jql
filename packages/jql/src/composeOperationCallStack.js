@@ -8,6 +8,8 @@ function composeOperationCallStack (query, fieldContext = []) {
   let stack = [];
 
   if (!len) {
+    // if the fieldContext is empty, that means this is the first
+    // call and the query is empty.
     const message = fieldContext.length
       ? `Unexpected empty object assigned to field ${fieldContext.join('.')}`
       : 'Unexpected empty query.';
@@ -28,11 +30,36 @@ function composeOperationCallStack (query, fieldContext = []) {
     if (operation) {
       // an operation was found, put in operations call stack
       // e.g., $in: [1,2,3]
-      stack = stack.concat({
-        operation,
-        payload,
-        field: fieldContext
-      });
+      if (field === '$or' || field === '$and') {
+        if (payload.constructor !== Array) {
+          throw new Error(
+            [
+              'JQL Query Error:',
+              `Invalid value assigned to "${field}".`,
+              `Expecting an "Array" but got ${payload.constructor.name}`
+            ].join(' ')
+          );
+        }
+
+        let subOperationsCallStack = [];
+
+        for (let b = 0, maxB = payload.length; b < maxB; b++) {
+          subOperationsCallStack = subOperationsCallStack.concat(
+            composeOperationCallStack(payload[b], fieldContext)
+          );
+        }
+
+        stack = stack.concat({
+          operation,
+          subOperationsCallStack
+        });
+      } else {
+        stack = stack.concat({
+          operation,
+          payload,
+          field: fieldContext
+        });
+      }
     } else {
       // the key of this object is not an operation
       // but still unknown to us

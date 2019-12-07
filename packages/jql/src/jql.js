@@ -1,27 +1,8 @@
 /** @format */
 
+const findValue = require('./findValue');
+
 const composeOperationCallStack = require('./composeOperationCallStack');
-
-function findValue (depth, current) {
-  let value = current;
-  const _depth = [].concat(depth);
-
-  for (let a = 0, maxA = _depth.length; a < maxA; a++) {
-    const depthValue = value[_depth.shift()];
-
-    // depthValue is now falsy,
-    // false, undefined, null, ''
-    if (!depthValue) return depthValue;
-
-    // Query by a child that's assigned an array
-    if (depthValue.constructor === Array)
-      return depthValue.map(v => findValue(_depth, v));
-
-    value = depthValue;
-  }
-
-  return value;
-}
 
 function jql (query, rows) {
   if (!rows.length) return [];
@@ -46,18 +27,25 @@ function jql (query, rows) {
     // all root operations should return true
     // for this row to be included in the results
     for (let a = 0; a < len; a++) {
-      const { operation, payload, field } = operationsCallStack[a];
-      const value = findValue(field, row);
+      const operationCall = operationsCallStack[a];
 
-      // Query by a child that's assigned an array
-      if (value.constructor === Array) {
-        for (let b = 0, maxB = value.length; b < maxB; b++)
-          if (operation(payload, value[b])) return true;
+      if ('subOperationsCallStack' in operationCall) {
+        const { operation, subOperationsCallStack } = operationCall;
+        return operation(subOperationsCallStack, row);
+      } else {
+        const { operation, payload, field } = operationCall;
+        const value = findValue(field, row);
 
-        return false;
+        // Query by a child that's assigned an array
+        if (value.constructor === Array) {
+          for (let b = 0, maxB = value.length; b < maxB; b++)
+            if (operation(payload, value[b])) return true;
+
+          return false;
+        }
+
+        if (!operation(payload, value)) return false;
       }
-
-      if (!operation(payload, value)) return false;
     }
 
     return true;

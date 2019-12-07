@@ -4,47 +4,47 @@ function getConstructorNames (types) {
   return types.reduce((accumulator, type) => accumulator.concat(`"${type.name}"`), []).join(', ');
 }
 
-const validators = {
-  validateExValConstructor (operatorName, expectedValue, actualValue, ...expectedValueTypes) {
-    if (!expectedValueTypes.includes(expectedValue.constructor)) {
-      const errorMessage = [`Unexpected argument passed to ${operatorName}.`];
+function validateArrayOfConstructors (operatorName, valuesToValidate) {
+  for (let a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
+    const { values, constructors } = valuesToValidate[a];
 
-      if (expectedValueTypes.length === 1)
-        errorMessage.push(`Expected "${expectedValueTypes[0].name}"`);
-      else errorMessage.push(`Expected on of ${getConstructorNames(expectedValueTypes)}`);
+    validateValueConstructors(
+      operatorName,
+      values.map(value => ({ value, constructors }))
+    );
+  }
+}
 
-      errorMessage.push(`Got ${expectedValue.constructor.name}`);
+function validateValueConstructors (operatorName, valuesToValidate) {
+  for (let a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
+    const { value, constructors } = valuesToValidate[a];
 
-      throw new Error(errorMessage.join(' '));
-    }
-  },
-  validateExValLen (operatorName, expectedValue, actualValue, len) {
-    if (expectedValue.length !== len) {
+    if (!constructors.includes(value.constructor)) {
       throw new Error(
         [
-          `Unexpected number of arguments passed to "${operatorName}".`,
-          `Expecting "${len}" arguments.`,
-          `Got "${expectedValue.length}".`
+          `Unexpected argument passed to operator "${operatorName}"`,
+          `Expecting [${getConstructorNames(constructors)}]`,
+          `Got ${value.constructor.name}`
         ].join(' ')
       );
     }
   }
-};
+}
 
-function validator (operator, validatorsToCall) {
-  return function validateArgs (expectedValue, actualValue) {
-    for (let a = 0, maxA = validatorsToCall.length; a < maxA; a++) {
-      const [validator, args] = validatorsToCall[a];
-      validators[validator](operator.name, expectedValue, actualValue, ...args);
-    }
-
-    return operator(expectedValue, actualValue);
-  };
+function validateArrayLen (operatorName, expectedValue, len) {
+  if (expectedValue.length !== len) {
+    throw new Error(
+      [
+        `Unexpected number of arguments passed to "${operatorName}".`,
+        `Expecting "${len}" arguments.`,
+        `Got "${expectedValue.length}".`
+      ].join(' ')
+    );
+  }
 }
 
 module.exports = {
-  validator,
-  validatorTypes: {
-    validateExValConstructor: 'validateExValConstructor'
-  }
+  validateValueConstructors,
+  validateArrayLen,
+  validateArrayOfConstructors
 };
