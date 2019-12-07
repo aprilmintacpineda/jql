@@ -51,8 +51,19 @@ function validateArrayLen(operatorName, expectedValue, len) {
   }
 }
 
+function validateArrayLenMin(operatorName, expectedValue, min, max) {
+  if (expectedValue) {
+    var len = expectedValue.length;
+
+    if (len < min || max && len > max) {
+      throw new Error(["Unexpected number of arguments passed to \"".concat(operatorName, "\"."), "Expecting \"".concat(len, "\" arguments."), "Got \"".concat(expectedValue.length, "\".")].join(' '));
+    }
+  }
+}
+
 module.exports = {
   validateValueConstructors: validateValueConstructors,
+  validateArrayOfConstructors: validateArrayOfConstructors,
   validateArrayLen: validateArrayLen,
-  validateArrayOfConstructors: validateArrayOfConstructors
+  validateArrayLenMin: validateArrayLenMin
 };

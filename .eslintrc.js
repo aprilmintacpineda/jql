@@ -10,10 +10,23 @@ module.exports = {
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module',
-    allowImportExportEverywhere: true
+    sourceType: 'module'
   },
   rules: {
+    'no-async-promise-executor': 'error',
+    'no-await-in-loop': 'error',
+    'no-cond-assign': 'error',
+    'no-new-require': 'error',
+    'no-new-func': 'error',
+    'no-new': 'error',
+    'no-new-object': 'error',
+    'no-array-constructor': 'error',
+    'no-new-wrappers': 'error',
+    'no-implicit-coercion': 'error',
+    'no-extra-boolean-cast': 'error',
+    'no-constant-condition': 'error',
+    eqeqeq: 'error',
+    'no-unneeded-ternary': 'error',
     'require-atomic-updates': 0,
     semi: ['error', 'always'],
     quotes: ['error', 'single'],

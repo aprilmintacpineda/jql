@@ -12,7 +12,7 @@ var _require2 = require('./existence'),
     $in = _require2.$in,
     $notIn = _require2.$notIn,
     $iIn = _require2.$iIn,
-    $iNotIN = _require2.$iNotIN;
+    $iNotIn = _require2.$iNotIn;
 
 var _require3 = require('./range'),
     $between = _require3.$between,
@@ -38,7 +38,7 @@ module.exports = {
   $in: $in,
   $notIn: $notIn,
   $iIn: $iIn,
-  $iNotIN: $iNotIN,
+  $iNotIn: $iNotIn,
   $between: $between,
   $notBetween: $notBetween,
   $iBetween: $iBetween,

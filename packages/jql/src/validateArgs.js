@@ -67,8 +67,25 @@ function validateArrayLen (operatorName, expectedValue, len) {
   }
 }
 
+function validateArrayLenMin (operatorName, expectedValue, min, max) {
+  if (expectedValue) {
+    const len = expectedValue.length;
+
+    if (len < min || (max && len > max)) {
+      throw new Error(
+        [
+          `Unexpected number of arguments passed to "${operatorName}".`,
+          `Expecting "${len}" arguments.`,
+          `Got "${expectedValue.length}".`
+        ].join(' ')
+      );
+    }
+  }
+}
+
 module.exports = {
   validateValueConstructors,
+  validateArrayOfConstructors,
   validateArrayLen,
-  validateArrayOfConstructors
+  validateArrayLenMin
 };
