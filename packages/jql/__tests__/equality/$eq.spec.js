@@ -1,7 +1,7 @@
 /** @format */
 
-const jql = require('../src/jql');
-const sampleData = require('./sampleData');
+const jql = require('../../src/jql');
+const sampleData = require('../sampleData');
 
 // must be in sync with sampleData: { id: 10 }
 const expectedResult = [
