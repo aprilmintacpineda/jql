@@ -12,5 +12,13 @@
     "eslint-plugin-jest": "^23.1.1",
     "lerna": "^3.19.0",
     "prettier": "^1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run test && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "npm run lint"
   }
 }
