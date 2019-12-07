@@ -2,11 +2,11 @@
 
 const { validateValueConstructors, validateArrayOfConstructors } = require('../validateArgs');
 
-function $in (expectedValue, actualValue) {
+function $in (expectedValues, actualValue) {
   // validate arguments
   validateValueConstructors('$in', [
     {
-      value: expectedValue,
+      value: expectedValues,
       constructors: [String, Number]
     }
   ]);
@@ -14,19 +14,46 @@ function $in (expectedValue, actualValue) {
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
     {
-      values: expectedValue,
+      values: expectedValues,
       constructors: [String, Number]
     }
   ]);
 
-  return expectedValue.includes(actualValue);
+  return expectedValues.includes(actualValue);
 }
 
-function $notIn (expectedValue, actualValue) {
+function $iIn (expectedValues, value) {
   // validate arguments
   validateValueConstructors('$in', [
     {
-      value: expectedValue,
+      value: expectedValues,
+      constructors: [String, Number]
+    }
+  ]);
+
+  // actual value must be an array of string or number only
+  validateArrayOfConstructors('$in', [
+    {
+      values: expectedValues,
+      constructors: [String, Number]
+    }
+  ]);
+
+  const actualValue = value.toString().toLowerCase();
+
+  for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
+    const expectedValue = expectedValues[a].toString().toLowerCase();
+    if (expectedValue === actualValue) return true;
+  }
+
+  return false;
+}
+
+function $notIn (expectedValues, actualValue) {
+  // validate arguments
+  validateValueConstructors('$in', [
+    {
+      value: expectedValues,
       constructors: [Array]
     }
   ]);
@@ -34,15 +61,44 @@ function $notIn (expectedValue, actualValue) {
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
     {
-      values: expectedValue,
+      values: expectedValues,
       constructors: [String, Number]
     }
   ]);
 
-  return !expectedValue.includes(actualValue);
+  return !expectedValues.includes(actualValue);
+}
+
+function $iNotIn (expectedValues, value) {
+  // validate arguments
+  validateValueConstructors('$in', [
+    {
+      value: expectedValues,
+      constructors: [Array]
+    }
+  ]);
+
+  // actual value must be an array of string or number only
+  validateArrayOfConstructors('$in', [
+    {
+      values: expectedValues,
+      constructors: [String, Number]
+    }
+  ]);
+
+  const actualValue = value.toString().toLowerCase();
+
+  for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
+    const expectedValue = expectedValues[a].toString().toLowerCase();
+    if (expectedValue === actualValue) return false;
+  }
+
+  return true;
 }
 
 module.exports = {
   $in,
-  $notIn
+  $iIn,
+  $notIn,
+  $iNotIn
 };
