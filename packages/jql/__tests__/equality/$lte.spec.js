@@ -35,7 +35,7 @@ const sampleData = [
   }
 ];
 
-describe('Operator ', () => {
+describe('Operator $lte', () => {
   it('throws error when given invalid value', () => {
     expect(() => jql({
       number1: {
