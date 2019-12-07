@@ -279,6 +279,19 @@ describe('Operator $ne', () => {
     const actualResult = jql(query, sampleData);
     expect(actualResult).toEqual(expectedResult);
   });
+  it('throw error when value is invalid', () => {
+    expect(() => jql({
+      email: {
+        $ne: ['']
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      email: {
+        $ne: Symbol
+      }
+    }, sampleData)).toThrow();
+  });
 
   it('handles array values', () => {
     const query = {

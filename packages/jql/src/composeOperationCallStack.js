@@ -52,7 +52,7 @@ function composeOperationCallStack (query, fieldContext = []) {
         });
       } else {
         if (
-          field === '$eq' &&
+          (field === '$eq' || field === '$ne') &&
           payload &&
           payload.constructor === Array &&
           payload.length
@@ -60,7 +60,7 @@ function composeOperationCallStack (query, fieldContext = []) {
           throw new Error(
             [
               'JQL Query Error:',
-              'Invalid value assigned to field "$eq"',
+              `Invalid value assigned to field "${field}"`,
               `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
             ].join(' ')
           );
