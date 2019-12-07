@@ -62,30 +62,6 @@ describe('Operator $eq', () => {
     expect(actualResult).toEqual(expectedResult);
   });
 
-  it('handles 2 layers deep', () => {
-    const query = {
-      address: {
-        city: 'Lebsackbury'
-      }
-    };
-
-    const actualResult = jql(query, sampleData);
-    expect(actualResult).toEqual(expectedResult);
-  });
-
-  it('handles 3 layers deep', () => {
-    const query = {
-      address: {
-        geo: {
-          lat: -38.2386
-        }
-      }
-    };
-
-    const actualResult = jql(query, sampleData);
-    expect(actualResult).toEqual(expectedResult);
-  });
-
   it('handles array values', () => {
     const query = {
       otherNames: {
