@@ -105,7 +105,9 @@ function $iNotIn (expectedValues, field, row) {
     }
   ]);
 
-  const actualValue = findValue(field, row).toString().toLowerCase();
+  const actualValue = findValue(field, row)
+    .toString()
+    .toLowerCase();
 
   for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
     const expectedValue = expectedValues[a].toString().toLowerCase();
