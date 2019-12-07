@@ -91,8 +91,23 @@ function $gt (expectedValue, field, row) {
     }
   ]);
 
+  if (isNaN(expectedValue)) return false;
   const actualValue = findValue(field, row);
-  return expectedValue > actualValue;
+
+  // handle values as array
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value > expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
+
+  return actualValue > expectedValue;
 }
 
 function $gte (expectedValue, field, row) {
@@ -104,8 +119,23 @@ function $gte (expectedValue, field, row) {
     }
   ]);
 
+  if (isNaN(expectedValue)) return false;
   const actualValue = findValue(field, row);
-  return expectedValue >= actualValue;
+
+  // handle values as array
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value >= expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
+
+  return actualValue >= expectedValue;
 }
 
 function $lt (expectedValue, field, row) {
@@ -117,7 +147,22 @@ function $lt (expectedValue, field, row) {
     }
   ]);
 
+  if (isNaN(expectedValue)) return false;
   const actualValue = findValue(field, row);
+
+  // handle values as array
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value < expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
+
   return actualValue < expectedValue;
 }
 
@@ -130,7 +175,22 @@ function $lte (expectedValue, field, row) {
     }
   ]);
 
+  if (isNaN(expectedValue)) return false;
   const actualValue = findValue(field, row);
+
+  // handle values as array
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value <= expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
+
   return actualValue <= expectedValue;
 }
 

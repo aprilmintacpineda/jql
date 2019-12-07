@@ -28,7 +28,9 @@ function $between (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  if (isNaN(min) || isNaN(max)) return false;
   const actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
 
   return actualValue > min && actualValue < max;
 }
@@ -54,7 +56,9 @@ function $iBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  if (isNaN(min) || isNaN(max)) return false;
   const actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
 
   return actualValue >= min && actualValue <= max;
 }
@@ -80,7 +84,9 @@ function $notBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  if (isNaN(min) || isNaN(max)) return false;
   const actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
 
   return actualValue < min || actualValue > max;
 }
@@ -106,7 +112,9 @@ function $iNotBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  if (isNaN(min) || isNaN(max)) return false;
   const actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
 
   return actualValue <= min || actualValue >= max;
 }

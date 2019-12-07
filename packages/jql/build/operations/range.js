@@ -30,7 +30,9 @@ function $between(range, field, row) {
       min = _range[0],
       max = _range[1];
 
+  if (isNaN(min) || isNaN(max)) return false;
   var actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
   return actualValue > min && actualValue < max;
 }
 
@@ -49,7 +51,9 @@ function $iBetween(range, field, row) {
       min = _range2[0],
       max = _range2[1];
 
+  if (isNaN(min) || isNaN(max)) return false;
   var actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
   return actualValue >= min && actualValue <= max;
 }
 
@@ -68,7 +72,9 @@ function $notBetween(range, field, row) {
       min = _range3[0],
       max = _range3[1];
 
+  if (isNaN(min) || isNaN(max)) return false;
   var actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
   return actualValue < min || actualValue > max;
 }
 
@@ -87,7 +93,9 @@ function $iNotBetween(range, field, row) {
       min = _range4[0],
       max = _range4[1];
 
+  if (isNaN(min) || isNaN(max)) return false;
   var actualValue = findValue(field, row);
+  if (isNaN(actualValue)) return false;
   return actualValue <= min || actualValue >= max;
 }
 

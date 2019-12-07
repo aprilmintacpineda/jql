@@ -7,17 +7,20 @@ const operations = require('./operations');
 function composeOperationCallStack (query, fieldContext = []) {
   const fields = Object.keys(query);
   const len = fields.length;
-  let stack = [];
 
   if (!len) {
     // if the fieldContext is empty, that means this is the first
     // call and the query is empty.
-    const message = fieldContext.length
-      ? `Unexpected empty object assigned to field ${fieldContext.join('.')}`
-      : 'Unexpected empty query.';
-
-    throw new Error(['JQL Query Error:', message].join(' '));
+    if (!fieldContext.length) return [];
+    throw new Error(
+      [
+        'JQL Query Error:',
+        `Unexpected empty object assigned to field ${fieldContext.join('.')}`
+      ].join(' ')
+    );
   }
+
+  let stack = [];
 
   for (let a = 0; a < len; a++) {
     const field = fields[a];

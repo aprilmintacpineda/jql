@@ -15,8 +15,7 @@ function $in(expectedValues, field, row) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var actualValue = findValue(field, row);
-  return expectedValues.includes(actualValue);
+  return expectedValues.includes(findValue(field, row));
 }
 
 function $iIn(expectedValues, field, row) {
@@ -28,8 +27,7 @@ function $iIn(expectedValues, field, row) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var value = findValue(field, row);
-  var actualValue = value.toString().toLowerCase();
+  var actualValue = findValue(field, row).toString().toLowerCase();
 
   for (var a = 0, maxA = expectedValues.length; a < maxA; a++) {
     var expectedValue = expectedValues[a].toString().toLowerCase();
@@ -48,8 +46,7 @@ function $notIn(expectedValues, field, row) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var actualValue = findValue(field, row);
-  return !expectedValues.includes(actualValue);
+  return !expectedValues.includes(findValue(field, row));
 }
 
 function $iNotIn(expectedValues, field, row) {
@@ -61,8 +58,7 @@ function $iNotIn(expectedValues, field, row) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var value = findValue(field, row);
-  var actualValue = value.toString().toLowerCase();
+  var actualValue = findValue(field, row).toString().toLowerCase();
 
   for (var a = 0, maxA = expectedValues.length; a < maxA; a++) {
     var expectedValue = expectedValues[a].toString().toLowerCase();

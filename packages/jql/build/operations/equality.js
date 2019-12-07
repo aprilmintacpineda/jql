@@ -56,8 +56,21 @@ function $gt(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
+  if (isNaN(expectedValue)) return false;
   var actualValue = findValue(field, row);
-  return expectedValue > actualValue;
+
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      var value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value > expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
+  return actualValue > expectedValue;
 }
 
 function $gte(expectedValue, field, row) {
@@ -65,8 +78,21 @@ function $gte(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
+  if (isNaN(expectedValue)) return false;
   var actualValue = findValue(field, row);
-  return expectedValue >= actualValue;
+
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      var value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value >= expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
+  return actualValue >= expectedValue;
 }
 
 function $lt(expectedValue, field, row) {
@@ -74,7 +100,20 @@ function $lt(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
+  if (isNaN(expectedValue)) return false;
   var actualValue = findValue(field, row);
+
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      var value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value < expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
   return actualValue < expectedValue;
 }
 
@@ -83,7 +122,20 @@ function $lte(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
+  if (isNaN(expectedValue)) return false;
   var actualValue = findValue(field, row);
+
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      var value = actualValue[a];
+      if (isNaN(value)) continue;
+      if (value <= expectedValue) return true;
+    }
+
+    return false;
+  }
+
+  if (isNaN(actualValue)) return false;
   return actualValue <= expectedValue;
 }
 

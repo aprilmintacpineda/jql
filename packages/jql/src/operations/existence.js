@@ -20,8 +20,7 @@ function $in (expectedValues, field, row) {
     }
   ]);
 
-  const actualValue = findValue(field, row);
-  return expectedValues.includes(actualValue);
+  return expectedValues.includes(findValue(field, row));
 }
 
 function $iIn (expectedValues, field, row) {
@@ -41,8 +40,7 @@ function $iIn (expectedValues, field, row) {
     }
   ]);
 
-  const value = findValue(field, row);
-  const actualValue = value.toString().toLowerCase();
+  const actualValue = findValue(field, row).toString().toLowerCase();
 
   for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
     const expectedValue = expectedValues[a].toString().toLowerCase();
@@ -69,8 +67,7 @@ function $notIn (expectedValues, field, row) {
     }
   ]);
 
-  const actualValue = findValue(field, row);
-  return !expectedValues.includes(actualValue);
+  return !expectedValues.includes(findValue(field, row));
 }
 
 function $iNotIn (expectedValues, field, row) {
@@ -90,8 +87,7 @@ function $iNotIn (expectedValues, field, row) {
     }
   ]);
 
-  const value = findValue(field, row);
-  const actualValue = value.toString().toLowerCase();
+  const actualValue = findValue(field, row).toString().toLowerCase();
 
   for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
     const expectedValue = expectedValues[a].toString().toLowerCase();

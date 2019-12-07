@@ -10,8 +10,7 @@ function $regex(expectedValue, field, row) {
     value: expectedValue,
     constructors: [RegExp]
   }]);
-  var actualValue = findValue(field, row);
-  return expectedValue.test(actualValue);
+  return expectedValue.test(findValue(field, row));
 }
 
 function $notRegex(expectedValue, field, row) {
@@ -19,8 +18,7 @@ function $notRegex(expectedValue, field, row) {
     value: expectedValue,
     constructors: [RegExp]
   }]);
-  var actualValue = findValue(field, row);
-  return !expectedValue.test(actualValue);
+  return !expectedValue.test(findValue(field, row));
 }
 
 module.exports = {
