@@ -68,6 +68,12 @@ describe('Operator $eq', () => {
     }, sampleData)).toThrow();
 
     expect(() => jql({
+      email: {
+        $eq: ['']
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
       email: Symbol()
     }, sampleData)).toThrow();
   });

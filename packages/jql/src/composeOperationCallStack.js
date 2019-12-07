@@ -51,6 +51,21 @@ function composeOperationCallStack (query, fieldContext = []) {
           subOperationsCallStack
         });
       } else {
+        if (
+          field === '$eq' &&
+          payload &&
+          payload.constructor === Array &&
+          payload.length
+        ) {
+          throw new Error(
+            [
+              'JQL Query Error:',
+              'Invalid value assigned to field "$eq"',
+              `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
+            ].join(' ')
+          );
+        }
+
         stack = stack.concat({
           operation,
           payload,
