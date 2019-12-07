@@ -62,6 +62,16 @@ describe('Operator $eq', () => {
     expect(actualResult).toEqual(expectedResult);
   });
 
+  it('throw error when value is invalid', () => {
+    expect(() => jql({
+      email: ['']
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      email: Symbol()
+    }, sampleData)).toThrow();
+  });
+
   it('handles array values', () => {
     const query = {
       otherNames: {
