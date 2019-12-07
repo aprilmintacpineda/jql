@@ -1,8 +1,9 @@
 /** @format */
 
+const findValue = require('../findValue');
 const { validateValueConstructors } = require('../validateArgs');
 
-function $regex (expectedValue, actualValue) {
+function $regex (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -11,10 +12,11 @@ function $regex (expectedValue, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return expectedValue.test(actualValue);
 }
 
-function $notRegex (expectedValue, actualValue) {
+function $notRegex (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -23,6 +25,7 @@ function $notRegex (expectedValue, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return !expectedValue.test(actualValue);
 }
 

@@ -1,7 +1,5 @@
 /** @format */
 
-const findValue = require('./findValue');
-
 const composeOperationCallStack = require('./composeOperationCallStack');
 
 function jql (query, rows) {
@@ -33,28 +31,7 @@ function jql (query, rows) {
       }
 
       const { operation, payload, field } = operationCall;
-      const value = findValue(field, row);
-
-      // Query by a child that's assigned an array
-      // we don't want to do this for falsy values
-      // e.g., { field: null }
-      // e.g., { field: undefined }
-      // e.g., { field: '' }
-      if (
-        value &&
-        value.constructor === Array &&
-        // this does not handle equality to empty array
-        // e.g., { field: [] }
-        payload &&
-        payload.constructor !== Array
-      ) {
-        for (let b = 0, maxB = value.length; b < maxB; b++)
-          if (operation(payload, value[b])) return true;
-
-        return false;
-      }
-
-      if (!operation(payload, value)) return false;
+      if (!operation(payload, field, row)) return false;
     }
 
     return true;

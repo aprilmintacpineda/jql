@@ -1,54 +1,72 @@
 "use strict";
 
+var findValue = require('../findValue');
+
 var _require = require('../validateArgs'),
     validateValueConstructors = _require.validateValueConstructors;
 
-function $eq(expectedValue, actualValue) {
+function $eq(expectedValue, field, row) {
   validateValueConstructors('$eq', [{
     value: expectedValue,
     constructors: [String, Number, Array]
   }]);
-  if (expectedValue && actualValue && expectedValue.constructor === Array && actualValue.constructor === Array) return !expectedValue.length && !actualValue.length;
+  var actualValue = findValue(field, row);
+
+  if (actualValue && actualValue.constructor === Array) {
+    if (expectedValue && expectedValue.constructor === Array && !expectedValue.length) return !actualValue.length;
+
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (expectedValue === actualValue[a]) return true;
+    }
+
+    return false;
+  }
+
   return expectedValue === actualValue;
 }
 
-function $ne(expectedValue, actualValue) {
+function $ne(expectedValue, field, row) {
   validateValueConstructors('$ne', [{
     value: expectedValue,
     constructors: [String, Number]
   }]);
+  var actualValue = findValue(field, row);
   return expectedValue !== actualValue;
 }
 
-function $gt(expectedValue, actualValue) {
+function $gt(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
   }]);
+  var actualValue = findValue(field, row);
   return expectedValue > actualValue;
 }
 
-function $gte(expectedValue, actualValue) {
+function $gte(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
   }]);
+  var actualValue = findValue(field, row);
   return expectedValue >= actualValue;
 }
 
-function $lt(expectedValue, actualValue) {
+function $lt(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
   }]);
+  var actualValue = findValue(field, row);
   return actualValue < expectedValue;
 }
 
-function $lte(expectedValue, actualValue) {
+function $lte(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
   }]);
+  var actualValue = findValue(field, row);
   return actualValue <= expectedValue;
 }
 

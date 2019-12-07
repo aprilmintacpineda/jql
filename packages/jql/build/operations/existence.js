@@ -1,10 +1,12 @@
 "use strict";
 
+var findValue = require('../findValue');
+
 var _require = require('../validateArgs'),
     validateValueConstructors = _require.validateValueConstructors,
     validateArrayOfConstructors = _require.validateArrayOfConstructors;
 
-function $in(expectedValues, actualValue) {
+function $in(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
     constructors: [String, Number]
@@ -13,10 +15,11 @@ function $in(expectedValues, actualValue) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
+  var actualValue = findValue(field, row);
   return expectedValues.includes(actualValue);
 }
 
-function $iIn(expectedValues, value) {
+function $iIn(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
     constructors: [String, Number]
@@ -25,6 +28,7 @@ function $iIn(expectedValues, value) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
+  var value = findValue(field, row);
   var actualValue = value.toString().toLowerCase();
 
   for (var a = 0, maxA = expectedValues.length; a < maxA; a++) {
@@ -35,7 +39,7 @@ function $iIn(expectedValues, value) {
   return false;
 }
 
-function $notIn(expectedValues, actualValue) {
+function $notIn(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
     constructors: [Array]
@@ -44,10 +48,11 @@ function $notIn(expectedValues, actualValue) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
+  var actualValue = findValue(field, row);
   return !expectedValues.includes(actualValue);
 }
 
-function $iNotIn(expectedValues, value) {
+function $iNotIn(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
     constructors: [Array]
@@ -56,6 +61,7 @@ function $iNotIn(expectedValues, value) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
+  var value = findValue(field, row);
   var actualValue = value.toString().toLowerCase();
 
   for (var a = 0, maxA = expectedValues.length; a < maxA; a++) {

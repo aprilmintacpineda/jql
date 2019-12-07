@@ -1,8 +1,9 @@
 /** @format */
 
+const findValue = require('../findValue');
 const { validateValueConstructors, validateArrayOfConstructors } = require('../validateArgs');
 
-function $in (expectedValues, actualValue) {
+function $in (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -19,10 +20,11 @@ function $in (expectedValues, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return expectedValues.includes(actualValue);
 }
 
-function $iIn (expectedValues, value) {
+function $iIn (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -39,6 +41,7 @@ function $iIn (expectedValues, value) {
     }
   ]);
 
+  const value = findValue(field, row);
   const actualValue = value.toString().toLowerCase();
 
   for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
@@ -49,7 +52,7 @@ function $iIn (expectedValues, value) {
   return false;
 }
 
-function $notIn (expectedValues, actualValue) {
+function $notIn (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -66,10 +69,11 @@ function $notIn (expectedValues, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return !expectedValues.includes(actualValue);
 }
 
-function $iNotIn (expectedValues, value) {
+function $iNotIn (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -86,6 +90,7 @@ function $iNotIn (expectedValues, value) {
     }
   ]);
 
+  const value = findValue(field, row);
   const actualValue = value.toString().toLowerCase();
 
   for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {

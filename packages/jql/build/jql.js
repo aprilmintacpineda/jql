@@ -1,7 +1,5 @@
 "use strict";
 
-var findValue = require('./findValue');
-
 var composeOperationCallStack = require('./composeOperationCallStack');
 
 function jql(query, rows) {
@@ -26,17 +24,7 @@ function jql(query, rows) {
       var operation = operationCall.operation,
           payload = operationCall.payload,
           field = operationCall.field;
-      var value = findValue(field, row);
-
-      if (value && value.constructor === Array && payload && payload.constructor !== Array) {
-        for (var b = 0, maxB = value.length; b < maxB; b++) {
-          if (operation(payload, value[b])) return true;
-        }
-
-        return false;
-      }
-
-      if (!operation(payload, value)) return false;
+      if (!operation(payload, field, row)) return false;
     }
 
     return true;

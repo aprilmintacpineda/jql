@@ -8,12 +8,14 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var findValue = require('../findValue');
+
 var _require = require('../validateArgs'),
     validateValueConstructors = _require.validateValueConstructors,
     validateArrayOfConstructors = _require.validateArrayOfConstructors,
     validateArrayLen = _require.validateArrayLen;
 
-function $between(range, actualValue) {
+function $between(range, field, row) {
   validateValueConstructors('$between', [{
     value: range,
     constructors: [Array]
@@ -28,10 +30,11 @@ function $between(range, actualValue) {
       min = _range[0],
       max = _range[1];
 
+  var actualValue = findValue(field, row);
   return actualValue > min && actualValue < max;
 }
 
-function $iBetween(range, actualValue) {
+function $iBetween(range, field, row) {
   validateValueConstructors('$between', [{
     value: range,
     constructors: [Array]
@@ -46,10 +49,11 @@ function $iBetween(range, actualValue) {
       min = _range2[0],
       max = _range2[1];
 
+  var actualValue = findValue(field, row);
   return actualValue >= min && actualValue <= max;
 }
 
-function $notBetween(range, actualValue) {
+function $notBetween(range, field, row) {
   validateValueConstructors('$between', [{
     value: range,
     constructors: [Array]
@@ -64,10 +68,11 @@ function $notBetween(range, actualValue) {
       min = _range3[0],
       max = _range3[1];
 
+  var actualValue = findValue(field, row);
   return actualValue < min || actualValue > max;
 }
 
-function $iNotBetween(range, actualValue) {
+function $iNotBetween(range, field, row) {
   validateValueConstructors('$between', [{
     value: range,
     constructors: [Array]
@@ -82,6 +87,7 @@ function $iNotBetween(range, actualValue) {
       min = _range4[0],
       max = _range4[1];
 
+  var actualValue = findValue(field, row);
   return actualValue <= min || actualValue >= max;
 }
 

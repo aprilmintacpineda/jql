@@ -1,8 +1,9 @@
 /** @format */
 
+const findValue = require('../findValue');
 const { validateValueConstructors } = require('../validateArgs');
 
-function $eq (expectedValue, actualValue) {
+function $eq (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$eq', [
     {
@@ -11,20 +12,30 @@ function $eq (expectedValue, actualValue) {
     }
   ]);
 
-  // handle equality to empty array
-  // e.g., { field: [] }
+  const actualValue = findValue(field, row);
+
+  // handle array values
   if (
-    expectedValue &&
     actualValue &&
-    expectedValue.constructor === Array &&
     actualValue.constructor === Array
-  )
-    return !expectedValue.length && !actualValue.length;
+  ) {
+    // handle equality to empty array
+    // e.g., { field: [] }
+    if (expectedValue && expectedValue.constructor === Array && !expectedValue.length)
+      return !actualValue.length;
+
+    // if one of the item matches the expected value,
+    // we return immediately
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
+      if (expectedValue === actualValue[a]) return true;
+
+    return false;
+  }
 
   return expectedValue === actualValue;
 }
 
-function $ne (expectedValue, actualValue) {
+function $ne (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$ne', [
     {
@@ -33,6 +44,7 @@ function $ne (expectedValue, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return expectedValue !== actualValue;
 }
 
@@ -41,7 +53,7 @@ function $ne (expectedValue, actualValue) {
 //
 // }
 
-function $gt (expectedValue, actualValue) {
+function $gt (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -50,10 +62,11 @@ function $gt (expectedValue, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return expectedValue > actualValue;
 }
 
-function $gte (expectedValue, actualValue) {
+function $gte (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -62,10 +75,11 @@ function $gte (expectedValue, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return expectedValue >= actualValue;
 }
 
-function $lt (expectedValue, actualValue) {
+function $lt (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -74,10 +88,11 @@ function $lt (expectedValue, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return actualValue < expectedValue;
 }
 
-function $lte (expectedValue, actualValue) {
+function $lte (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors('$in', [
     {
@@ -86,6 +101,7 @@ function $lte (expectedValue, actualValue) {
     }
   ]);
 
+  const actualValue = findValue(field, row);
   return actualValue <= expectedValue;
 }
 

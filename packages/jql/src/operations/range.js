@@ -1,12 +1,13 @@
 /** @format */
 
+const findValue = require('../findValue');
 const {
   validateValueConstructors,
   validateArrayOfConstructors,
   validateArrayLen
 } = require('../validateArgs');
 
-function $between (range, actualValue) {
+function $between (range, field, row) {
   // validate arguments
   validateValueConstructors('$between', [
     {
@@ -27,11 +28,12 @@ function $between (range, actualValue) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  const actualValue = findValue(field, row);
 
   return actualValue > min && actualValue < max;
 }
 
-function $iBetween (range, actualValue) {
+function $iBetween (range, field, row) {
   // validate arguments
   validateValueConstructors('$between', [
     {
@@ -52,11 +54,12 @@ function $iBetween (range, actualValue) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  const actualValue = findValue(field, row);
 
   return actualValue >= min && actualValue <= max;
 }
 
-function $notBetween (range, actualValue) {
+function $notBetween (range, field, row) {
   // validate arguments
   validateValueConstructors('$between', [
     {
@@ -77,11 +80,12 @@ function $notBetween (range, actualValue) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  const actualValue = findValue(field, row);
 
   return actualValue < min || actualValue > max;
 }
 
-function $iNotBetween (range, actualValue) {
+function $iNotBetween (range, field, row) {
   // validate arguments
   validateValueConstructors('$between', [
     {
@@ -102,6 +106,7 @@ function $iNotBetween (range, actualValue) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
+  const actualValue = findValue(field, row);
 
   return actualValue <= min || actualValue >= max;
 }
