@@ -19,6 +19,10 @@ function composeOperationCallStack(query) {
     var payload = query[field];
 
     if (operation) {
+      if (field !== '$or' && field !== '$and' && !fieldContext.length) {
+        throw new Error(['JQL Query Error:', "Unexpected use of ".concat(field, " on the root of the query.")].join(' '));
+      }
+
       if (field === '$or' || field === '$and') {
         if (payload.constructor !== Array) {
           throw new Error(['JQL Query Error:', "Invalid value assigned to \"".concat(field, "\"."), "Expecting an \"Array\" but got ".concat(payload.constructor.name)].join(' '));

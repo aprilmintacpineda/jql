@@ -25,6 +25,15 @@ function composeOperationCallStack (query, fieldContext = []) {
     const payload = query[field];
 
     if (operation) {
+      if (field !== '$or' && field !== '$and' && !fieldContext.length) {
+        throw new Error(
+          [
+            'JQL Query Error:',
+            `Unexpected use of ${field} on the root of the query.`
+          ].join(' ')
+        );
+      }
+
       // an operation was found, put in operations call stack
       // e.g., { $in: [1,2,3] }
       if (field === '$or' || field === '$and') {
