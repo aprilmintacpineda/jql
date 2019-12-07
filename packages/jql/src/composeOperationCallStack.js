@@ -1,3 +1,5 @@
+/** @format */
+
 const operations = require('./operations');
 
 // fieldContext should not be provided
@@ -14,12 +16,7 @@ function composeOperationCallStack (query, fieldContext = []) {
       ? `Unexpected empty object assigned to field ${fieldContext.join('.')}`
       : 'Unexpected empty query.';
 
-    throw new Error(
-      [
-        'JQL Query Error:',
-        message
-      ].join(' ')
-    );
+    throw new Error(['JQL Query Error:', message].join(' '));
   }
 
   for (let a = 0; a < len; a++) {
@@ -29,7 +26,7 @@ function composeOperationCallStack (query, fieldContext = []) {
 
     if (operation) {
       // an operation was found, put in operations call stack
-      // e.g., $in: [1,2,3]
+      // e.g., { $in: [1,2,3] }
       if (field === '$or' || field === '$and') {
         if (payload.constructor !== Array) {
           throw new Error(
@@ -63,38 +60,54 @@ function composeOperationCallStack (query, fieldContext = []) {
     } else {
       // the key of this object is not an operation
       // but still unknown to us
-      // e.g., field: <unknown value>
+      // e.g., { field: <unknown value> }
       const fieldDepth = fieldContext.concat(field);
-      const { constructor } = payload;
 
-      if (constructor === Object) {
-        // this is an object, we will treat it as query
-        // and continue deeper, while keeping the field depth,
-        // until we reach the end or until we find an operation
-        // e.g., field: { /* more things */ }
-        stack = stack.concat(
-          composeOperationCallStack(query[field], fieldDepth)
-        );
-      } else if (constructor === String || constructor === Number) {
-        // this is an "implicit" equality operation
-        // e.g., field: 'some value'
+      // handle null or undefined equality
+      // e.g., { field: null }
+      // e.g., { field: undefined }
+      if (payload === null || payload === undefined) {
         stack = stack.concat({
           operation: operations.$eq,
           payload,
           field: fieldDepth
         });
       } else {
-        // we have no idea what this is, could be:
-        // field: [ /* some value */ ] <-- invalid
-        // field: Symbol() <-- invalid
-        // etc...
-        throw new Error(
-          [
-            'JQL Query Error:',
-            `Invalid value assigned to field "${fieldDepth.join('.')}"`,
-            `Expecting "String" or "Number" but got "${constructor.name}".`
-          ].join(' ')
-        );
+        const { constructor } = payload;
+
+        if (constructor === Object) {
+          // this is an object, we will treat it as query
+          // and continue deeper, while keeping the field depth,
+          // until we reach the end or until we find an operation
+          // e.g., { field: { /* more things */ } }
+          stack = stack.concat(composeOperationCallStack(query[field], fieldDepth));
+        } else if (
+          constructor === String ||
+          constructor === Number ||
+          // equality to an empty array
+          // e.g., { field: [] }
+          (constructor === Array && !payload.length)
+        ) {
+          // this is an "implicit" equality operation
+          // e.g., { field: 'some value' }
+          stack = stack.concat({
+            operation: operations.$eq,
+            payload,
+            field: fieldDepth
+          });
+        } else {
+          // we have no idea what this is, could be:
+          // field: [ /* some value */ ] <-- invalid
+          // field: Symbol() <-- invalid
+          // etc...
+          throw new Error(
+            [
+              'JQL Query Error:',
+              `Invalid value assigned to field "${fieldDepth.join('.')}"`,
+              `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
+            ].join(' ')
+          );
+        }
       }
     }
   }

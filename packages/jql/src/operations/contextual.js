@@ -1,3 +1,5 @@
+/** @format */
+
 const findValue = require('../findValue');
 
 // ideally, or operator should only be used when

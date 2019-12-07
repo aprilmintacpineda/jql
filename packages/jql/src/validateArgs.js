@@ -19,7 +19,10 @@ function validateValueConstructors (operatorName, valuesToValidate) {
   for (let a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
     const { value, constructors } = valuesToValidate[a];
 
-    if (!constructors.includes(value.constructor)) {
+    // we allow null or undefined values
+    // e.g., { field: undefined }
+    // e.g., { field: null }
+    if (value && !constructors.includes(value.constructor)) {
       throw new Error(
         [
           `Unexpected argument passed to operator "${operatorName}"`,

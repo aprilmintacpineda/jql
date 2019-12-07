@@ -9,11 +9,9 @@ function jql (query, rows) {
 
   if (query.constructor !== Object) {
     throw new Error(
-      [
-        'Invalid query passed to jql.',
-        'Expecting an "Object".',
-        `Got ${constructor.name}`
-      ].join(' ')
+      ['Invalid query passed to jql.', 'Expecting an "Object".', `Got ${constructor.name}`].join(
+        ' '
+      )
     );
   }
 
@@ -32,20 +30,31 @@ function jql (query, rows) {
       if ('subOperationsCallStack' in operationCall) {
         const { operation, subOperationsCallStack } = operationCall;
         return operation(subOperationsCallStack, row);
-      } else {
-        const { operation, payload, field } = operationCall;
-        const value = findValue(field, row);
-
-        // Query by a child that's assigned an array
-        if (value.constructor === Array) {
-          for (let b = 0, maxB = value.length; b < maxB; b++)
-            if (operation(payload, value[b])) return true;
-
-          return false;
-        }
-
-        if (!operation(payload, value)) return false;
       }
+
+      const { operation, payload, field } = operationCall;
+      const value = findValue(field, row);
+
+      // Query by a child that's assigned an array
+      // we don't want to do this for falsy values
+      // e.g., { field: null }
+      // e.g., { field: undefined }
+      // e.g., { field: '' }
+      if (
+        value &&
+        value.constructor === Array &&
+        // this does not handle equality to empty array
+        // e.g., { field: [] }
+        payload &&
+        payload.constructor !== Array
+      ) {
+        for (let b = 0, maxB = value.length; b < maxB; b++)
+          if (operation(payload, value[b])) return true;
+
+        return false;
+      }
+
+      if (!operation(payload, value)) return false;
     }
 
     return true;

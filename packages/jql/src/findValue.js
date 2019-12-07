@@ -1,5 +1,12 @@
+/** @format */
+
 function findValue (depth, current) {
   let value = current;
+
+  // value is now falsy,
+  // false, undefined, null, ''
+  if (!value) return value;
+
   const _depth = [].concat(depth);
 
   for (let a = 0, maxA = _depth.length; a < maxA; a++) {
@@ -10,8 +17,7 @@ function findValue (depth, current) {
     if (!depthValue) return depthValue;
 
     // Query by a child that's assigned an array
-    if (depthValue.constructor === Array)
-      return depthValue.map(v => findValue(_depth, v));
+    if (depthValue.constructor === Array) return depthValue.map(v => findValue(_depth, v));
 
     value = depthValue;
   }

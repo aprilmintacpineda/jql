@@ -7,9 +7,20 @@ const { $regex, $notRegex } = require('./regex');
 const { $or, $and } = require('./contextual');
 
 module.exports = {
-  $eq, $ne, $gt, $lt, $gte, $lte,
-  $in, $notIn,
-  $between, $notBetween, $iBetween, $iNotBetween,
-  $regex, $notRegex,
-  $or, $and
+  $eq,
+  $ne,
+  $gt,
+  $lt,
+  $gte,
+  $lte,
+  $in,
+  $notIn,
+  $between,
+  $notBetween,
+  $iBetween,
+  $iNotBetween,
+  $regex,
+  $notRegex,
+  $or,
+  $and
 };

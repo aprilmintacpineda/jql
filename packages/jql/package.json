@@ -4,7 +4,8 @@
   "description": "JSON Query Language - Query any JSON data",
   "main": "lib/jql.js",
   "scripts": {
-    "test": "jest"
+    "test": "npm run build && jest --coverage",
+    "build": "rm -rf build && babel src --out-dir build --no-comments"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,11 @@
   "bugs": {
     "url": "https://github.com/aprilmintacpineda/jql/issues"
   },
-  "homepage": "https://github.com/aprilmintacpineda/jql#readme"
+  "homepage": "https://github.com/aprilmintacpineda/jql#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.5",
+    "jest": "^24.9.0"
+  }
 }
