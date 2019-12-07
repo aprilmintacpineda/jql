@@ -1,6 +1,7 @@
 /** @format */
 
 const findValue = require('../findValue');
+const { isNotNumeric } = require('../helpers/number');
 const {
   validateValueConstructors,
   validateArrayOfConstructors,
@@ -8,6 +9,8 @@ const {
 } = require('../validateArgs');
 
 function $between (range, field, row) {
+  if (!range) return false;
+
   // validate arguments
   validateValueConstructors('$between', [
     {
@@ -19,7 +22,7 @@ function $between (range, field, row) {
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [
     {
-      value: range,
+      values: range,
       constructors: [Number]
     }
   ]);
@@ -28,14 +31,26 @@ function $between (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNaN(min) || isNaN(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return false;
   const actualValue = findValue(field, row);
-  if (isNaN(actualValue)) return false;
 
-  return actualValue > min && actualValue < max;
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (min < value && max > value) return true;
+    }
+
+    return false;
+  }
+
+  if (isNotNumeric(actualValue)) return false;
+
+  return min < actualValue && max > actualValue;
 }
 
 function $iBetween (range, field, row) {
+  if (!range) return false;
+
   // validate arguments
   validateValueConstructors('$between', [
     {
@@ -47,7 +62,7 @@ function $iBetween (range, field, row) {
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [
     {
-      value: range,
+      values: range,
       constructors: [Number]
     }
   ]);
@@ -56,16 +71,28 @@ function $iBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNaN(min) || isNaN(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return false;
   const actualValue = findValue(field, row);
-  if (isNaN(actualValue)) return false;
 
-  return actualValue >= min && actualValue <= max;
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (min <= value && max >= value) return true;
+    }
+
+    return false;
+  }
+
+  if (isNotNumeric(actualValue)) return false;
+
+  return min <= actualValue && max >= actualValue;
 }
 
 function $notBetween (range, field, row) {
+  if (!range) return false;
+
   // validate arguments
-  validateValueConstructors('$between', [
+  validateValueConstructors('$notBetween', [
     {
       value: range,
       constructors: [Array]
@@ -73,9 +100,9 @@ function $notBetween (range, field, row) {
   ]);
 
   // range must be an array of numbers
-  validateArrayOfConstructors('$between', [
+  validateArrayOfConstructors('$notBetween', [
     {
-      value: range,
+      values: range,
       constructors: [Number]
     }
   ]);
@@ -84,14 +111,26 @@ function $notBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNaN(min) || isNaN(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return false;
   const actualValue = findValue(field, row);
-  if (isNaN(actualValue)) return false;
 
-  return actualValue < min || actualValue > max;
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (min > value || max < value) return true;
+    }
+
+    return false;
+  }
+
+  if (isNotNumeric(actualValue)) return false;
+
+  return min > actualValue || max < actualValue;
 }
 
 function $iNotBetween (range, field, row) {
+  if (!range) return false;
+
   // validate arguments
   validateValueConstructors('$between', [
     {
@@ -103,7 +142,7 @@ function $iNotBetween (range, field, row) {
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [
     {
-      value: range,
+      values: range,
       constructors: [Number]
     }
   ]);
@@ -112,11 +151,21 @@ function $iNotBetween (range, field, row) {
   validateArrayLen('$between', range, 2);
 
   const [min, max] = range;
-  if (isNaN(min) || isNaN(max)) return false;
+  if (isNotNumeric(min) || isNotNumeric(max)) return false;
   const actualValue = findValue(field, row);
-  if (isNaN(actualValue)) return false;
 
-  return actualValue <= min || actualValue >= max;
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      const value = actualValue[a];
+      if (min >= value || max <= value) return true;
+    }
+
+    return false;
+  }
+
+  if (isNotNumeric(actualValue)) return false;
+
+  return min >= actualValue || max <= actualValue;
 }
 
 module.exports = {

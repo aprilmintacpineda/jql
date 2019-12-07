@@ -11,12 +11,15 @@ function validateArrayOfConstructors(operatorName, valuesToValidate) {
     var _valuesToValidate$a = valuesToValidate[a],
         values = _valuesToValidate$a.values,
         constructors = _valuesToValidate$a.constructors;
-    validateValueConstructors(operatorName, values.map(function (value) {
-      return {
-        value: value,
-        constructors: constructors
-      };
-    }));
+
+    if (values) {
+      validateValueConstructors(operatorName, values.map(function (value) {
+        return {
+          value: value,
+          constructors: constructors
+        };
+      }));
+    }
   };
 
   for (var a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
@@ -37,7 +40,7 @@ function validateValueConstructors(operatorName, valuesToValidate) {
 }
 
 function validateArrayLen(operatorName, expectedValue, len) {
-  if (expectedValue.length !== len) {
+  if (expectedValue && expectedValue.length !== len) {
     throw new Error(["Unexpected number of arguments passed to \"".concat(operatorName, "\"."), "Expecting \"".concat(len, "\" arguments."), "Got \"".concat(expectedValue.length, "\".")].join(' '));
   }
 }

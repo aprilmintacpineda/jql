@@ -96,7 +96,7 @@ describe('Operator $lte', () => {
   });
 
   it('handles undefined and null', () => {
-    expect(jql({ number1: undefined }, sampleData)).toEqual([]);
-    expect(jql({ number1: null }, sampleData)).toEqual([]);
+    expect(jql({ number1: { $lte: undefined } }, sampleData)).toEqual([]);
+    expect(jql({ number1: { $lte: null } }, sampleData)).toEqual([]);
   });
 });

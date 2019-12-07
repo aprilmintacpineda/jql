@@ -2,6 +2,7 @@
 
 const findValue = require('../findValue');
 const { validateValueConstructors } = require('../validateArgs');
+const { isNotNumeric } = require('../helpers/number');
 
 function $eq (expectedValue, field, row) {
   // validate arguments
@@ -91,21 +92,21 @@ function $gt (expectedValue, field, row) {
     }
   ]);
 
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);
 
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value > expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
 
   return actualValue > expectedValue;
 }
@@ -119,21 +120,21 @@ function $gte (expectedValue, field, row) {
     }
   ]);
 
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);
 
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value >= expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
 
   return actualValue >= expectedValue;
 }
@@ -147,21 +148,21 @@ function $lt (expectedValue, field, row) {
     }
   ]);
 
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);
 
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value < expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
 
   return actualValue < expectedValue;
 }
@@ -175,21 +176,21 @@ function $lte (expectedValue, field, row) {
     }
   ]);
 
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   const actualValue = findValue(field, row);
 
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value <= expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
 
   return actualValue <= expectedValue;
 }

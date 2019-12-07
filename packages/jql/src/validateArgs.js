@@ -8,10 +8,12 @@ function validateArrayOfConstructors (operatorName, valuesToValidate) {
   for (let a = 0, maxA = valuesToValidate.length; a < maxA; a++) {
     const { values, constructors } = valuesToValidate[a];
 
-    validateValueConstructors(
-      operatorName,
-      values.map(value => ({ value, constructors }))
-    );
+    if (values) {
+      validateValueConstructors(
+        operatorName,
+        values.map(value => ({ value, constructors }))
+      );
+    }
   }
 }
 
@@ -35,7 +37,7 @@ function validateValueConstructors (operatorName, valuesToValidate) {
 }
 
 function validateArrayLen (operatorName, expectedValue, len) {
-  if (expectedValue.length !== len) {
+  if (expectedValue && expectedValue.length !== len) {
     throw new Error(
       [
         `Unexpected number of arguments passed to "${operatorName}".`,

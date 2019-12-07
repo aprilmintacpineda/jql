@@ -5,6 +5,9 @@ var findValue = require('../findValue');
 var _require = require('../validateArgs'),
     validateValueConstructors = _require.validateValueConstructors;
 
+var _require2 = require('../helpers/number'),
+    isNotNumeric = _require2.isNotNumeric;
+
 function $eq(expectedValue, field, row) {
   validateValueConstructors('$eq', [{
     value: expectedValue,
@@ -56,20 +59,20 @@ function $gt(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value > expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
   return actualValue > expectedValue;
 }
 
@@ -78,20 +81,20 @@ function $gte(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value >= expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
   return actualValue >= expectedValue;
 }
 
@@ -100,20 +103,20 @@ function $lt(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value < expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
   return actualValue < expectedValue;
 }
 
@@ -122,20 +125,20 @@ function $lte(expectedValue, field, row) {
     value: expectedValue,
     constructors: [Number]
   }]);
-  if (isNaN(expectedValue)) return false;
+  if (isNotNumeric(expectedValue)) return false;
   var actualValue = findValue(field, row);
 
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       var value = actualValue[a];
-      if (isNaN(value)) continue;
+      if (isNotNumeric(value)) continue;
       if (value <= expectedValue) return true;
     }
 
     return false;
   }
 
-  if (isNaN(actualValue)) return false;
+  if (isNotNumeric(actualValue)) return false;
   return actualValue <= expectedValue;
 }
 

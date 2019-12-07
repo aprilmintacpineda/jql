@@ -18,58 +18,87 @@ const sampleData = [
     ]
   },
   {
-    number1: 0,
-    number2: 0,
+    number1: 3,
+    number2: 3,
     number3: {
       number4: {
         number5: {
-          number6: 0
+          number6: 3
         }
       }
     },
-    number7: '0',
+    number7: '3',
     number8: [
-      { number8_1: '0' },
-      { number8_1: '0' }
+      { number8_1: '3' },
+      { number8_1: '3' }
     ]
   }
 ];
 
-describe('Operator $gt', () => {
-  it('throws error when given invalid value', () => {
+describe('operator $notBetween', () => {
+  test('throws error when given wrong values', () => {
     expect(() => jql({
       number1: {
-        $gt: '10'
+        $notBetween: [1,2,3]
       }
     }, sampleData)).toThrow();
 
     expect(() => jql({
       number1: {
-        $gt: Symbol()
+        $notBetween: []
       }
     }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $notBetween: ['1', '2']
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $notBetween: 1
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $notBetween: '1'
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $notBetween: Symbol()
+      }
+    }, sampleData)).toThrow();
+  });
+
+  it('handles undefined and null', () => {
+    expect(jql({ number1: { $notBetween: undefined } }, sampleData)).toEqual([]);
+    expect(jql({ number1: { $notBetween: null } }, sampleData)).toEqual([]);
   });
 
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $gt: 5
+        $notBetween: [1, 5]
       },
       number2: {
-        $gt: 5
+        $notBetween: [1, 5]
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $gt: 5
+              $notBetween: [1, 5]
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $gt: 5
+          $notBetween: [1, 5]
         }
       }
     };
@@ -93,10 +122,5 @@ describe('Operator $gt', () => {
         ]
       }
     ]);
-  });
-
-  it('handles undefined and null', () => {
-    expect(jql({ number1: { $gt: undefined } }, sampleData)).toEqual([]);
-    expect(jql({ number1: { $gt: null } }, sampleData)).toEqual([]);
   });
 });

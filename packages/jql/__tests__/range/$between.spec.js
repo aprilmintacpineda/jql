@@ -35,41 +35,70 @@ const sampleData = [
   }
 ];
 
-describe('Operator $gt', () => {
-  it('throws error when given invalid value', () => {
+describe('operator $between', () => {
+  test('throws error when given wrong values', () => {
     expect(() => jql({
       number1: {
-        $gt: '10'
+        $between: [1,2,3]
       }
     }, sampleData)).toThrow();
 
     expect(() => jql({
       number1: {
-        $gt: Symbol()
+        $between: []
       }
     }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $between: ['1', '2']
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $between: 1
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $between: '1'
+      }
+    }, sampleData)).toThrow();
+
+    expect(() => jql({
+      number1: {
+        $between: Symbol()
+      }
+    }, sampleData)).toThrow();
+  });
+
+  it('handles undefined and null', () => {
+    expect(jql({ number1: { $between: undefined } }, sampleData)).toEqual([]);
+    expect(jql({ number1: { $between: null } }, sampleData)).toEqual([]);
   });
 
   it('handles multiple query and layers', () => {
     const query = {
       number1: {
-        $gt: 5
+        $between: [1, 20]
       },
       number2: {
-        $gt: 5
+        $between: [1, 20]
       },
       number3: {
         number4: {
           number5: {
             number6: {
-              $gt: 5
+              $between: [1, 20]
             }
           }
         }
       },
       number8: {
         number8_1: {
-          $gt: 5
+          $between: [1, 20]
         }
       }
     };
@@ -93,10 +122,5 @@ describe('Operator $gt', () => {
         ]
       }
     ]);
-  });
-
-  it('handles undefined and null', () => {
-    expect(jql({ number1: { $gt: undefined } }, sampleData)).toEqual([]);
-    expect(jql({ number1: { $gt: null } }, sampleData)).toEqual([]);
   });
 });
