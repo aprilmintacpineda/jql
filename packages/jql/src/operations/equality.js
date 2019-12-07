@@ -29,7 +29,7 @@ function $eq (expectedValue, field, row) {
     actualValue.constructor === Array
   ) {
     // if one of the item matches the expected value,
-    // we return immediately
+    // we return true immediately
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (expectedValue === actualValue[a]) return true;
 
@@ -49,6 +49,30 @@ function $ne (expectedValue, field, row) {
   ]);
 
   const actualValue = findValue(field, row);
+
+  // handle equality to empty array
+  // e.g., { field: { $ne: [] } }
+  if (expectedValue && expectedValue.constructor === Array) {
+    if (actualValue && actualValue.constructor === Array)
+      return actualValue.length;
+
+    return false;
+  }
+
+  // handle array values
+  if (
+    actualValue &&
+    actualValue.constructor === Array
+  ) {
+    // if one of the item matches the expected value,
+    // we return false immediately.
+    // all values must not match for this to return true
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
+      if (expectedValue === actualValue[a]) return false;
+
+    return true;
+  }
+
   return expectedValue !== actualValue;
 }
 

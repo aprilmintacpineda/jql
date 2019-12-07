@@ -34,6 +34,20 @@ function $ne(expectedValue, field, row) {
     constructors: [String, Number]
   }]);
   var actualValue = findValue(field, row);
+
+  if (expectedValue && expectedValue.constructor === Array) {
+    if (actualValue && actualValue.constructor === Array) return actualValue.length;
+    return false;
+  }
+
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (expectedValue === actualValue[a]) return false;
+    }
+
+    return true;
+  }
+
   return expectedValue !== actualValue;
 }
 
