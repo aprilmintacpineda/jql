@@ -282,6 +282,7 @@ module.exports = [
         type: 'codename',
         name: 'Dub'
       }
-    ]
+    ],
+    favoriteColor: ''
   }
 ];

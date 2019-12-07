@@ -36,7 +36,8 @@ const expectedResult = [
         type: 'codename',
         name: 'Dub'
       }
-    ]
+    ],
+    favoriteColor: ''
   }
 ];
 
@@ -135,6 +136,15 @@ describe('Operator $eq', () => {
     };
 
     actualResult = jql(query, sampleData);
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('handles equality with empty string', () => {
+    const query = {
+      favoriteColor: ''
+    };
+
+    const actualResult = jql(query, sampleData);
     expect(actualResult).toEqual(expectedResult);
   });
 
