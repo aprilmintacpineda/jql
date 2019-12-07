@@ -262,7 +262,14 @@ describe('Operator $eq', () => {
   it('handles equality on multiple layer and multiple fields', () => {
     let query = {
       name: 'Clementina DuBuque',
-      username: 'Moriah.Stanton',
+      $or: [
+        { username: 'Moriah.Stanton' }
+      ],
+      email: {
+        $or: [
+          { $eq: 'Rey.Padberg@karina.biz' }
+        ]
+      },
       address: {
         city: 'Lebsackbury',
         zipcode: '31428-2261',
