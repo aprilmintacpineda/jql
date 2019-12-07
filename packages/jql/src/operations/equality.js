@@ -44,7 +44,7 @@ function $ne (expectedValue, field, row) {
   validateValueConstructors('$ne', [
     {
       value: expectedValue,
-      constructors: [String, Number]
+      constructors: [String, Number, Array]
     }
   ]);
 
@@ -56,7 +56,8 @@ function $ne (expectedValue, field, row) {
     if (actualValue && actualValue.constructor === Array)
       return actualValue.length;
 
-    return 0;
+    // the value is not an array, we still return 1
+    return 1;
   }
 
   // handle array values

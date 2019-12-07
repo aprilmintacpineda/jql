@@ -31,13 +31,13 @@ function $eq(expectedValue, field, row) {
 function $ne(expectedValue, field, row) {
   validateValueConstructors('$ne', [{
     value: expectedValue,
-    constructors: [String, Number]
+    constructors: [String, Number, Array]
   }]);
   var actualValue = findValue(field, row);
 
   if (expectedValue && expectedValue.constructor === Array) {
     if (actualValue && actualValue.constructor === Array) return actualValue.length;
-    return 0;
+    return 1;
   }
 
   if (actualValue && actualValue.constructor === Array) {
