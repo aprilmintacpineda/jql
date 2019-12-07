@@ -1,3 +1,5 @@
+/** @format */
+
 const jql = require('../../src/jql');
 const sampleData = require('../sampleData');
 
@@ -280,17 +282,27 @@ describe('Operator $ne', () => {
     expect(actualResult).toEqual(expectedResult);
   });
   it('throw error when value is invalid', () => {
-    expect(() => jql({
-      email: {
-        $ne: ['']
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          email: {
+            $ne: ['']
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      email: {
-        $ne: Symbol
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          email: {
+            $ne: Symbol
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
   });
 
   it('handles array values', () => {

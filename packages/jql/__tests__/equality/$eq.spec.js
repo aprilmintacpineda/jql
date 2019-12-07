@@ -63,19 +63,34 @@ describe('Operator $eq', () => {
   });
 
   it('throw error when value is invalid', () => {
-    expect(() => jql({
-      email: ['']
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          email: ['']
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      email: {
-        $eq: ['']
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          email: {
+            $eq: ['']
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      email: Symbol()
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          email: Symbol()
+        },
+        sampleData
+      )
+    ).toThrow();
   });
 
   it('handles array values', () => {
@@ -254,13 +269,9 @@ describe('Operator $eq', () => {
   it('handles equality on multiple layer and multiple fields', () => {
     let query = {
       name: 'Clementina DuBuque',
-      $or: [
-        { username: 'Moriah.Stanton' }
-      ],
+      $or: [{ username: 'Moriah.Stanton' }],
       email: {
-        $or: [
-          { $eq: 'Rey.Padberg@karina.biz' }
-        ]
+        $or: [{ $eq: 'Rey.Padberg@karina.biz' }]
       },
       address: {
         city: 'Lebsackbury',

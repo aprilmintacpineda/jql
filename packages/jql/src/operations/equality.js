@@ -18,17 +18,13 @@ function $eq (expectedValue, field, row) {
   // handle equality to empty array
   // e.g., { field: [] }
   if (expectedValue && expectedValue.constructor === Array) {
-    if (actualValue && actualValue.constructor === Array)
-      return !actualValue.length;
+    if (actualValue && actualValue.constructor === Array) return !actualValue.length;
 
     return 0;
   }
 
   // handle array values
-  if (
-    actualValue &&
-    actualValue.constructor === Array
-  ) {
+  if (actualValue && actualValue.constructor === Array) {
     // if one of the item matches the expected value,
     // we return 1 immediately
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
@@ -54,18 +50,14 @@ function $ne (expectedValue, field, row) {
   // handle equality to empty array
   // e.g., { field: { $ne: [] } }
   if (expectedValue && expectedValue.constructor === Array) {
-    if (actualValue && actualValue.constructor === Array)
-      return actualValue.length;
+    if (actualValue && actualValue.constructor === Array) return actualValue.length;
 
     // the value is not an array, we still return 1
     return 1;
   }
 
   // handle array values
-  if (
-    actualValue &&
-    actualValue.constructor === Array
-  ) {
+  if (actualValue && actualValue.constructor === Array) {
     // if one of the item matches the expected value,
     // we return 0 immediately.
     // all values must not match for this to return 1
@@ -85,12 +77,16 @@ function $ne (expectedValue, field, row) {
 
 function $gt (expectedValue, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValue,
-      constructors: [Number]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValue,
+        constructors: [Number]
+      }
+    ],
+    true
+  );
 
   if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);
@@ -113,12 +109,16 @@ function $gt (expectedValue, field, row) {
 
 function $gte (expectedValue, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValue,
-      constructors: [Number]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValue,
+        constructors: [Number]
+      }
+    ],
+    true
+  );
 
   if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);
@@ -141,12 +141,16 @@ function $gte (expectedValue, field, row) {
 
 function $lt (expectedValue, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValue,
-      constructors: [Number]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValue,
+        constructors: [Number]
+      }
+    ],
+    true
+  );
 
   if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);
@@ -169,12 +173,16 @@ function $lt (expectedValue, field, row) {
 
 function $lte (expectedValue, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValue,
-      constructors: [Number]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValue,
+        constructors: [Number]
+      }
+    ],
+    true
+  );
 
   if (isNotNumeric(expectedValue)) return 0;
   const actualValue = findValue(field, row);

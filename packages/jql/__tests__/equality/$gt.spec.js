@@ -1,3 +1,5 @@
+/** @format */
+
 const jql = require('../../src/jql');
 
 const sampleData = [
@@ -12,10 +14,7 @@ const sampleData = [
       }
     },
     number7: '10',
-    number8: [
-      { number8_1: '10' },
-      { number8_1: '10' }
-    ]
+    number8: [{ number8_1: '10' }, { number8_1: '10' }]
   },
   {
     number1: 0,
@@ -28,50 +27,77 @@ const sampleData = [
       }
     },
     number7: '0',
-    number8: [
-      { number8_1: '0' },
-      { number8_1: '0' }
-    ]
+    number8: [{ number8_1: '0' }, { number8_1: '0' }]
   }
 ];
 
 describe('Operator $gt', () => {
   it('throws error when given invalid value', () => {
-    expect(() => jql({
-      number1: {
-        $gt: '10'
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $gt: '10'
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $gt: Symbol()
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $gt: Symbol()
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $gt: []
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $gt: []
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $gt: ''
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $gt: ''
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $gt: undefined
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $gt: undefined
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $gt: null
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $gt: null
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
   });
 
   it('handles multiple query and layers', () => {
@@ -111,10 +137,7 @@ describe('Operator $gt', () => {
           }
         },
         number7: '10',
-        number8: [
-          { number8_1: '10' },
-          { number8_1: '10' }
-        ]
+        number8: [{ number8_1: '10' }, { number8_1: '10' }]
       }
     ]);
   });

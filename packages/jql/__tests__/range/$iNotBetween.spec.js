@@ -1,3 +1,5 @@
+/** @format */
+
 const jql = require('../../src/jql');
 
 const sampleData = [
@@ -12,10 +14,7 @@ const sampleData = [
       }
     },
     number7: '5',
-    number8: [
-      { number8_1: '5' },
-      { number8_1: '5' }
-    ]
+    number8: [{ number8_1: '5' }, { number8_1: '5' }]
   },
   {
     number1: 3,
@@ -28,62 +27,99 @@ const sampleData = [
       }
     },
     number7: '3',
-    number8: [
-      { number8_1: '3' },
-      { number8_1: '3' }
-    ]
+    number8: [{ number8_1: '3' }, { number8_1: '3' }]
   }
 ];
 
 describe('operator $iNotBetween', () => {
   test('throws error when given wrong values', () => {
-    expect(() => jql({
-      number1: {
-        $iNotBetween: [1,2,3]
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: [1, 2, 3]
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $iNotBetween: []
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: []
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $iNotBetween: ['1', '2']
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: ['1', '2']
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $iNotBetween: 1
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: 1
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $iNotBetween: '1'
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: '1'
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $iNotBetween: Symbol()
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: Symbol()
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $iNotBetween: undefined
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: undefined
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      number1: {
-        $iNotBetween: null
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          number1: {
+            $iNotBetween: null
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
   });
 
   it('handles multiple query and layers', () => {
@@ -123,10 +159,7 @@ describe('operator $iNotBetween', () => {
           }
         },
         number7: '5',
-        number8: [
-          { number8_1: '5' },
-          { number8_1: '5' }
-        ]
+        number8: [{ number8_1: '5' }, { number8_1: '5' }]
       }
     ]);
   });

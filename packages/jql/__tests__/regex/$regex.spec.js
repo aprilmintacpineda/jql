@@ -1,3 +1,5 @@
+/** @format */
+
 const jql = require('../../src/jql');
 
 const sampleData = [
@@ -12,11 +14,7 @@ const sampleData = [
         }
       }
     },
-    test8: [
-      { test8_1: 'test8_1' },
-      { test8_1: 'test8_2' },
-      { test8_1: 'test8_3' }
-    ]
+    test8: [{ test8_1: 'test8_1' }, { test8_1: 'test8_2' }, { test8_1: 'test8_3' }]
   },
   {
     test1: 'test11',
@@ -29,51 +27,77 @@ const sampleData = [
         }
       }
     },
-    test8: [
-      { test8_1: 'test8_11' },
-      { test8_1: 'test8_21' },
-      { test8_1: 'test8_31' }
-    ]
+    test8: [{ test8_1: 'test8_11' }, { test8_1: 'test8_21' }, { test8_1: 'test8_31' }]
   }
 ];
 
 describe('operator $regex', () => {
   it('throws error when given wrong value', () => {
-    expect(() => jql({
-      test1: {
-        $regex: []
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          test1: {
+            $regex: []
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      test1: {
-        $regex: 'test'
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          test1: {
+            $regex: 'test'
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      test1: {
-        $regex: 1
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          test1: {
+            $regex: 1
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      test1: {
-        $regex: ''
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          test1: {
+            $regex: ''
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      test1: {
-        $regex: null
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          test1: {
+            $regex: null
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
 
-    expect(() => jql({
-      test1: {
-        $regex: undefined
-      }
-    }, sampleData)).toThrow();
+    expect(() =>
+      jql(
+        {
+          test1: {
+            $regex: undefined
+          }
+        },
+        sampleData
+      )
+    ).toThrow();
   });
 
   it('handles multiple layers and arrays', () => {
@@ -115,11 +139,7 @@ describe('operator $regex', () => {
             }
           }
         },
-        test8: [
-          { test8_1: 'test8_1' },
-          { test8_1: 'test8_2' },
-          { test8_1: 'test8_3' }
-        ]
+        test8: [{ test8_1: 'test8_1' }, { test8_1: 'test8_2' }, { test8_1: 'test8_3' }]
       }
     ]);
   });

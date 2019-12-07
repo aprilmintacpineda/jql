@@ -1,3 +1,5 @@
+/** @format */
+
 // from: https://jsonplaceholder.typicode.com/users
 module.exports = [
   {

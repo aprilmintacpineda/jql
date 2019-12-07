@@ -5,12 +5,16 @@ const { validateValueConstructors, validateArrayOfConstructors } = require('../v
 
 function $in (expectedValues, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValues,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValues,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
@@ -25,12 +29,16 @@ function $in (expectedValues, field, row) {
 
 function $iIn (expectedValues, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValues,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValues,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
@@ -40,7 +48,9 @@ function $iIn (expectedValues, field, row) {
     }
   ]);
 
-  const actualValue = findValue(field, row).toString().toLowerCase();
+  const actualValue = findValue(field, row)
+    .toString()
+    .toLowerCase();
 
   for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
     const expectedValue = expectedValues[a].toString().toLowerCase();
@@ -52,12 +62,16 @@ function $iIn (expectedValues, field, row) {
 
 function $notIn (expectedValues, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValues,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValues,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
@@ -72,12 +86,16 @@ function $notIn (expectedValues, field, row) {
 
 function $iNotIn (expectedValues, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValues,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValues,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // actual value must be an array of string or number only
   validateArrayOfConstructors('$in', [
@@ -87,7 +105,9 @@ function $iNotIn (expectedValues, field, row) {
     }
   ]);
 
-  const actualValue = findValue(field, row).toString().toLowerCase();
+  const actualValue = findValue(field, row)
+    .toString()
+    .toLowerCase();
 
   for (let a = 0, maxA = expectedValues.length; a < maxA; a++) {
     const expectedValue = expectedValues[a].toString().toLowerCase();

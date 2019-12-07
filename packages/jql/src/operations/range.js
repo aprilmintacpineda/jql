@@ -10,12 +10,16 @@ const {
 
 function $between (range, field, row) {
   // validate arguments
-  validateValueConstructors('$between', [
-    {
-      value: range,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$between',
+    [
+      {
+        value: range,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [
@@ -48,12 +52,16 @@ function $between (range, field, row) {
 
 function $iBetween (range, field, row) {
   // validate arguments
-  validateValueConstructors('$between', [
-    {
-      value: range,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$between',
+    [
+      {
+        value: range,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [
@@ -86,12 +94,16 @@ function $iBetween (range, field, row) {
 
 function $notBetween (range, field, row) {
   // validate arguments
-  validateValueConstructors('$notBetween', [
-    {
-      value: range,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$notBetween',
+    [
+      {
+        value: range,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // range must be an array of numbers
   validateArrayOfConstructors('$notBetween', [
@@ -124,12 +136,16 @@ function $notBetween (range, field, row) {
 
 function $iNotBetween (range, field, row) {
   // validate arguments
-  validateValueConstructors('$between', [
-    {
-      value: range,
-      constructors: [Array]
-    }
-  ], true);
+  validateValueConstructors(
+    '$between',
+    [
+      {
+        value: range,
+        constructors: [Array]
+      }
+    ],
+    true
+  );
 
   // range must be an array of numbers
   validateArrayOfConstructors('$between', [

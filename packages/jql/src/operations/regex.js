@@ -5,12 +5,16 @@ const { validateValueConstructors } = require('../validateArgs');
 
 function $regex (expectedValue, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValue,
-      constructors: [RegExp]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValue,
+        constructors: [RegExp]
+      }
+    ],
+    true
+  );
 
   if (!expectedValue) return 0;
 
@@ -28,12 +32,16 @@ function $regex (expectedValue, field, row) {
 
 function $notRegex (expectedValue, field, row) {
   // validate arguments
-  validateValueConstructors('$in', [
-    {
-      value: expectedValue,
-      constructors: [RegExp]
-    }
-  ], true);
+  validateValueConstructors(
+    '$in',
+    [
+      {
+        value: expectedValue,
+        constructors: [RegExp]
+      }
+    ],
+    true
+  );
 
   if (!expectedValue) return 0;
 

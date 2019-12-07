@@ -30,10 +30,7 @@ function composeOperationCallStack (query, fieldContext = []) {
     if (operation) {
       if (field !== '$or' && field !== '$and' && !fieldContext.length) {
         throw new Error(
-          [
-            'JQL Query Error:',
-            `Unexpected use of ${field} on the root of the query.`
-          ].join(' ')
+          ['JQL Query Error:', `Unexpected use of ${field} on the root of the query.`].join(' ')
         );
       }
 
