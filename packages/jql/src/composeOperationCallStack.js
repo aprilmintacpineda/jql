@@ -1,6 +1,6 @@
 /** @format */
 
-const throwError = require('./helpers/throwError');
+const JQLError = require('./errors/JQLError');
 const operations = require('./operations');
 
 // fieldContext should not be provided
@@ -13,8 +13,7 @@ function composeOperationCallStack (query, fieldContext = []) {
     // if the fieldContext is empty, that means this is the first
     // call and the query is empty.
     if (!fieldContext.length) return [];
-    throwError([
-      'JQL Query Error:',
+    throw new JQLError([
       `Unexpected empty object assigned to field ${fieldContext.join('.')}`
     ]);
   }
@@ -28,14 +27,13 @@ function composeOperationCallStack (query, fieldContext = []) {
 
     if (operation) {
       if (field !== '$or' && field !== '$and' && !fieldContext.length)
-        throwError(['JQL Query Error:', `Unexpected use of ${field} on the root of the query.`]);
+        throw new JQLError([`Unexpected use of ${field} on the root of the query.`]);
 
       // an operation was found, put in operations call stack
       // e.g., { $in: [1,2,3] }
       if (field === '$or' || field === '$and') {
         if (!payload || payload.constructor !== Array || !payload.length) {
-          throwError([
-            'JQL Query Error:',
+          throw new JQLError([
             `Invalid value assigned to "${field}".`,
             'Expecting an non-empty "Array" of Objects.'
           ]);
@@ -47,8 +45,7 @@ function composeOperationCallStack (query, fieldContext = []) {
           const subquery = payload[b];
 
           if (subquery.constructor !== Object) {
-            throwError([
-              'JQL Query Error:',
+            throw new JQLError([
               `Invalid value assigned to "${field}".`,
               'Expecting an non-empty "Array" of Objects.'
             ]);
@@ -70,10 +67,9 @@ function composeOperationCallStack (query, fieldContext = []) {
           payload.constructor === Array &&
           payload.length
         ) {
-          throwError([
-            'JQL Query Error:',
+          throw new JQLError([
             `Invalid value assigned to field "${field}"`,
-            `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
+            `Expecting ["String", "Number", "Empty Array"] but got "${payload.constructor.name}".`
           ]);
         }
 
@@ -99,20 +95,20 @@ function composeOperationCallStack (query, fieldContext = []) {
           field: fieldDepth
         });
       } else {
-        const { constructor } = payload;
+        const payloadConstructor = payload.constructor;
 
-        if (constructor === Object) {
+        if (payloadConstructor === Object) {
           // this is an object, we will treat it as query
           // and continue deeper, while keeping the field depth,
           // until we reach the end or until we find an operation
           // e.g., { field: { /* more things */ } }
           stack = stack.concat(composeOperationCallStack(query[field], fieldDepth));
         } else if (
-          constructor === String ||
-          constructor === Number ||
+          payloadConstructor === String ||
+          payloadConstructor === Number ||
           // equality to an empty array
           // e.g., { field: [] }
-          (constructor === Array && !payload.length)
+          (payloadConstructor === Array && !payload.length)
         ) {
           // this is an "implicit" equality operation
           // e.g., { field: 'some value' }
@@ -126,10 +122,9 @@ function composeOperationCallStack (query, fieldContext = []) {
           // field: [ /* some value */ ] <-- invalid
           // field: Symbol() <-- invalid
           // etc...
-          throwError([
-            'JQL Query Error:',
+          throw new JQLError([
             `Invalid value assigned to field "${fieldDepth.join('.')}"`,
-            `Expecting ["String", "Number", "Empty Array"] but got "${constructor.name}".`
+            `Expecting ["String", "Number", "Empty Array"] but got "${payloadConstructor.name}".`
           ]);
         }
       }

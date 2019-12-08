@@ -1,17 +1,17 @@
 /** @format */
 
-const throwError = require('./helpers/throwError');
+const JQLError = require('./errors/JQLError');
 const composeOperationCallStack = require('./composeOperationCallStack');
 
 function jql (query, rows) {
-  if (!rows.length) return [];
-
-  if (query.constructor !== Object)
-    {throwError([
+  if (!query || query.constructor !== Object) {
+    throw new JQLError([
       'Invalid query passed to jql.',
-      'Expecting an "Object".',
-      `Got ${constructor.name}`
-    ]);}
+      'Expecting an "Object".'
+    ]);
+  }
+
+  if (!rows.length) return [];
 
   // Operation call stack describes the different operations
   // that the query will perform, defined in operations.js

@@ -1,16 +1,15 @@
 "use strict";
 
-var throwError = require('./helpers/throwError');
+var JQLError = require('./errors/JQLError');
 
 var composeOperationCallStack = require('./composeOperationCallStack');
 
 function jql(query, rows) {
-  if (!rows.length) return [];
-
-  if (query.constructor !== Object) {
-    throwError(['Invalid query passed to jql.', 'Expecting an "Object".', "Got ".concat(constructor.name)]);
+  if (!query || query.constructor !== Object) {
+    throw new JQLError(['Invalid query passed to jql.', 'Expecting an "Object".']);
   }
 
+  if (!rows.length) return [];
   var operationsCallStack = composeOperationCallStack(query);
   var len = operationsCallStack.length;
   return rows.filter(function (row) {

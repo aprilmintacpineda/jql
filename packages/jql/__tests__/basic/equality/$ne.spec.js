@@ -2,7 +2,7 @@
 
 const jql = require('../../../src/jql');
 const sampleData = require('../sampleData');
-const JQLError = require('../../../src/helpers/JQLError');
+const JQLError = require('../../../src/errors/JQLError');
 
 const expectedResult = [
   {

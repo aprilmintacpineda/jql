@@ -1,7 +1,7 @@
 "use strict";
 
 function JQLError(message) {
-  this.message = message;
+  this.message = "JQLError: ".concat(message.join(' '));
   return this;
 }
 

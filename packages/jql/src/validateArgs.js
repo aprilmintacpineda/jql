@@ -1,6 +1,6 @@
 /** @format */
 
-const throwError = require('./helpers/throwError');
+const JQLError = require('./errors/JQLError');
 
 function getConstructorNames (types) {
   return types.reduce((accumulator, type) => accumulator.concat(`"${type.name}"`), []).join(', ');
@@ -16,8 +16,7 @@ function validateArrayOfConstructors (operatorName, valuesToValidate) {
         values.map(value => ({ value, constructors }))
       );
     } else {
-      throwError([
-        'JQL Query Error:',
+      throw new JQLError([
         `Unexpected value passed to "${operatorName}".`,
         `Expecting an array of ["${getConstructorNames(constructors)}"].`,
         `Got "${values === undefined ? 'undefined' : 'null'}"`
@@ -32,7 +31,7 @@ function validateValueConstructors (operatorName, valuesToValidate, throwOnNullO
 
     if (value === undefined || value === null) {
       if (throwOnNullOrUndefined) {
-        throwError([
+        throw new JQLError([
           `Unexpected argument passed to operator "${operatorName}"`,
           `Expecting [${getConstructorNames(constructors)}]`,
           `Got ${value === undefined ? 'undefined' : 'null'}`
@@ -42,7 +41,7 @@ function validateValueConstructors (operatorName, valuesToValidate, throwOnNullO
       // we allow null or undefined values
       // e.g., { field: undefined }
       // e.g., { field: null }
-      throwError([
+      throw new JQLError([
         `Unexpected argument passed to operator "${operatorName}"`,
         `Expecting [${getConstructorNames(constructors)}]`,
         `Got ${value.constructor.name}`
@@ -53,7 +52,7 @@ function validateValueConstructors (operatorName, valuesToValidate, throwOnNullO
 
 function validateArrayLen (operatorName, expectedValue, len) {
   if (expectedValue && expectedValue.length !== len) {
-    throwError([
+    throw new JQLError([
       `Unexpected number of arguments passed to "${operatorName}".`,
       `Expecting "${len}" arguments.`,
       `Got "${expectedValue.length}".`
@@ -66,7 +65,7 @@ function validateArrayLenMin (operatorName, expectedValue, min, max) {
     const len = expectedValue.length;
 
     if (len < min || (max && len > max)) {
-      throwError([
+      throw new JQLError([
         `Unexpected number of arguments passed to "${operatorName}".`,
         `Expecting "${len}" arguments.`,
         `Got "${expectedValue.length}".`

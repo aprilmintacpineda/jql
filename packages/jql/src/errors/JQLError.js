@@ -1,7 +1,7 @@
 /** @format */
 
 function JQLError (message) {
-  this.message = message;
+  this.message = `JQLError: ${message.join(' ')}`;
   return this;
 }
 
