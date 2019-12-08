@@ -3,26 +3,10 @@
 const findValue = require('../findValue');
 const { validateValueConstructors } = require('../validateArgs');
 
-function $regex (expectedValue, field, row) {
-  // validate arguments
-  validateValueConstructors(
-    '$in',
-    [
-      {
-        value: expectedValue,
-        constructors: [RegExp]
-      }
-    ],
-    true
-  );
-
-  if (!expectedValue) return 0;
-
-  const actualValue = findValue(field, row);
-
+function regexRecursive (expectedValue, actualValue) {
   if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue.test(actualValue[a])) return 1;
+      if (regexRecursive(expectedValue, actualValue[a])) return 1;
 
     return 0;
   }
@@ -30,10 +14,10 @@ function $regex (expectedValue, field, row) {
   return expectedValue.test(actualValue);
 }
 
-function $notRegex (expectedValue, field, row) {
+function $regex (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors(
-    '$in',
+    '$regex',
     [
       {
         value: expectedValue,
@@ -44,17 +28,24 @@ function $notRegex (expectedValue, field, row) {
   );
 
   if (!expectedValue) return 0;
+  return regexRecursive(expectedValue, findValue(field, row));
+}
 
-  const actualValue = findValue(field, row);
+function $notRegex (expectedValue, field, row) {
+  // validate arguments
+  validateValueConstructors(
+    '$notRegex',
+    [
+      {
+        value: expectedValue,
+        constructors: [RegExp]
+      }
+    ],
+    true
+  );
 
-  if (actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue.test(actualValue[a])) return 0;
-
-    return 1;
-  }
-
-  return !expectedValue.test(actualValue);
+  if (!expectedValue) return 0;
+  return !regexRecursive(expectedValue, findValue(field, row));
 }
 
 module.exports = {
