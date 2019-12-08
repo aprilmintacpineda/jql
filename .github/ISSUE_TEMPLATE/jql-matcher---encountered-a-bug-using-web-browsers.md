@@ -1,5 +1,5 @@
 ---
-name: JQL-Matcher - encountered a bug using with a web browser
+name: JQL-Matcher - encountered a bug using web browsers
 about: Create a report to help us improve
 title: ''
 labels: 'Bug - Report, Web Browser, Package: JQL-Matcher'
