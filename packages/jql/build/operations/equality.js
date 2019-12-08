@@ -45,14 +45,10 @@ function $eq(expectedValue, field, row) {
 }
 
 function neRecursive(expectedValue, actualValue) {
-  if (expectedValue && expectedValue.constructor === Array) {
-    var _actualValue = actualValue[0];
-
-    if (_actualValue && _actualValue.constructor === JQLValue) {
-      var _exists2 = actualValue.exists,
-          _value2 = actualValue.value;
-      return _exists2 && _value2.constructor === Array && _value2.length;
-    }
+  if (expectedValue && expectedValue.constructor === Array && actualValue.constructor === JQLValue) {
+    var _exists2 = actualValue.exists,
+        _value2 = actualValue.value;
+    return _exists2 && (!_value2 || _value2.constructor !== Array || _value2.length);
   }
 
   if (actualValue && actualValue.constructor === Array) {

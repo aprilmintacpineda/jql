@@ -51,13 +51,20 @@ function $eq (expectedValue, field, row) {
 function neRecursive (expectedValue, actualValue) {
   // handle empty array equality
   // e.g., { field: [] }
-  if (expectedValue && expectedValue.constructor === Array) {
-    const _actualValue = actualValue[0];
-
-    if (_actualValue && _actualValue.constructor === JQLValue) {
-      const { exists, value } = actualValue;
-      return exists && value.constructor === Array && value.length;
-    }
+  if (
+    expectedValue &&
+    expectedValue.constructor === Array &&
+    actualValue.constructor === JQLValue
+  ) {
+    const { exists, value } = actualValue;
+    return (
+      exists && (
+        // if the value is falsy, we include it in the result
+        !value ||
+        value.constructor !== Array ||
+        value.length
+      )
+    );
   }
 
   // handle array values
