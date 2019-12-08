@@ -1,6 +1,6 @@
 {
   "name": "jql-matcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JSON Query Language - Matcher. Filter a json-array based on a given query.",
   "main": "src",
   "files": [
