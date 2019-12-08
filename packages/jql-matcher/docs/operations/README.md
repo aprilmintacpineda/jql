@@ -28,3 +28,6 @@ The following are the built-in operations that you can use out of the box. Gener
   - [$notBetween](range.md#notbetween)
   - [$iBetween](range.md#ibetween)
   - [$iNotBetween](range.md#inotbetween)
+- [RegExp operations](regex.md)
+  - [$regex](regex.md#regex)
+  - [$notRegex](regex.md#notregex)
