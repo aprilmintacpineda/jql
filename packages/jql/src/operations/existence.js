@@ -7,6 +7,24 @@ const {
   validateArrayLenMin
 } = require('../validateArgs');
 
+function inRecursive (expectedValues, actualValue, caseInsensitive) {
+  // handle array values
+  if (actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (inRecursive(expectedValues, actualValue[a], caseInsensitive))
+        return 1;
+    }
+
+    return 0;
+  }
+
+  return expectedValues.includes(
+    caseInsensitive
+      ?  actualValue.toString().toLowerCase()
+      : actualValue
+  );
+}
+
 function $in (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors(
@@ -30,23 +48,13 @@ function $in (expectedValues, field, row) {
     }
   ]);
 
-  const actualValue = findValue(field, row);
-
-  // handle array values
-  if (actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValues.includes(actualValue[a])) return 1;
-
-    return 0;
-  }
-
-  return expectedValues.includes(actualValue);
+  return inRecursive(expectedValues, findValue(field, row));
 }
 
 function $iIn (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors(
-    '$in',
+    '$iIn',
     [
       {
         value: expectedValues,
@@ -56,36 +64,27 @@ function $iIn (expectedValues, field, row) {
     true
   );
 
-  validateArrayLenMin('$in', expectedValues, 1);
+  validateArrayLenMin('$iIn', expectedValues, 1);
 
   // actual value must be an array of string or number only
-  validateArrayOfConstructors('$in', [
+  validateArrayOfConstructors('$iIn', [
     {
       values: expectedValues,
       constructors: [String, Number]
     }
   ]);
 
-  const iExpectedValues = expectedValues.map(expectedValue =>
-    expectedValue.toString().toLowerCase()
+  return inRecursive(
+    expectedValues.map(expectedValue => expectedValue.toString().toLowerCase()),
+    findValue(field, row),
+    true
   );
-  const actualValue = findValue(field, row);
-
-  // handle array values
-  if (actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValues.includes(actualValue[a].toString().toLowerCase())) return 1;
-
-    return 0;
-  }
-
-  return iExpectedValues.includes(actualValue.toString().toLowerCase());
 }
 
 function $notIn (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors(
-    '$in',
+    '$notIn',
     [
       {
         value: expectedValues,
@@ -95,33 +94,23 @@ function $notIn (expectedValues, field, row) {
     true
   );
 
-  validateArrayLenMin('$in', expectedValues, 1);
+  validateArrayLenMin('$notIn', expectedValues, 1);
 
   // actual value must be an array of string or number only
-  validateArrayOfConstructors('$in', [
+  validateArrayOfConstructors('$notIn', [
     {
       values: expectedValues,
       constructors: [String, Number]
     }
   ]);
 
-  const actualValue = findValue(field, row);
-
-  // handle array values
-  if (actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValues.includes(actualValue[a])) return 0;
-
-    return 1;
-  }
-
-  return !expectedValues.includes(actualValue);
+  return !inRecursive(expectedValues, findValue(field, row));
 }
 
 function $iNotIn (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors(
-    '$in',
+    '$iNotIn',
     [
       {
         value: expectedValues,
@@ -131,29 +120,21 @@ function $iNotIn (expectedValues, field, row) {
     true
   );
 
-  validateArrayLenMin('$in', expectedValues, 1);
+  validateArrayLenMin('$iNotIn', expectedValues, 1);
 
   // actual value must be an array of string or number only
-  validateArrayOfConstructors('$in', [
+  validateArrayOfConstructors('$iNotIn', [
     {
       values: expectedValues,
       constructors: [String, Number]
     }
   ]);
 
-  const iExpectedValues = expectedValues.map(expectedValue =>
-    expectedValue.toString().toLowerCase()
+  return !inRecursive(
+    expectedValues.map(expectedValue => expectedValue.toString().toLowerCase()),
+    findValue(field, row),
+    true
   );
-  const actualValue = findValue(field, row);
-
-  if (actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (iExpectedValues.includes(actualValue[a].toString().toLowerCase())) return 0;
-
-    return 1;
-  }
-
-  return !iExpectedValues.includes(actualValue);
 }
 
 module.exports = {
