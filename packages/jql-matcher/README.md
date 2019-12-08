@@ -120,6 +120,10 @@ All queries are treated as `and`, unless you explicitly use `$or`.
 
 PS: [Rick and Morty](https://www.adultswim.com/videos/rick-and-morty) is not a cartoon! It's a simulation.
 
+<a href="https://www.adultswim.com/videos/rick-and-morty">
+  <img src="https://github.com/aprilmintacpineda/jql/blob/master/packages/jql-matcher/memes/rick-and-morty.jpg">
+</a>
+
 #### Deep querying
 
 *Don't be afraid to go as deep as you need to*. Given this sample data:
@@ -197,6 +201,10 @@ const query = {
 ```
 
 You can do even further query where you query a value inside *an array of an array inside another giant array*.
+
+<a href="https://www.adultswim.com/videos/rick-and-morty">
+  <img src="https://github.com/aprilmintacpineda/jql/blob/master/packages/jql-matcher/memes/rick-and-morty-1.jpg">
+</a>
 
 ## List of operators
 

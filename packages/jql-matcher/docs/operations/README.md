@@ -17,9 +17,9 @@ The following are the built-in operations that you can use out of the box. Gener
 # Built in operations
 
 - Equality operations
-  - [$eq](#$eq)
-  - [$ne](#$ne)
-  - [$gt](#$gt)
-  - [$gte](#$gte)
-  - [$lt](#$lt)
-  - [$lte](#$lte)
+  - [$eq](equality.md#eq-equal)
+  - [$ne](equality.md#ne-not-equal)
+  - [$gt](equality.md#gte-greater-than)
+  - [$gte](equality.md#gte-greater-than-or-equal-to)
+  - [$lt](equality.md#lt-less-than)
+  - [$lte](equality.md#lte-less-than-or-equal-to)
