@@ -128,21 +128,7 @@ describe('operator $regex', () => {
       }
     };
 
-    expect(jql(query, sampleData)).toEqual([
-      {
-        test1: 'test1',
-        test2: 'test2',
-        test3: 'test3',
-        test4: {
-          test5: {
-            test6: {
-              test7: 'test4'
-            }
-          }
-        },
-        test8: [{ test8_1: 'test8_1' }, { test8_1: 'test8_2' }, { test8_1: 'test8_3' }]
-      }
-    ]);
+    expect(jql(query, sampleData)).toEqual([sampleData[0]]);
   });
 
   it('handles querying a field that does not exist', () => {

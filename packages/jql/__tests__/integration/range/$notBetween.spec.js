@@ -159,21 +159,7 @@ describe('operator $notBetween', () => {
     };
 
     const actualResult = jql(query, sampleData);
-    expect(actualResult).toEqual([
-      {
-        number1: 10,
-        number2: 10,
-        number3: {
-          number4: {
-            number5: {
-              number6: 10
-            }
-          }
-        },
-        number7: '10',
-        number8: [{ number8_1: '10' }, { number8_1: '10' }]
-      }
-    ]);
+    expect(actualResult).toEqual([sampleData[0]]);
   });
 
   it('handles querying a field that does not exist', () => {

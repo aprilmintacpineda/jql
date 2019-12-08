@@ -117,21 +117,7 @@ describe('Operator $iIn', () => {
       }
     };
 
-    expect(jql(query, sampleData)).toEqual([
-      {
-        test1: 'TEST11',
-        test2: 'TEST21',
-        test3: 'TEST31',
-        test4: {
-          test5: {
-            test6: {
-              test7: 'TEST41'
-            }
-          }
-        },
-        test8: [{ test8_1: 'TEST8_11' }, { test8_1: 'TEST8_21' }, { test8_1: 'TEST8_31' }]
-      }
-    ]);
+    expect(jql(query, sampleData)).toEqual([sampleData[1]]);
   });
 
   it('handles querying a field that does not exist', () => {
