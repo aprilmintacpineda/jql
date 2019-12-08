@@ -5,9 +5,7 @@
   "main": "src",
   "files": [
     "build",
-    "src",
-    "package-lock.json",
-    "package.json"
+    "src"
   ],
   "scripts": {
     "test": "npm run build && jest .*.spec.js --coverage --bail --verbose",
