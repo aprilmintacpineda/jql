@@ -9,7 +9,7 @@ const {
 
 function inRecursive (expectedValues, actualValue, caseInsensitive) {
   // handle array values
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (inRecursive(expectedValues, actualValue[a], caseInsensitive))
         return 1;
@@ -86,7 +86,7 @@ function $iIn (expectedValues, field, row) {
 
 function notInRecursive (expectedValues, actualValue, caseInsensitive) {
   // handle array values
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (notInRecursive(expectedValues, actualValue[a], caseInsensitive))
         return 1;

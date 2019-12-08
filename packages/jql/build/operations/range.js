@@ -19,7 +19,7 @@ var _require2 = require('../validateArgs'),
     validateArrayLen = _require2.validateArrayLen;
 
 function betweenRecursive(min, max, actualValue, inclusive) {
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (betweenRecursive(min, max, actualValue[a], inclusive)) return 1;
     }
@@ -72,7 +72,7 @@ function $iBetween(range, field, row) {
 }
 
 function notBetweenRecursive(min, max, actualValue, inclusive) {
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (notBetweenRecursive(min, max, actualValue[a], inclusive)) return 1;
     }

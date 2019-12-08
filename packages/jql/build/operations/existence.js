@@ -8,7 +8,7 @@ var _require = require('../validateArgs'),
     validateArrayLenMin = _require.validateArrayLenMin;
 
 function inRecursive(expectedValues, actualValue, caseInsensitive) {
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (inRecursive(expectedValues, actualValue[a], caseInsensitive)) return 1;
     }
@@ -51,7 +51,7 @@ function $iIn(expectedValues, field, row) {
 }
 
 function notInRecursive(expectedValues, actualValue, caseInsensitive) {
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (notInRecursive(expectedValues, actualValue[a], caseInsensitive)) return 1;
     }

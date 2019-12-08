@@ -4,7 +4,7 @@ const findValue = require('../findValue');
 const { validateValueConstructors } = require('../validateArgs');
 
 function regexRecursive (expectedValue, actualValue) {
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (regexRecursive(expectedValue, actualValue[a])) return 1;
 
@@ -33,7 +33,7 @@ function $regex (expectedValue, field, row) {
 }
 
 function notRegexRecursive (expectedValue, actualValue) {
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (notRegexRecursive(expectedValue, actualValue[a])) return 1;
 

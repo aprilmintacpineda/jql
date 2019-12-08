@@ -18,7 +18,7 @@ function eqRecursive (expectedValue, actualValue) {
   }
 
   // handle array values
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (eqRecursive(expectedValue, actualValue[a])) return 1;
 
@@ -68,7 +68,7 @@ function neRecursive (expectedValue, actualValue) {
   }
 
   // handle array values
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (!neRecursive(expectedValue, actualValue[a])) return 0;
 
@@ -100,7 +100,7 @@ function $ne (expectedValue, field, row) {
 
 function gtRecursive (expectedValue, actualValue) {
   // handle values as array
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (gtRecursive(expectedValue, actualValue[a])) return 1;
 
@@ -130,7 +130,7 @@ function $gt (expectedValue, field, row) {
 
 function gteRecursive (expectedValue, actualValue) {
   // handle values as array
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (gteRecursive(expectedValue, actualValue[a])) return 1;
 
@@ -160,7 +160,7 @@ function $gte (expectedValue, field, row) {
 
 function ltRecursive (expectedValue, actualValue) {
   // handle values as array
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (ltRecursive(expectedValue, actualValue[a])) return 1;
 
@@ -190,7 +190,7 @@ function $lt (expectedValue, field, row) {
 
 function lteRecursive (expectedValue, actualValue) {
   // handle values as array
-  if (actualValue && actualValue.constructor === Array) {
+  if (actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++)
       if (lteRecursive(expectedValue, actualValue[a])) return 1;
 
