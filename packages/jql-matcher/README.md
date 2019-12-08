@@ -206,7 +206,9 @@ You can do even further query where you query a value inside *an array of an arr
   <img src="https://github.com/aprilmintacpineda/jql/blob/master/packages/jql-matcher/memes/rick-and-morty-1.jpg">
 </a>
 
-## List of operators
+## Operations
+
+[docs](operations/).
 
 ## Issues
 

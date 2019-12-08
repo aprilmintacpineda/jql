@@ -16,10 +16,10 @@ The following are the built-in operations that you can use out of the box. Gener
 
 # Built in operations
 
-- Equality operations
+- [Equality operations](equality.md)
   - [$eq](equality.md#eq-equal)
   - [$ne](equality.md#ne-not-equal)
-  - [$gt](equality.md#gte-greater-than)
+  - [$gt](equality.md#gt-greater-than)
   - [$gte](equality.md#gte-greater-than-or-equal-to)
   - [$lt](equality.md#lt-less-than)
   - [$lte](equality.md#lte-less-than-or-equal-to)
