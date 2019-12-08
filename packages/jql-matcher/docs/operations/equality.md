@@ -1,11 +1,11 @@
 # Equality operations
 
-- [$eq](#$eq)
-- [$ne](#$ne)
-- [$gt](#$gt)
-- [$gte](#$gte)
-- [$lt](#$lt)
-- [$lte](#$lte)
+- [$eq](#eq-equal)
+- [$ne](#ne-not-equal)
+- [$gt](#gt-greater-than)
+- [$gte](#gte-greater-than-or-equal-to)
+- [$lt](#lt-less-than)
+- [$lte](#lte-less-than-or-equal-to)
 
 ## $eq (Equal)
 
