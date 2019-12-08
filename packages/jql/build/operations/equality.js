@@ -11,7 +11,7 @@ var _require2 = require('../helpers/number'),
     isNotNumeric = _require2.isNotNumeric;
 
 function eqRecursive(expectedValue, actualValue) {
-  if (expectedValue && expectedValue.constructor === Array && actualValue.constructor === Array && actualValue[0] && actualValue[0].constructor === JQLValue) {
+  if (expectedValue && expectedValue.constructor === Array && actualValue.constructor === JQLValue) {
     var _exists = actualValue.exists,
         _value = actualValue.value;
     return _exists && _value.constructor === Array && !_value.length;
@@ -27,7 +27,12 @@ function eqRecursive(expectedValue, actualValue) {
 
   var exists = actualValue.exists,
       value = actualValue.value;
-  if (!exists) return 0;
+
+  if (!exists) {
+    if (expectedValue === undefined) return 1;
+    return 0;
+  }
+
   return expectedValue === value;
 }
 

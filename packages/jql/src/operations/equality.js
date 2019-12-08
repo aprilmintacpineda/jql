@@ -11,9 +11,7 @@ function eqRecursive (expectedValue, actualValue) {
   if (
     expectedValue &&
     expectedValue.constructor === Array &&
-    actualValue.constructor === Array &&
-    actualValue[0] &&
-    actualValue[0].constructor === JQLValue
+    actualValue.constructor === JQLValue
   ) {
     const { exists, value } = actualValue;
     return exists && value.constructor === Array && !value.length;
@@ -28,7 +26,13 @@ function eqRecursive (expectedValue, actualValue) {
   }
 
   const { exists, value } = actualValue;
-  if (!exists) return 0;
+
+  if (!exists) {
+    // query undefined to a field that does not exist
+    // e.g., { doesNotExist: undefined }
+    if (expectedValue === undefined) return 1;
+    return 0;
+  }
   return expectedValue === value;
 }
 
