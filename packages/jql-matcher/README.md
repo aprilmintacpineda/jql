@@ -89,7 +89,7 @@ const query = {
 const result = jql(query, data);
 ```
 
-`Operators` are abstract, therefore, there could be different approach to achieving the same result. The example above is what I would call a `good query` because it is short and precise. A bad counterpart would be
+`Operators` are abstract, therefore, there could be different approach to achieving the same result and it's also prone to abuse. The example above is what I would call a `good query` because it is short and precise. A bad counterpart would be:
 
 ```js
 const query = {
@@ -101,7 +101,7 @@ const query = {
 };
 ```
 
-The query above basically does the same thing but it's labeled as `bad` because it's unnecessarily long and complex. `JQL-Matcher` is designed and intended to be extremely performant (to a point of sacrificing a few dev experience for the sake of keeping it performant) but it should not be abused. As a general rule of thumb **ALWAYS REDUCE YOUR QUERY DOWN TO IT'S SIMPLEST FORM**. *Prefer the shortest and simplest code*.
+The query above gives you the same result but it's labeled as `bad` because it's unnecessarily long and complex. `JQL-Matcher` is designed and intended to be extremely performant (to a point of sacrificing a little dev experience points for the sake of keeping it performant) but it should not be abused. As a general rule of thumb **ALWAYS REDUCE YOUR QUERY DOWN TO IT'S SIMPLEST FORM**. *Prefer the shortest and simplest code*.
 
 All queries are treated as `and`, unless you explicitly use `$or`.
 
@@ -205,6 +205,8 @@ You can do even further query where you query a value inside *an array of an arr
 <a href="https://www.adultswim.com/videos/rick-and-morty">
   <img src="https://github.com/aprilmintacpineda/jql/blob/master/packages/jql-matcher/memes/rick-and-morty-1.jpg">
 </a>
+
+You can also nest `$or` and `$and` operators together whenever it makes sense to do it. Just always keep the rule of thumb in mind, **ALWAYS REDUCE YOUR QUERY DOWN TO IT'S SIMPLEST FORM**. *Prefer the shortest and simplest code*.
 
 ## Operations
 
