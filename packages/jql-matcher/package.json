@@ -1,8 +1,8 @@
 {
-  "name": "jql",
+  "name": "jql-matcher",
   "version": "1.0.0",
-  "description": "JSON Query Language - Query any JSON data",
-  "main": "lib/jql.js",
+  "description": "JSON Query Language - Matcher. Filter a json-array based on a given query.",
+  "main": "src",
   "scripts": {
     "test": "npm run build && jest .*.spec.js --coverage --bail --verbose",
     "build": "rm -rf build && babel --root-mode upward src --out-dir build"
