@@ -1,6 +1,6 @@
 "use strict";
 
-var JQLError = require('./errors/JQLError');
+var JQLError = require('./constructs/JQLError');
 
 function getConstructorNames(types) {
   return types.reduce(function (accumulator, type) {

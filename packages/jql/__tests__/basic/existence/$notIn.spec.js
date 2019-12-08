@@ -1,7 +1,7 @@
 /** @format */
 
 const jql = require('../../../src/jql');
-const JQLError = require('../../../src/errors/JQLError');
+const JQLError = require('../../../src/constructs/JQLError');
 
 const sampleData = [
   {
@@ -162,5 +162,23 @@ describe('Operator $notIn', () => {
     };
 
     expect(jql(query, sampleData)).toEqual(sampleData);
+  });
+
+  it('handles querying a field that does not exist', () => {
+    expect(jql({
+      doesNotExist: {
+        $notIn: ['tEsT11', 'tEsT12', 'tEsT13']
+      }
+    }, sampleData)).toEqual([]);
+
+    expect(jql({
+      does: {
+        not: {
+          exist: {
+            $notIn: ['tEsT11', 'tEsT12', 'tEsT13']
+          }
+        }
+      }
+    }, sampleData)).toEqual([]);
   });
 });

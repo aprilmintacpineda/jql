@@ -1,6 +1,11 @@
 const jql = require('../../src/jql');
-const JQLError = require('../../src/errors/JQLError');
-const sampleData = require('./sampleData');
+const JQLError = require('../../src/constructs/JQLError');
+
+const sampleData = [
+  {
+    test1: 'test1'
+  }
+];
 
 describe('Query', () => {
   it('throws error when given a not valid query', () => {

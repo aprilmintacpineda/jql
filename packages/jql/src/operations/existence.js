@@ -9,7 +9,7 @@ const {
 
 function inRecursive (expectedValues, actualValue, caseInsensitive) {
   // handle array values
-  if (actualValue.constructor === Array) {
+  if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (inRecursive(expectedValues, actualValue[a], caseInsensitive))
         return 1;
@@ -18,10 +18,13 @@ function inRecursive (expectedValues, actualValue, caseInsensitive) {
     return 0;
   }
 
+  const { exists, value } = actualValue;
+  if (!exists) return 0;
+
   return expectedValues.includes(
-    caseInsensitive
-      ?  actualValue.toString().toLowerCase()
-      : actualValue
+    caseInsensitive && value
+      ?  value.toString().toLowerCase()
+      : value
   );
 }
 
@@ -81,6 +84,27 @@ function $iIn (expectedValues, field, row) {
   );
 }
 
+function notInRecursive (expectedValues, actualValue, caseInsensitive) {
+  // handle array values
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (notInRecursive(expectedValues, actualValue[a], caseInsensitive))
+        return 1;
+    }
+
+    return 0;
+  }
+
+  const { exists, value } = actualValue;
+  if (!exists) return 0;
+
+  return !expectedValues.includes(
+    caseInsensitive && value
+      ?  value.toString().toLowerCase()
+      : value
+  );
+}
+
 function $notIn (expectedValues, field, row) {
   // validate arguments
   validateValueConstructors(
@@ -104,7 +128,7 @@ function $notIn (expectedValues, field, row) {
     }
   ]);
 
-  return !inRecursive(expectedValues, findValue(field, row));
+  return notInRecursive(expectedValues, findValue(field, row));
 }
 
 function $iNotIn (expectedValues, field, row) {
@@ -130,7 +154,7 @@ function $iNotIn (expectedValues, field, row) {
     }
   ]);
 
-  return !inRecursive(
+  return notInRecursive(
     expectedValues.map(expectedValue => expectedValue.toString().toLowerCase()),
     findValue(field, row),
     true

@@ -1,6 +1,6 @@
 /** @format */
 
-const JQLError = require('./errors/JQLError');
+const JQLError = require('./constructs/JQLError');
 const operations = require('./operations');
 
 // fieldContext should not be provided

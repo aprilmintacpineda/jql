@@ -1,6 +1,6 @@
 /** @format */
 
-const JQLError = require('./errors/JQLError');
+const JQLError = require('./constructs/JQLError');
 
 function getConstructorNames (types) {
   return types.reduce((accumulator, type) => accumulator.concat(`"${type.name}"`), []).join(', ');

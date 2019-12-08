@@ -1,7 +1,7 @@
 /** @format */
 
 const jql = require('../../../src/jql');
-const JQLError = require('../../../src/errors/JQLError');
+const JQLError = require('../../../src/constructs/JQLError');
 
 const sampleData = [
   {
@@ -174,5 +174,23 @@ describe('operator $iBetween', () => {
         number8: [{ number8_1: '10' }, { number8_1: '10' }]
       }
     ]);
+  });
+
+  it('handles querying a field that does not exist', () => {
+    expect(jql({
+      doesNotExist: {
+        $iBetween: [0, 100]
+      }
+    }, sampleData)).toEqual([]);
+
+    expect(jql({
+      does: {
+        not: {
+          exist: {
+            $iBetween: [0, 100]
+          }
+        }
+      }
+    }, sampleData)).toEqual([]);
   });
 });

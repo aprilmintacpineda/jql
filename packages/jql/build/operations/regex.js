@@ -6,7 +6,7 @@ var _require = require('../validateArgs'),
     validateValueConstructors = _require.validateValueConstructors;
 
 function regexRecursive(expectedValue, actualValue) {
-  if (actualValue.constructor === Array) {
+  if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (regexRecursive(expectedValue, actualValue[a])) return 1;
     }
@@ -14,7 +14,10 @@ function regexRecursive(expectedValue, actualValue) {
     return 0;
   }
 
-  return expectedValue.test(actualValue);
+  var exists = actualValue.exists,
+      value = actualValue.value;
+  if (!exists) return 0;
+  return expectedValue.test(value);
 }
 
 function $regex(expectedValue, field, row) {
@@ -22,8 +25,22 @@ function $regex(expectedValue, field, row) {
     value: expectedValue,
     constructors: [RegExp]
   }], true);
-  if (!expectedValue) return 0;
   return regexRecursive(expectedValue, findValue(field, row));
+}
+
+function notRegexRecursive(expectedValue, actualValue) {
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (notRegexRecursive(expectedValue, actualValue[a])) return 1;
+    }
+
+    return 0;
+  }
+
+  var exists = actualValue.exists,
+      value = actualValue.value;
+  if (!exists) return 0;
+  return !expectedValue.test(value);
 }
 
 function $notRegex(expectedValue, field, row) {
@@ -31,8 +48,7 @@ function $notRegex(expectedValue, field, row) {
     value: expectedValue,
     constructors: [RegExp]
   }], true);
-  if (!expectedValue) return 0;
-  return !regexRecursive(expectedValue, findValue(field, row));
+  return notRegexRecursive(expectedValue, findValue(field, row));
 }
 
 module.exports = {

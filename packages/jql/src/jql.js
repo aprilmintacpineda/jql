@@ -1,6 +1,6 @@
 /** @format */
 
-const JQLError = require('./errors/JQLError');
+const JQLError = require('./constructs/JQLError');
 const composeOperationCallStack = require('./composeOperationCallStack');
 
 function jql (query, rows) {

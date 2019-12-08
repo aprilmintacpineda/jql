@@ -1,7 +1,7 @@
 /** @format */
 
 const jql = require('../../../src/jql');
-const JQLError = require('../../../src/errors/JQLError');
+const JQLError = require('../../../src/constructs/JQLError');
 
 const sampleData = [
   {
@@ -154,5 +154,23 @@ describe('Operator $gt', () => {
     };
 
     expect(jql(query, sampleData)).toEqual([]);
+  });
+
+  it('handles querying a field that does not exist', () => {
+    expect(jql({
+      doesNotExist: {
+        $gt: 0
+      }
+    }, sampleData)).toEqual([]);
+
+    expect(jql({
+      does: {
+        not: {
+          exist: {
+            $gt: 0
+          }
+        }
+      }
+    }, sampleData)).toEqual([]);
   });
 });

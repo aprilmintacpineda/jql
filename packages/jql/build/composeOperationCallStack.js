@@ -1,6 +1,6 @@
 "use strict";
 
-var JQLError = require('./errors/JQLError');
+var JQLError = require('./constructs/JQLError');
 
 var operations = require('./operations');
 

@@ -27,8 +27,10 @@ function betweenRecursive(min, max, actualValue, inclusive) {
     return 0;
   }
 
-  if (isNotNumeric(actualValue)) return 0;
-  return inclusive ? min <= actualValue && max >= actualValue : min < actualValue && max > actualValue;
+  var value = actualValue.value,
+      exists = actualValue.exists;
+  if (!exists || isNotNumeric(value)) return 0;
+  return inclusive ? min <= value && max >= value : min < value && max > value;
 }
 
 function $between(range, field, row) {
@@ -69,6 +71,21 @@ function $iBetween(range, field, row) {
   return betweenRecursive(min, max, findValue(field, row), true);
 }
 
+function notBetweenRecursive(min, max, actualValue, inclusive) {
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (notBetweenRecursive(min, max, actualValue[a], inclusive)) return 1;
+    }
+
+    return 0;
+  }
+
+  var exists = actualValue.exists,
+      value = actualValue.value;
+  if (!exists || isNotNumeric(value)) return 0;
+  return inclusive ? min >= value || max <= value : min > value || max < value;
+}
+
 function $notBetween(range, field, row) {
   validateValueConstructors('$notBetween', [{
     value: range,
@@ -85,20 +102,7 @@ function $notBetween(range, field, row) {
       max = _range3[1];
 
   if (isNotNumeric(min) || isNotNumeric(max)) return 0;
-  return !betweenRecursive(min, max, findValue(field, row));
-}
-
-function iNotBetweenRecursive(min, max, actualValue) {
-  if (actualValue && actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      if (iNotBetweenRecursive(min, max, actualValue[a])) return 1;
-    }
-
-    return 0;
-  }
-
-  if (isNotNumeric(actualValue)) return 0;
-  return min >= actualValue || max <= actualValue;
+  return notBetweenRecursive(min, max, findValue(field, row));
 }
 
 function $iNotBetween(range, field, row) {
@@ -117,7 +121,7 @@ function $iNotBetween(range, field, row) {
       max = _range4[1];
 
   if (isNotNumeric(min) || isNotNumeric(max)) return 0;
-  return iNotBetweenRecursive(min, max, findValue(field, row));
+  return notBetweenRecursive(min, max, findValue(field, row), true);
 }
 
 module.exports = {

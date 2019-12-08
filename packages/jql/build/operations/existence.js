@@ -8,7 +8,7 @@ var _require = require('../validateArgs'),
     validateArrayLenMin = _require.validateArrayLenMin;
 
 function inRecursive(expectedValues, actualValue, caseInsensitive) {
-  if (actualValue.constructor === Array) {
+  if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
       if (inRecursive(expectedValues, actualValue[a], caseInsensitive)) return 1;
     }
@@ -16,7 +16,10 @@ function inRecursive(expectedValues, actualValue, caseInsensitive) {
     return 0;
   }
 
-  return expectedValues.includes(caseInsensitive ? actualValue.toString().toLowerCase() : actualValue);
+  var exists = actualValue.exists,
+      value = actualValue.value;
+  if (!exists) return 0;
+  return expectedValues.includes(caseInsensitive && value ? value.toString().toLowerCase() : value);
 }
 
 function $in(expectedValues, field, row) {
@@ -47,6 +50,21 @@ function $iIn(expectedValues, field, row) {
   }), findValue(field, row), true);
 }
 
+function notInRecursive(expectedValues, actualValue, caseInsensitive) {
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (notInRecursive(expectedValues, actualValue[a], caseInsensitive)) return 1;
+    }
+
+    return 0;
+  }
+
+  var exists = actualValue.exists,
+      value = actualValue.value;
+  if (!exists) return 0;
+  return !expectedValues.includes(caseInsensitive && value ? value.toString().toLowerCase() : value);
+}
+
 function $notIn(expectedValues, field, row) {
   validateValueConstructors('$notIn', [{
     value: expectedValues,
@@ -57,7 +75,7 @@ function $notIn(expectedValues, field, row) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  return !inRecursive(expectedValues, findValue(field, row));
+  return notInRecursive(expectedValues, findValue(field, row));
 }
 
 function $iNotIn(expectedValues, field, row) {
@@ -70,7 +88,7 @@ function $iNotIn(expectedValues, field, row) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  return !inRecursive(expectedValues.map(function (expectedValue) {
+  return notInRecursive(expectedValues.map(function (expectedValue) {
     return expectedValue.toString().toLowerCase();
   }), findValue(field, row), true);
 }
