@@ -24,7 +24,7 @@ var _require4 = require('./regex'),
     $regex = _require4.$regex,
     $notRegex = _require4.$notRegex;
 
-var _require5 = require('./contextual'),
+var _require5 = require('./logical'),
     $or = _require5.$or,
     $and = _require5.$and;
 
