@@ -39,7 +39,13 @@ fetch('https://jsonplaceholder.typicode.com/users')
 
     return require('fs').promises.writeFile(
       dbPath,
-      JSON.stringify(userList),
+      require('prettier').format(
+        JSON.stringify(userList),
+        {
+          ...require('../../.prettierrc.js'),
+          parser: 'json'
+        }
+      ),
       { flag: 'w' }
     );
   })

@@ -4,8 +4,7 @@
   "description": "JSON Query Language - Query any JSON data",
   "main": "lib/jql.js",
   "scripts": {
-    "generateTestDB": "node generateTestDB.js",
-    "test": "npm run build && npm run generateTestDB && jest .*.spec.js --coverage --verbose --bail",
+    "test": "npm run build && jest .*.spec.js --coverage --verbose --bail",
     "build": "rm -rf build && babel --root-mode upward src --out-dir build"
   },
   "repository": {
