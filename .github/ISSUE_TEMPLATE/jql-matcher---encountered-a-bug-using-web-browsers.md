@@ -1,16 +1,16 @@
 ---
-name: JQL-Matcher - encountered a bug using with NodeJS
+name: JQL-Matcher - encountered a bug using with a web browser
 about: Create a report to help us improve
 title: ''
-labels: 'Bug - Report, NodeJS, Package: JQL-Matcher'
+labels: 'Bug - Report, Web Browser, Package: JQL-Matcher'
 assignees: ''
 
 ---
 
 # Versions
 <!-- Provide versions where you encountered this bug -->
-jql-matcher@x.x.x
-NodeJS@x.x.x.
+JQL-Matcher version:
+Browsers affected:
 
 ---
 
