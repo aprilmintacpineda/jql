@@ -9,11 +9,21 @@ This library was developed and tested on Node Environment, but you can still use
 npm i -S jql-matcher
 ```
 
+If you are using it for web app, I suggest using the built source codes:
+
+```js
+import jql from 'jql-matcher/build';
+```
+
+If you are using it for NodeJS, you don't need to use the built source codes:
+
+```js
+const jql = require('jql-matcher/src');
+```
+
 #### Example usage
 
 ```js
-const jql = require('jql-matcher');
-
 const data = [
   { id: 1 },
   { id: 2 },
@@ -38,8 +48,6 @@ JQL has standard `operations` that it uses to execute this filtering process. Op
 #### Example query
 
 ```js
-const jql = require('jql-matcher');
-
 const data = [
   {
     id: 1,

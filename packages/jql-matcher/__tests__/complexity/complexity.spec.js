@@ -1,4 +1,4 @@
-const jql = require('../../src/jql');
+const jql = require('../../src');
 const sampleData = require('./database.json');
 
 // some queries give the same result even though

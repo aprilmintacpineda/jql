@@ -1,6 +1,6 @@
 /** @format */
 
-const jql = require('../../../src/jql');
+const jql = require('../../../src');
 const JQLError = require('../../../src/constructs/JQLError');
 
 const sampleData = [
