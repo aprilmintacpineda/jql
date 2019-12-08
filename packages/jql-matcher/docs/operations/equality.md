@@ -9,7 +9,7 @@
 
 ## $eq (Equal)
 
-`$eq` operator does a `===` check, i.e., `value1 === value2`. It's the only operator that comes with an `implicit` implementation, that is, you can leave it out like this:
+`$eq` does `value1 === value2`. It's the only operator that comes with an `implicit` implementation, that is, you can leave it out like this:
 
 ```js
 // return all rows where field === "value"
@@ -43,7 +43,7 @@ jql({ field: [] }, rows);
 
 ## $ne (Not Equal)
 
-`$ne` operator does a `!==` check, i.e., `value1 !== value2`.
+`$ne` does `value1 !== value2`.
 
 ```js
 // return all rows where field !== "value"

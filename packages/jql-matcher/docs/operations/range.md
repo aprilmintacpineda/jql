@@ -5,7 +5,7 @@
 - [$iBetween](#ibetween)
 - [$iNotBetween](#inotbetween)
 
-# $between
+## $between
 
 `$between` does `min < field && max > field`. It accepts an `Array` of `[min, max]` where `min` and `max` are `Number`s.
 
@@ -17,7 +17,7 @@
 }
 ```
 
-# $iBetween
+## $iBetween
 
 `$between` does `min <= field && max >= field`. It accepts an `Array` of `[min, max]` where `min` and `max` are `Number`s.
 
@@ -29,7 +29,7 @@
 }
 ```
 
-# $notBetween
+## $notBetween
 
 `$between` does `!(min <= field && max >= field)`. It accepts an `Array` of `[min, max]` where `min` and `max` are `Number`s.
 
@@ -41,7 +41,7 @@
 }
 ```
 
-# $iNotBetween
+## $iNotBetween
 
 `$between` does `!(min <= field && max >= field)`. It accepts an `Array` of `[min, max]` where `min` and `max` are `Number`s.
 
