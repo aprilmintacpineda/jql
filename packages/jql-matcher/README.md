@@ -210,6 +210,7 @@ You can do even further query where you query a value inside *an array of an arr
 
 [docs](docs/operations/).
 
-## Issues
+# Contributing
 
-Have a question, clarification, discussion, feature request, or bug to report? File an issue.
+- Have a question, clarification, discussion, feature request, or bug to report? File an issue.
+- Want to contribute to the code? Please see [projects](https://github.com/aprilmintacpineda/jql/projects/1) and email me.
