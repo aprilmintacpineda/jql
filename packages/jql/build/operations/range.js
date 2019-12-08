@@ -18,6 +18,19 @@ var _require2 = require('../validateArgs'),
     validateArrayOfConstructors = _require2.validateArrayOfConstructors,
     validateArrayLen = _require2.validateArrayLen;
 
+function betweenRecursive(min, max, actualValue, inclusive) {
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (betweenRecursive(min, max, actualValue[a], inclusive)) return 1;
+    }
+
+    return 0;
+  }
+
+  if (isNotNumeric(actualValue)) return 0;
+  return inclusive ? min <= actualValue && max >= actualValue : min < actualValue && max > actualValue;
+}
+
 function $between(range, field, row) {
   validateValueConstructors('$between', [{
     value: range,
@@ -34,50 +47,26 @@ function $between(range, field, row) {
       max = _range[1];
 
   if (isNotNumeric(min) || isNotNumeric(max)) return 0;
-  var actualValue = findValue(field, row);
-
-  if (actualValue && actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      var value = actualValue[a];
-      if (min < value && max > value) return 1;
-    }
-
-    return 0;
-  }
-
-  if (isNotNumeric(actualValue)) return 0;
-  return min < actualValue && max > actualValue;
+  return betweenRecursive(min, max, findValue(field, row));
 }
 
 function $iBetween(range, field, row) {
-  validateValueConstructors('$between', [{
+  validateValueConstructors('$iBetween', [{
     value: range,
     constructors: [Array]
   }], true);
-  validateArrayOfConstructors('$between', [{
+  validateArrayOfConstructors('$iBetween', [{
     values: range,
     constructors: [Number]
   }]);
-  validateArrayLen('$between', range, 2);
+  validateArrayLen('$iBetween', range, 2);
 
   var _range2 = _slicedToArray(range, 2),
       min = _range2[0],
       max = _range2[1];
 
   if (isNotNumeric(min) || isNotNumeric(max)) return 0;
-  var actualValue = findValue(field, row);
-
-  if (actualValue && actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      var value = actualValue[a];
-      if (min <= value && max >= value) return 1;
-    }
-
-    return 0;
-  }
-
-  if (isNotNumeric(actualValue)) return 0;
-  return min <= actualValue && max >= actualValue;
+  return betweenRecursive(min, max, findValue(field, row), true);
 }
 
 function $notBetween(range, field, row) {
@@ -89,50 +78,20 @@ function $notBetween(range, field, row) {
     values: range,
     constructors: [Number]
   }]);
-  validateArrayLen('$between', range, 2);
+  validateArrayLen('$notBetween', range, 2);
 
   var _range3 = _slicedToArray(range, 2),
       min = _range3[0],
       max = _range3[1];
 
   if (isNotNumeric(min) || isNotNumeric(max)) return 0;
-  var actualValue = findValue(field, row);
-
-  if (actualValue && actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      var value = actualValue[a];
-      if (min > value || max < value) return 1;
-    }
-
-    return 0;
-  }
-
-  if (isNotNumeric(actualValue)) return 0;
-  return min > actualValue || max < actualValue;
+  return !betweenRecursive(min, max, findValue(field, row));
 }
 
-function $iNotBetween(range, field, row) {
-  validateValueConstructors('$between', [{
-    value: range,
-    constructors: [Array]
-  }], true);
-  validateArrayOfConstructors('$between', [{
-    values: range,
-    constructors: [Number]
-  }]);
-  validateArrayLen('$between', range, 2);
-
-  var _range4 = _slicedToArray(range, 2),
-      min = _range4[0],
-      max = _range4[1];
-
-  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
-  var actualValue = findValue(field, row);
-
+function iNotBetweenRecursive(min, max, actualValue) {
   if (actualValue && actualValue.constructor === Array) {
     for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      var value = actualValue[a];
-      if (min >= value || max <= value) return 1;
+      if (iNotBetweenRecursive(min, max, actualValue[a])) return 1;
     }
 
     return 0;
@@ -140,6 +99,25 @@ function $iNotBetween(range, field, row) {
 
   if (isNotNumeric(actualValue)) return 0;
   return min >= actualValue || max <= actualValue;
+}
+
+function $iNotBetween(range, field, row) {
+  validateValueConstructors('$iNotBetween', [{
+    value: range,
+    constructors: [Array]
+  }], true);
+  validateArrayOfConstructors('$iNotBetween', [{
+    values: range,
+    constructors: [Number]
+  }]);
+  validateArrayLen('$iNotBetween', range, 2);
+
+  var _range4 = _slicedToArray(range, 2),
+      min = _range4[0],
+      max = _range4[1];
+
+  if (isNotNumeric(min) || isNotNumeric(max)) return 0;
+  return iNotBetweenRecursive(min, max, findValue(field, row));
 }
 
 module.exports = {

@@ -7,6 +7,18 @@ var _require = require('../validateArgs'),
     validateArrayOfConstructors = _require.validateArrayOfConstructors,
     validateArrayLenMin = _require.validateArrayLenMin;
 
+function inRecursive(expectedValues, actualValue, caseInsensitive) {
+  if (actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (inRecursive(expectedValues, actualValue[a], caseInsensitive)) return 1;
+    }
+
+    return 0;
+  }
+
+  return expectedValues.includes(caseInsensitive ? actualValue.toString().toLowerCase() : actualValue);
+}
+
 function $in(expectedValues, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValues,
@@ -17,92 +29,50 @@ function $in(expectedValues, field, row) {
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var actualValue = findValue(field, row);
-
-  if (actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      if (expectedValues.includes(actualValue[a])) return 1;
-    }
-
-    return 0;
-  }
-
-  return expectedValues.includes(actualValue);
+  return inRecursive(expectedValues, findValue(field, row));
 }
 
 function $iIn(expectedValues, field, row) {
-  validateValueConstructors('$in', [{
+  validateValueConstructors('$iIn', [{
     value: expectedValues,
     constructors: [Array]
   }], true);
-  validateArrayLenMin('$in', expectedValues, 1);
-  validateArrayOfConstructors('$in', [{
+  validateArrayLenMin('$iIn', expectedValues, 1);
+  validateArrayOfConstructors('$iIn', [{
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var iExpectedValues = expectedValues.map(function (expectedValue) {
+  return inRecursive(expectedValues.map(function (expectedValue) {
     return expectedValue.toString().toLowerCase();
-  });
-  var actualValue = findValue(field, row);
-
-  if (actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      if (expectedValues.includes(actualValue[a].toString().toLowerCase())) return 1;
-    }
-
-    return 0;
-  }
-
-  return iExpectedValues.includes(actualValue.toString().toLowerCase());
+  }), findValue(field, row), true);
 }
 
 function $notIn(expectedValues, field, row) {
-  validateValueConstructors('$in', [{
+  validateValueConstructors('$notIn', [{
     value: expectedValues,
     constructors: [Array]
   }], true);
-  validateArrayLenMin('$in', expectedValues, 1);
-  validateArrayOfConstructors('$in', [{
+  validateArrayLenMin('$notIn', expectedValues, 1);
+  validateArrayOfConstructors('$notIn', [{
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var actualValue = findValue(field, row);
-
-  if (actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      if (expectedValues.includes(actualValue[a])) return 0;
-    }
-
-    return 1;
-  }
-
-  return !expectedValues.includes(actualValue);
+  return !inRecursive(expectedValues, findValue(field, row));
 }
 
 function $iNotIn(expectedValues, field, row) {
-  validateValueConstructors('$in', [{
+  validateValueConstructors('$iNotIn', [{
     value: expectedValues,
     constructors: [Array]
   }], true);
-  validateArrayLenMin('$in', expectedValues, 1);
-  validateArrayOfConstructors('$in', [{
+  validateArrayLenMin('$iNotIn', expectedValues, 1);
+  validateArrayOfConstructors('$iNotIn', [{
     values: expectedValues,
     constructors: [String, Number]
   }]);
-  var iExpectedValues = expectedValues.map(function (expectedValue) {
+  return !inRecursive(expectedValues.map(function (expectedValue) {
     return expectedValue.toString().toLowerCase();
-  });
-  var actualValue = findValue(field, row);
-
-  if (actualValue.constructor === Array) {
-    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
-      if (iExpectedValues.includes(actualValue[a].toString().toLowerCase())) return 0;
-    }
-
-    return 1;
-  }
-
-  return !iExpectedValues.includes(actualValue);
+  }), findValue(field, row), true);
 }
 
 module.exports = {
