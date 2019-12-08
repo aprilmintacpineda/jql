@@ -5,6 +5,7 @@ const JQLError = require('../../../src/errors/JQLError');
 
 const sampleData = [
   {
+    notNumber: 'abc',
     number1: 10,
     number2: 10,
     number3: {
@@ -18,6 +19,7 @@ const sampleData = [
     number8: [{ number8_1: '10' }, { number8_1: '10' }]
   },
   {
+    notNumber: 'abc',
     number1: 0,
     number2: 0,
     number3: {
@@ -128,6 +130,7 @@ describe('Operator $gt', () => {
     const actualResult = jql(query, sampleData);
     expect(actualResult).toEqual([
       {
+        notNumber: 'abc',
         number1: 10,
         number2: 10,
         number3: {
@@ -141,5 +144,15 @@ describe('Operator $gt', () => {
         number8: [{ number8_1: '10' }, { number8_1: '10' }]
       }
     ]);
+  });
+
+  it('handles querying a field that is not numeric', () => {
+    const query = {
+      notNumber: {
+        $gt: 0
+      }
+    };
+
+    expect(jql(query, sampleData)).toEqual([]);
   });
 });

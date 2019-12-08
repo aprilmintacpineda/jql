@@ -60,6 +60,19 @@ function $ne (expectedValue, field, row) {
 //
 // }
 
+function gtRecursive (expectedValue, actualValue) {
+  // handle values as array
+  if (actualValue && actualValue.constructor === Array) {
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
+      if (gtRecursive(expectedValue, actualValue[a])) return 1;
+
+    return 0;
+  }
+
+  if (isNotNumeric(actualValue)) return 0;
+  return actualValue > expectedValue;
+}
+
 function $gt (expectedValue, field, row) {
   // validate arguments
   validateValueConstructors(
@@ -73,17 +86,14 @@ function $gt (expectedValue, field, row) {
     true
   );
 
-  return !lteRecursive(expectedValue, findValue(field, row));
+  return gtRecursive(expectedValue, findValue(field, row));
 }
 
 function gteRecursive (expectedValue, actualValue) {
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
-      const value = actualValue[a];
-      if (isNotNumeric(value)) continue;
-      if (gteRecursive(expectedValue, value)) return 1;
-    }
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
+      if (gteRecursive(expectedValue, actualValue[a])) return 1;
 
     return 0;
   }
@@ -127,11 +137,8 @@ function $lt (expectedValue, field, row) {
 function lteRecursive (expectedValue, actualValue) {
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
-      const value = actualValue[a];
-      if (isNotNumeric(value)) continue;
-      if (lteRecursive(expectedValue, value)) return 1;
-    }
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
+      if (lteRecursive(expectedValue, actualValue[a])) return 1;
 
     return 0;
   }
