@@ -4,18 +4,8 @@ const findValue = require('../findValue');
 const { validateValueConstructors } = require('../validateArgs');
 const { isNotNumeric } = require('../helpers/number');
 
-function $eq (expectedValue, field, row) {
-  // validate arguments
-  validateValueConstructors('$eq', [
-    {
-      value: expectedValue,
-      constructors: [String, Number, Array]
-    }
-  ]);
-
-  const actualValue = findValue(field, row);
-
-  // handle equality to empty array
+function eqRecursive (expectedValue, actualValue) {
+  // handle empty array equality
   // e.g., { field: [] }
   if (expectedValue && expectedValue.constructor === Array) {
     if (actualValue && actualValue.constructor === Array) return !actualValue.length;
@@ -27,13 +17,30 @@ function $eq (expectedValue, field, row) {
   if (actualValue && actualValue.constructor === Array) {
     // if one of the item matches the expected value,
     // we return 1 immediately
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue === actualValue[a]) return 1;
+    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
+      // recursively call eq until it returns
+      // a valid equality either by empty array equality
+      // or by data equality
+      if (eqRecursive(expectedValue, actualValue[a])) return 1;
+    }
 
     return 0;
   }
 
+  // data equality
   return expectedValue === actualValue;
+}
+
+function $eq (expectedValue, field, row) {
+  // validate arguments
+  validateValueConstructors('$eq', [
+    {
+      value: expectedValue,
+      constructors: [String, Number, Array]
+    }
+  ]);
+
+  return eqRecursive(expectedValue, findValue(field, row));
 }
 
 function $ne (expectedValue, field, row) {
@@ -45,29 +52,7 @@ function $ne (expectedValue, field, row) {
     }
   ]);
 
-  const actualValue = findValue(field, row);
-
-  // handle equality to empty array
-  // e.g., { field: { $ne: [] } }
-  if (expectedValue && expectedValue.constructor === Array) {
-    if (actualValue && actualValue.constructor === Array) return actualValue.length;
-
-    // the value is not an array, we still return 1
-    return 1;
-  }
-
-  // handle array values
-  if (actualValue && actualValue.constructor === Array) {
-    // if one of the item matches the expected value,
-    // we return 0 immediately.
-    // all values must not match for this to return 1
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++)
-      if (expectedValue === actualValue[a]) return 0;
-
-    return 1;
-  }
-
-  return expectedValue !== actualValue;
+  return !eqRecursive(expectedValue, findValue(field, row));
 }
 
 // TODO
@@ -88,23 +73,23 @@ function $gt (expectedValue, field, row) {
     true
   );
 
-  if (isNotNumeric(expectedValue)) return 0;
-  const actualValue = findValue(field, row);
+  return !lteRecursive(expectedValue, findValue(field, row));
+}
 
+function gteRecursive (expectedValue, actualValue) {
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
       if (isNotNumeric(value)) continue;
-      if (value > expectedValue) return 1;
+      if (gteRecursive(expectedValue, value)) return 1;
     }
 
     return 0;
   }
 
   if (isNotNumeric(actualValue)) return 0;
-
-  return actualValue > expectedValue;
+  return actualValue >= expectedValue;
 }
 
 function $gte (expectedValue, field, row) {
@@ -120,23 +105,7 @@ function $gte (expectedValue, field, row) {
     true
   );
 
-  if (isNotNumeric(expectedValue)) return 0;
-  const actualValue = findValue(field, row);
-
-  // handle values as array
-  if (actualValue && actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
-      const value = actualValue[a];
-      if (isNotNumeric(value)) continue;
-      if (value >= expectedValue) return 1;
-    }
-
-    return 0;
-  }
-
-  if (isNotNumeric(actualValue)) return 0;
-
-  return actualValue >= expectedValue;
+  return gteRecursive(expectedValue, findValue(field, row));
 }
 
 function $lt (expectedValue, field, row) {
@@ -152,23 +121,23 @@ function $lt (expectedValue, field, row) {
     true
   );
 
-  if (isNotNumeric(expectedValue)) return 0;
-  const actualValue = findValue(field, row);
+  return !gteRecursive(expectedValue, findValue(field, row));
+}
 
+function lteRecursive (expectedValue, actualValue) {
   // handle values as array
   if (actualValue && actualValue.constructor === Array) {
     for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
       const value = actualValue[a];
       if (isNotNumeric(value)) continue;
-      if (value < expectedValue) return 1;
+      if (lteRecursive(expectedValue, value)) return 1;
     }
 
     return 0;
   }
 
   if (isNotNumeric(actualValue)) return 0;
-
-  return actualValue < expectedValue;
+  return actualValue <= expectedValue;
 }
 
 function $lte (expectedValue, field, row) {
@@ -184,23 +153,7 @@ function $lte (expectedValue, field, row) {
     true
   );
 
-  if (isNotNumeric(expectedValue)) return 0;
-  const actualValue = findValue(field, row);
-
-  // handle values as array
-  if (actualValue && actualValue.constructor === Array) {
-    for (let a = 0, maxA = actualValue.length; a < maxA; a++) {
-      const value = actualValue[a];
-      if (isNotNumeric(value)) continue;
-      if (value <= expectedValue) return 1;
-    }
-
-    return 0;
-  }
-
-  if (isNotNumeric(actualValue)) return 0;
-
-  return actualValue <= expectedValue;
+  return lteRecursive(expectedValue, findValue(field, row));
 }
 
 module.exports = {
