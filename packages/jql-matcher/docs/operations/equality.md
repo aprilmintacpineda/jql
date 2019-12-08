@@ -12,12 +12,14 @@
 `$eq` operator does a `===` check, i.e., `value1 === value2`. It's the only operator that comes with an `implicit` implementation, that is, you can leave it out like this:
 
 ```js
+// return all rows where field === "value"
 { field: 'value' }
 ```
 
 Or you could use the `explicit` counterpart:
 
 ```js
+// return all rows where field === "value"
 {
   field: { $eq: 'value' }
 }
@@ -44,6 +46,7 @@ jql({ field: [] }, rows);
 `$ne` operator does a `!==` check, i.e., `value1 !== value2`.
 
 ```js
+// return all rows where field !== "value"
 {
   field: { $ne: 'value' }
 }
