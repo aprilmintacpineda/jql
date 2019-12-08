@@ -208,7 +208,7 @@ You can do even further query where you query a value inside *an array of an arr
 
 ## Operations
 
-[docs](operations/).
+[docs](docs/operations/).
 
 ## Issues
 
