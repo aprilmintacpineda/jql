@@ -83,12 +83,25 @@ function $gte(expectedValue, field, row) {
   return gteRecursive(expectedValue, findValue(field, row));
 }
 
+function ltRecursive(expectedValue, actualValue) {
+  if (actualValue && actualValue.constructor === Array) {
+    for (var a = 0, maxA = actualValue.length; a < maxA; a++) {
+      if (ltRecursive(expectedValue, actualValue[a])) return 1;
+    }
+
+    return 0;
+  }
+
+  if (isNotNumeric(actualValue)) return 0;
+  return actualValue < expectedValue;
+}
+
 function $lt(expectedValue, field, row) {
   validateValueConstructors('$in', [{
     value: expectedValue,
     constructors: [Number]
   }], true);
-  return !gteRecursive(expectedValue, findValue(field, row));
+  return ltRecursive(expectedValue, findValue(field, row));
 }
 
 function lteRecursive(expectedValue, actualValue) {
